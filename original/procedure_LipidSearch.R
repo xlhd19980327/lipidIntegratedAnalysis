@@ -457,8 +457,8 @@ write.csv(regState, "regState_3.csv", row.names = F)
 
 ### Lipidr procedure
 options(stringsAsFactors = F)
-use_interactive_graphics(interactive=T)
 library(lipidr)
+use_interactive_graphics(interactive=T)
 data <- read.csv("data_sub_allhandle_cos7.csv")
 data <- subset(data, select = -Class)
 lipid <- data$lipidName
@@ -514,6 +514,8 @@ SampleGroup <- gsub("(.*)_[0-9]+", "\\1", Sample)
 SampleNum <- gsub(".*_([0-9]+)", "\\1", Sample)
 anno <- data.frame(Sample, SampleGroup, SampleNum)
 d <- as_lipidomics_experiment(data)
+##NOTE: Due to neglect of the "+O" symbol, lipidr may send out a "duplicate" warning
+##Here, we ignore it
 d <- add_sample_annotation(d, anno)
 plot_samples(d, type = "tic", log = T)
 #plot_molecules(d, "sd", measure = "Area", log = FALSE)
