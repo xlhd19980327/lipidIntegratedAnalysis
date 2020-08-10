@@ -11,7 +11,7 @@
 ### Loading data and environment settings ###
 library(tidyverse)
 options(stringsAsFactors = F)
-setwd("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/LMPDhsa/testData/zsy_DGATinhibitors/statistics")
+setwd("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/procedure/github/testData/zsy_DGATinhibitors/cos7Data/input")
 data <- read.csv("Cos7_integ.csv", skip = 1)
 #NOTE1-ref: may have the first character garbled
 allgroups <- scan("Cos7_integ.csv", what = "character", nlines = 1, sep = ",", quote = "\"")
@@ -283,8 +283,8 @@ lipid_subclass_tidyStat <- lipid_subclass_integStat %>%
   select(-ind)
 write.csv(lipid_subclass_tidyStat, "lipid_subclass_tidyStat_cos7.csv", row.names = F)
 # Lipid reaction library file input
-lipReact <- read.csv("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/LMPDhsa/lip_gene_intergReac/hsa_lipidreact.csv")
-allReact <- read.csv("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/LMPDhsa/hsa_all_integData.csv")  
+lipReact <- read.csv("hsa_lipidreact.csv")
+allReact <- read.csv("hsa_all_integData.csv")  
 integReact <- inner_join(lipReact, allReact, by = "reaction_id")
 integReact <- subset(integReact, 
                      select = c("reaction_id", "gene_symbol", "R_lipid.x", "P_lipid.x"))
