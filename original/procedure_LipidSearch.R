@@ -19,12 +19,6 @@ notdataColsLen <- sum(allgroups == '')
 allgroups <- allgroups[allgroups != '']
 groupsLevel <- unique(allgroups)
 nsamples <- table(factor(allgroups, levels = groupsLevel))
-getSmapleName <- function(sam, n){
-  seqs <- 1:n
-  return(paste(sam, seqs, sep = "_"))
-}
-samplesName <- unlist(mapply(getSmapleName, groupsLevel, nsamples, SIMPLIFY = F))
-colnames(data)[(notdataColsLen+1):(notdataColsLen+length(allgroups))] <- samplesName
 #NOTE2-ref: should indicate the control group or set on the first column
 controlGrp <- groupsLevel[1]
 
@@ -65,7 +59,6 @@ lipClasses <- c("Cer", "ChE", "DG", "LPC", "LPE", "LPG", "LPI",
 Class <- data$Class
 data_sub <- subset(data, subset = Class %in% lipClasses)
 ## Duplication handle
-#Delete some "0:0" info
 data_sub_all <- cbind(data_sub, 
                       lipidName = paste0(data_sub$Class, data_sub$FattyAcid))
 data_sub_dup <- data_sub_all %>%
@@ -74,7 +67,7 @@ data_sub_dup <- data_sub_all %>%
 data_sub_dup_list <- split(data_sub_dup, data_sub_dup$lipidName)
 # Rule2: duplicated lipids in different modes- chooese stronger intensity
 #        duplicated lipids in the same modes but have different adduct - choose stronger intensity
-#        i.e. duplicated lipids all chooese stronger intensity
+#        i.e. duplicated lipids all choose stronger intensity
 getSoloInten <- function(x){
   data <- x[, (notdataColsLen+1):(notdataColsLen+length(allgroups))]
   result <- rep(0, length(allgroups))

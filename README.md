@@ -23,7 +23,33 @@ First use the lipsearch data to fulfill all the procedure
 
 ## Coding style
 ### Comment style
-- **Client notes** will be writen in the top of the code following a "NOTE" comment. 
+- **Client notes** will be writen in the top of the whole scripts following a "NOTE" comment. 
 Corresponding to that note, the code afterwards will comment as a "NOTE-ref".
 - **Warning info** refer to some unsolved problems.
 The comment info will start with a "!!!!!WARNING: ".
+- **Client options** will be comment in a line with the following words:
+"!!!Client options". 
+After the comment, there is a function that will offer optional arguments to clients.
+### Script style
+- **PROGRAM EXIT!** In some situation, scripts may use "stop()" function to make program exit.
+These scripts may contain the words "PROGRAM EXIT!".
+
+eg. 
+``` R
+if(min(nsamples) < 3){
+  stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
+}
+``` 
+
+- **Client options** A function having client options will following formats:
+  - The first line of the function will contain the necessary arguments.
+  - The second line of the function  will contain the client-optional arguments. 
+  The default parameters will also show there.
+  - The third line(if have) of the function will contain the unnecessary arguments and cannot be changed.
+
+eg.
+``` R
+mSet<-Normalization(mSet,    ## necessary arguments
+                    rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL,   ## client-optional arguments
+                    ratio=FALSE, ratioNum=20)   
+``` 
