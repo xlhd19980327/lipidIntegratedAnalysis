@@ -19,6 +19,7 @@ notdataColsLen <- sum(allgroups == '')
 allgroups <- allgroups[allgroups != '']
 groupsLevel <- unique(allgroups)
 nsamples <- table(factor(allgroups, levels = groupsLevel))
+names(allgroups) <- colnames(data)[(notdataColsLen+1):(notdataColsLen+length(allgroups))]
 #NOTE2-ref: should indicate the control group or set on the first column
 controlGrp <- groupsLevel[1]
 

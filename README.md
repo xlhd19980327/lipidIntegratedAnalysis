@@ -30,6 +30,9 @@ The comment info will start with a "!!!!!WARNING: ".
 - **Client options** will be comment in a line with the following words:
 "!!!Client options". 
 After the comment, there is a function that will offer optional arguments to clients.
+- **Control flow WARNING** will be comment in a line with following words:
+"!!!!!Control flow WARNING".
+Details are shown in the "Script style" corresponding section
 ### Script style
 - **PROGRAM EXIT!** In some situation, scripts may use "stop()" function to make program exit.
 These scripts may contain the words "PROGRAM EXIT!".
@@ -40,6 +43,10 @@ if(min(nsamples) < 3){
   stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
 }
 ``` 
+- **Control flow WARNING** The code somewhere contains a group by group analysis, 
+which will use control flow. The code only shows the control flow style but contains wrong coding logical structure.
+The control flow WARNING will indicate this code below the comment "!!!!!Control flow WARNING".
+In the ultimate version, these codes should be revised to the correct structure.
 
 - **Client options** A function having client options will following formats:
   - The first line of the function will contain the necessary arguments.
