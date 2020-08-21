@@ -1,0 +1,7 @@
+## Ignore any files about R temp data
+*.RData
+*.Rhistory
+.RData
+.Rhistory
+## Ignore gitHistory in ./ directory only
+/gitHistory
