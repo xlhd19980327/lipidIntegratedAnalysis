@@ -1,98 +1,18 @@
 ### For LipidSearch data ###
-### NOTE: First merge pos+neg data(if they are separate)
-### NOTE1: Clients should add group info to the first line of the file. ###
-### NOTE1: If using MS Excel, should follow the steps to get csv file: ###
-### NOTE1: Click File->Export->Change File Type ->Choose "CSV" options ###
-### NOTE1: Or may have some characters garbled, see NOTE1-ref in the code ###
-### NOTE2: Clients should put control group should be on the first column ###
-### NOTE3: Data should have the following columns: ###
-### NOTE3: Class, FattyAcid ###
 
-### Loading data and environment settings ###
-library(tidyverse)
-options(stringsAsFactors = F)
-setwd("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/procedure/github/testData/zsy_DGATinhibitors/cos7Data/input")
-data <- read.csv("Cos7_integ.csv", skip = 1)
-#NOTE1-ref: may have the first character garbled
-allgroups <- scan("Cos7_integ.csv", what = "character", nlines = 1, sep = ",", quote = "\"")
-notdataColsLen <- sum(allgroups == '')
-allgroups <- allgroups[allgroups != '']
-groupsLevel <- unique(allgroups)
-nsamples <- table(factor(allgroups, levels = groupsLevel))
-names(allgroups) <- colnames(data)[(notdataColsLen+1):(notdataColsLen+length(allgroups))]
-#NOTE2-ref: should indicate the control group or set on the first column
-controlGrp <- groupsLevel[1]
+## Source will offer the following variables:
+## ??allgroups, groupsLevel, mSet
+source("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/procedure/github/lipidpreproc/LipidSearchData_preprocess.R")
 
-### Clean and Tidy the data ###
-## Delete NA (or 0) value
-# The lipid is not NA (or 0) at least one sample in a group remains
-# ref: 3 samples in a group -- select <= 0.67(2/3) missing value
-# ref: 5 samples in a group -- select <= 0.8(4/5) missing value
-# Missing value will be replaced by half of the minimum positive value in the original data
-percent <- 0.67
-data[is.na(data)] <- 0
-data_intensity <- data[, -1:-notdataColsLen]
-ind_ok <- apply(data_intensity == 0, 1, sum)/ncol(data_intensity) <= percent
-data <- data[ind_ok, ]
-# Missing value will be replaced by half of the minimum positive value in the original data
-minInten <- min(data_intensity[data_intensity > 0], na.rm = T)/2
-data[data == 0] <- minInten
-## Delete odd FA chain lipids
-fas <- data$FattyAcid
-m <- gregexpr("[0-9]*:", fas)
-fachain <- regmatches(fas, m)
-my.even <-  function(x){
-  x <- gsub(":", "", x, perl = T)
-  x <- as.numeric(x)
-  result <- ifelse(sum(x %% 2) == 0, T, F)
-  return(result)
-}
-ind <- lapply(fachain, my.even)
-ind <- unlist(ind)
-data <- data[ind, ]
-## Only use the lipid class that the library exsists
-lipClasses <- c("Cer", "ChE", "DG", "LPC", "LPE", "LPG", "LPI", 
-                "MG", "PA", "PC", "PE", "PG", "PI", "PS", 
-                "SM", "SPH", "TG", 
-                "FA", "LPS", "CL")
-#NOTE: class "CL" will not be considered later due to no occurence in the data
-#NOTE: some Glycerophospholipids(eg, "PA", though they donnot occur in the data) will still be considered later due to their similar form to other Glycerophospholipids
-Class <- data$Class
-data_sub <- subset(data, subset = Class %in% lipClasses)
-## Duplication handle
-data_sub_all <- cbind(data_sub, 
-                      lipidName = paste0(data_sub$Class, data_sub$FattyAcid))
-data_sub_dup <- data_sub_all %>%
-  group_by(lipidName) %>%
-  filter(n() > 1)
-data_sub_dup_list <- split(data_sub_dup, data_sub_dup$lipidName)
-# Rule2: duplicated lipids in different modes- chooese stronger intensity
-#        duplicated lipids in the same modes but have different adduct - choose stronger intensity
-#        i.e. duplicated lipids all choose stronger intensity
-getSoloInten <- function(x){
-  data <- x[, (notdataColsLen+1):(notdataColsLen+length(allgroups))]
-  result <- rep(0, length(allgroups))
-  for(i in 1:nrow(data)){
-    one <- unlist(data[i, ])
-    result <- ifelse(one > result, one, result)
-  }
-  return(result)
-}
-# End of rule2
-data_sub_dup_soloInten <- sapply(data_sub_dup_list, getSoloInten)
-# Merge duplication and single ones
-data_sub_sing_allhandle <- data_sub_all %>%
-  select(-c(1:all_of(notdataColsLen))) %>%
-  group_by(lipidName) %>%
-  filter(n() == 1) 
-data_sub_sing_allhandle <- data_sub_sing_allhandle[, c((length(allgroups)+1), 1:length(allgroups))]
-data_sub_dup_allhandle <- rownames_to_column(as.data.frame(t(data_sub_dup_soloInten)))
-colnames(data_sub_dup_allhandle) <- colnames(data_sub_sing_allhandle)
-data_sub_allhandle <- bind_rows(data_sub_sing_allhandle, data_sub_dup_allhandle)
-data_sub_allhandle <- cbind(data_sub_allhandle, 
-                            Class = gsub("(.*?)\\(.*", "\\1", data_sub_allhandle$lipidName))
+data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
+  rownames_to_column(var = "lipidName") %>%
+  mutate(Class = gsub("(.*?)\\(.*", "\\1", lipidName))
+
+##!!!!!WARNING: Class statistics will only contain the following lipid class:
+## Cer, SM, SPH, FA, MG, DG, TG, PA, PC, PE, PG, PI, PS, LPA, LPC, LPE, LPG, LPI, LPS, ChE
+
 ## Seperate MS1 and MS2 lipids & Calculate itensity of lipid class containing FA chain info
-lipids <- data_sub_allhandle$lipidName
+lipids <- data_tidy$lipidName
 # Get the FA info and MS1 info
 getFAsInfo <- function(i){
   Class <- gsub("(.*?)\\(.*", "\\1", i, perl = T)
@@ -123,6 +43,9 @@ getFAsInfo <- function(i){
         fas <- "0:0"
       }
     }
+  }else{
+    result <- list(otherClass = Class, ms1 = NA)
+    return(result)
   }
   n <- length(fas)
   if(n > 1){
@@ -140,31 +63,31 @@ getFAsInfo <- function(i){
 }
 fasInfo <- lapply(lipids, getFAsInfo)
 ms1Info <- sapply(fasInfo, function(x) x$ms1)
-data_sub_allhandle <- cbind(data_sub_allhandle, ms1 = ms1Info)
-data_sub_ms1 <- subset(data_sub_allhandle, subset = ms1 == T)
-data_sub_ms2 <- subset(data_sub_allhandle, subset = ms1 == F)
+data_tidy <- cbind(data_tidy, ms1 = ms1Info)
+data_sub_ms1 <- subset(data_tidy, subset = ms1 == T)
+data_sub_ms2 <- subset(data_tidy, subset = ms1 == F)
 # Tidy and integrate itensity of lipid class containing FA chain info
 # Use MS2 to do the later statistics only
 lipid_subclass_handle <- data.frame()
-for(i in 1:nrow(data_sub_allhandle)){
+for(i in 1:nrow(data_tidy)){
   # e,p connection info will be ignored
   fa <- fasInfo[[i]][[1]]
   Class <- names(fasInfo[[i]][1])
   subclass <- paste0(Class, "(", fa, ")")
   lipid_subclass_handle <- rbind(lipid_subclass_handle, 
                                  cbind(subclass = subclass, 
-                                       bind_rows(replicate(length(subclass), data_sub_allhandle[i, ], simplify = FALSE))))
+                                       bind_rows(replicate(length(subclass), data_tidy[i, ], simplify = FALSE))))
 }
 lipid_subclass_handle <- subset(lipid_subclass_handle, subset = ms1 == F)
 
 ### Tidy for and do Visualization ###
-## Use data_sub_allhandle(Delete duplication) to calculate itensity of each lipid class
-data_sub_classSum_stat <- data_sub_allhandle %>%
+## Use data_tidy(Delete duplication) to calculate itensity of each lipid class
+data_sub_classSum_stat <- data_tidy %>%
   ungroup() %>%
   select(-ms1, -lipidName) %>%
   gather(key = "case", value = "lipidsum", -Class) %>%
   group_by(Class, case) %>%
-  summarise(lipidsum = sum(lipidsum)) %>%
+  summarise(lipidsum = sum(lipidsum, na.rm = T)) %>%
   mutate(group = allgroups[match(case, names(allgroups))]) 
 data_sub_classSum_stat2 <- data_sub_classSum_stat %>%
   group_by(Class, group) %>%

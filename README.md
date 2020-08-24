@@ -23,7 +23,8 @@ First use the lipsearch data to fulfill all the procedure
 
 ## Coding style
 ### Comment style
-- **Client notes** will be writen in the top of the whole scripts following a "NOTE" comment. 
+- **Client notes** refer to what the client should know first about the input data.
+They will be written in the top of the whole scripts following a "NOTE" comment. 
 Corresponding to that note, the code afterwards will comment as a "NOTE-ref".
 - **Warning info** refer to some unsolved problems.
 The comment info will start with a "!!!!!WARNING: ".
@@ -32,7 +33,12 @@ The comment info will start with a "!!!!!WARNING: ".
 After the comment, there is a function that will offer optional arguments to clients.
 - **Control flow WARNING** will be comment in a line with following words:
 "!!!!!Control flow WARNING".
-Details are shown in the "Script style" corresponding section
+Details are shown in the "Script style" corresponding section.
+- **Developer notes** refer to some info given to developers. 
+They will info the developers to do some specific actions to the following codes.
+The comment info will start with a "!!!!!DEV: ".
+In the ultimate version, these codes may be revised in someways.
+
 ### Script style
 - **PROGRAM EXIT!** In some situation, scripts may use "stop()" function to make program exit.
 These scripts may contain the words "PROGRAM EXIT!".
