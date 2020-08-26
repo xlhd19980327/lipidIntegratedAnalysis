@@ -4,26 +4,36 @@
 ### NOTE1: If using MS Excel, should follow the steps to get csv file: ###
 ### NOTE1: Click File->Export->Change File Type ->Choose "CSV" options ###
 ### NOTE1: Or may have some characters garbled, see NOTE1-ref in the code ###
-### NOTE2: Clients should put control group should be on the first column ###
-### NOTE3: Data should have the following columns: ###
+### NOTE2: Clients should put control group on the first column ###
+### NOTE3: Data should have the following feature columns: ###
 ### NOTE3: Class, FattyAcid ###
+
+###!!!Client options: input file
+datafile <- "./testData/zsy_DGATinhibitors/HeLaData/input/merge_tidy.csv"
+###!!!Client options: control group, default will use group of the first column sample
+controlGrp <- "OA"
+#!!!Client options: Client should choose whether analyze group by group("group_by_group", vs. control group) or all toghether("all_toghether")
+#!!!!!DEV: If not used for MAR analysis, this option should always be "all_toghether"
+analOpt <- "all_toghether"
 
 ### Loading data and environment settings ###
 library(tidyverse)
 library(MetaboAnalystR)
 library(ggsci)
 options(stringsAsFactors = F)
-setwd("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/procedure/github/testData/zsy_DGATinhibitors/cos7Data/input")
-data <- read.csv("Cos7_integ.csv", skip = 1)
+data <- read.csv(datafile, skip = 1)
 #NOTE1-ref: may have the first character garbled
-allgroups <- scan("Cos7_integ.csv", what = "character", nlines = 1, sep = ",", quote = "\"")
+allgroups <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"")
 notdataColsLen <- sum(allgroups == '')
 allgroups <- allgroups[allgroups != '']
 groupsLevel <- unique(allgroups)
 nsamples <- table(factor(allgroups, levels = groupsLevel))
 names(allgroups) <- colnames(data)[(notdataColsLen+1):(notdataColsLen+length(allgroups))]
 #NOTE2-ref: should indicate the control group or set on the first column
-controlGrp <- groupsLevel[1]
+if(controlGrp == ""){
+  controlGrp <- groupsLevel[1]
+}
+
 
 ### Check Data Integrity ###
 if(min(nsamples) < 3){
@@ -97,9 +107,6 @@ mSet$dataSet$cls.type <- "disc"
 mSet$dataSet$format <- "colu"
 var.nms <- data$lipidName
 data <- data[, -1]
-#!!!Client options: Client should choose whether analyze group by group(vs. control group) or all toghether
-#!!!!!DEV: If not used for MAR analysis, this option should always be "all_toghether"
-analOpt <- "all_toghether"
 if(analOpt == "group_by_group"){
   #!!!!!Control flow WARNING
   for(i in groupsLevel[groupsLevel != controlGrp]){
@@ -112,6 +119,7 @@ if(analOpt == "group_by_group"){
   }
 }
 if(analOpt == "all_toghether"){
+  print("All groups will be analyzed")
 }
 smpl.nms <- colnames(data)
 cls.lbl <- allgroups

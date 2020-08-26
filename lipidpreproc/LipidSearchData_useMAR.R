@@ -1,8 +1,8 @@
 ### For LipidSearch data ###
 
-## Source will offer the following variables:
-## allgroups, groupsLevel, mSet
-source("D:/myLearning/lipGroup/riverGroup/integerateOmics/lipidPathways/newInspirationWork/procedure/github/lipidpreproc/LipidSearchData_preprocess.R")
+## Source will offer the following contents:
+## Variable(s): allgroups, groupsLevel, mSet
+source("./lipidpreproc/LipidSearchData_preprocess.R")
 
 ## Data filtering
 # The purpose of the data filtering is to identify and remove variables that are unlikely to be of use when modeling the data. 
