@@ -1,5 +1,8 @@
 ### For LipidSearch data ###
 
+##!!!!!DEV: set the directory that plot files locate
+fileLoc <- "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/"
+
 ## Source will offer the following contents:
 ## Variable(s): allgroups, groupsLevel, mSet
 source("./lipidpreproc/LipidSearchData_preprocess.R")
@@ -67,7 +70,9 @@ for(i in groupsLevel[groupsLevel != controlGrp]){
   result <- cbind(p.log, fc.log)
 }
 
+#!!!Client options: Fold change threshold
 fcthresh <- 2.0
+#!!!Client options: Fold change p.value
 pthresh <- 0.1
 volcano.data <- result %>%
   as.data.frame() %>%
@@ -141,7 +146,7 @@ pcaScorePlot <- pcaScorePlot +
        color = "group", 
        title = "PCA Score Plot") +
   theme(plot.title = element_text(hjust = 0.5, size = 20))
-ggsave("PCA_score_plot_all.pdf", plot = pcaScorePlot, 
+ggsave(paste0(fileLoc, "PCA_score_plot_all.pdf"), plot = pcaScorePlot, 
        device = "pdf", width = 9, height = 9)
 ## Heatmap
 #!!!Client options
@@ -163,12 +168,16 @@ plotHeatmap <- function(mSetObj = mSet,
                          clustering_distance_rows = "euclidean", 
                          clustering_distance_cols = "euclidean", 
                          clustering_methods = "ward.D", 
-                         clustering_rows = T, 
-                         clustering_cols = F, 
+                         cluster_rows = T, 
+                         cluster_cols = F, 
                          scale = "row", 
                          annotation_colors = list(group = colorpars)
   )
-  pdf("test.pdf", width=(nrow(heatmapdata)*25+300)/72, height=(ncol(heatmapdata)*18+150)/72)
+  if(all(is.na(topind))){
+    pdf(paste0(fileLoc, "heatmap.pdf"), width=(nrow(heatmapdata)*25+300)/72, height=(ncol(heatmapdata)*18+150)/72)
+  }else{
+    pdf(paste0(fileLoc, "heatmap_top", length(topind), ".pdf"), width=(nrow(heatmapdata)*25+300)/72, height=(ncol(heatmapdata)*18+150)/72)
+  }
   grid::grid.newpage()
   grid::grid.draw(x$gtable)
   dev.off()

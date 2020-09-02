@@ -184,9 +184,10 @@ for(i in groupsLevel[groupsLevel != controlGrp]){
                                  "up-sig" = alpha("red", 0.6), 
                                  "down-sig" = alpha("blue", 0.6))) +
     theme(
-      panel.background = element_rect(fill = "white"), 
+      panel.background = element_rect(fill = "white"),
       axis.ticks = element_blank(),
-      axis.text.x = element_text(vjust = 6), 
+      axis.text.x = element_text(vjust = 6),
+      axis.text.y = element_text(hjust = 0),
       plot.title = element_text(hjust = 0.5, size = 20)
     ) +
     guides(fill = guide_legend(
@@ -195,7 +196,9 @@ for(i in groupsLevel[groupsLevel != controlGrp]){
       title.hjust = 0.5
     )) +
     facet_wrap(~Class, ncol = 1, scales="free") + 
-    scale_x_continuous(breaks = seq(0, max(oneGrpdata$chain), 2)) +
+    scale_x_continuous(breaks = seq(0, max(oneGrpdata$chain), 2), 
+                       expand = c(0,0)) +
+    scale_y_continuous(breaks = seq(0, max(oneGrpdata$unsaturate), 1)) +
     labs(x = "Number of FA chain carbon",
          y = "Number of FA double-bonds", 
          title = "Lipid FA chains statistics", 
