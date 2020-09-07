@@ -5,3 +5,5 @@
 .Rhistory
 ## Ignore gitHistory in ./ directory only
 /gitHistory
+## Ignore pdf change
+*.pdf

@@ -6,7 +6,7 @@ fileLoc <- "./testData/zsy_DGATinhibitors/HeLaData/output/"
 ##!!!!!DEV: FAchainVisual/integPlot/, FAchainVisual/tilePlot/"
 
 ## Source will offer the following contents:
-## Variable(s): allgroups, controlGrp, mSet
+## Variable(s): allgroups, controlGrp, groupsLevel, mSet
 source("./lipidpreproc/LipidSearchData_preprocess.R")
 ## Source will offer the following contents:
 ## Function(s): getFAsInfo

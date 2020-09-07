@@ -98,15 +98,9 @@ colnames(data_sub_dup_allhandle) <- colnames(data_sub_sing_allhandle)
 data_sub_allhandle <- bind_rows(data_sub_sing_allhandle, data_sub_dup_allhandle)
 
 
-
-### Input data into MetaboAnalystR ###
 data <- data_sub_allhandle
-mSet<-InitDataObjects("conc", "stat", FALSE)
-## The code following is adapted from MetaboAnalystR::Read.TextData()
-mSet$dataSet$cls.type <- "disc"
-mSet$dataSet$format <- "colu"
-var.nms <- data$lipidName
-data <- data[, -1]
+lipidName <- data$lipidName
+data <- subset(data, select = -lipidName)
 if(analOpt == "group_by_group"){
   #!!!!!Control flow WARNING
   for(i in groupsLevel[groupsLevel != controlGrp]){
@@ -119,8 +113,15 @@ if(analOpt == "group_by_group"){
   }
 }
 if(analOpt == "all_toghether"){
-  print("All groups will be analyzed")
+  cat("All groups will be analyzed\n")
 }
+
+### Input data into MetaboAnalystR ###
+mSet<-InitDataObjects("conc", "stat", FALSE)
+## The code following is adapted from MetaboAnalystR::Read.TextData()
+mSet$dataSet$cls.type <- "disc"
+mSet$dataSet$format <- "colu"
+var.nms <- lipidName
 smpl.nms <- colnames(data)
 cls.lbl <- allgroups
 conc <- t(data)
