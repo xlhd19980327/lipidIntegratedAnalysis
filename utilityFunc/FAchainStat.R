@@ -5,12 +5,18 @@ FAchainStat <- function(dataSet, mSet,
   allgroups <- dataSet$allgroups
   controlGrp <- dataSet$controlGrp
   groupsLevel <- dataSet$groupsLevel
+  dataType <- dataSet$dataType
   pname <- ifelse(length(groupsLevel) > 2, "all", paste0(groupsLevel[groupsLevel != controlGrp], 
                                                          "_vs_", controlGrp))
   
   ## Source will offer the following contents:
   ## Function(s): getFAsInfo
-  source("./utilityFunc/getFAsInfo.R")
+  if(dataType == "LipidSearch"){
+    source("./utilityFunc/getFAsInfo.R")
+  }
+  if(dataType == "MS_DIAL"){
+    source("./utilityFunc/getFAsInfo_msdial.R")
+  }
   ## Source will offer the following contents:
   ## Function(s): getPValue
   source("./utilityFunc/getPValue.R")
@@ -20,7 +26,9 @@ FAchainStat <- function(dataSet, mSet,
   
   data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
     rownames_to_column(var = "lipidName") %>%
-    mutate(Class = gsub("(.*?)\\(.*", "\\1", lipidName))
+    mutate(Class = switch(dataSet$dataType,
+                          LipidSearch = gsub("(.*?)\\(.*", "\\1", lipidName), 
+                          MS_DIAL = gsub("(.*?) .*", "\\1", lipidName)))
   
   ## Seperate MS1 and MS2 lipids & Calculate itensity of lipid class containing FA chain info
   lipids <- data_tidy$lipidName
@@ -37,10 +45,15 @@ FAchainStat <- function(dataSet, mSet,
     for(i in 1:nrow(data_tidy)){
       # e,p connection info will be ignored
       fa <- fasInfo[[i]][[1]]
-      chains <- sum(as.numeric(gsub(".*?([0-9]+):.*", "\\1", fa)))
-      unsaturate <- sum(as.numeric(gsub(".*?:([0-9]+).*", "\\1", fa)))
       Class <- names(fasInfo[[i]][1])
-      subclass <- paste0(Class, "(", chains, ":", unsaturate, ")")
+      if(any(fa %in% "UnknownPattern")){
+        subclass <- paste0(Class, "(", fa, ")")
+      }else{
+        chains <- sum(as.numeric(gsub(".*?([0-9]+):.*", "\\1", fa)))
+        unsaturate <- sum(as.numeric(gsub(".*?:([0-9]+).*", "\\1", fa)))
+        subclass <- paste0(Class, "(", chains, ":", unsaturate, ")")
+      }
+      
       lipid_subclass_handle <- rbind(lipid_subclass_handle, 
                                      cbind(subclass = subclass, 
                                            bind_rows(replicate(length(subclass), data_tidy[i, ], simplify = FALSE))))
@@ -64,14 +77,33 @@ FAchainStat <- function(dataSet, mSet,
   lipid_subclass_stat <- lipid_subclass_handle %>%
     ungroup() %>%
     select(-ms1, -lipidName) %>%
+    filter(!grepl("UnknownPattern", subclass)) %>%
     gather(key = "case", value = "lipidsum", -subclass, -Class) %>%
     group_by(subclass, case, Class) %>% 
     filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
-    summarise(lipidsum = sum(lipidsum) / n()) %>% #calc abundance of the lipid in a sample
+    #!!!!!WARNING: this algorithm may not appropriate
+    summarise(lipidsum = switch(plotInfo, 
+                                FA_info = sum(lipidsum) / n(), 
+                                all_info = sum(lipidsum))) %>% #calc abundance of the lipid in a sample
     mutate(group = allgroups[match(case, names(allgroups))]) %>%
     ungroup() %>%
     group_by(group, subclass) %>%
     filter(n() >= 3) #if the lipid signal of one group are detected in no more than 2 samples, the lipid will be dropped
+  lipid_subclass_stat_output <- lipid_subclass_handle %>%
+    ungroup() %>%
+    select(-ms1, -lipidName) %>%
+    filter(!grepl("UnknownPattern", subclass)) %>%
+    gather(key = "case", value = "lipidsum", -subclass, -Class) %>%
+    group_by(subclass, case) %>% 
+    filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
+    #!!!!!WARNING: this algorithm may not appropriate
+    summarise(lipidsum = switch(plotInfo, 
+                                FA_info = sum(lipidsum) / n(), 
+                                all_info = sum(lipidsum)))  %>%
+    spread(key = case, value = lipidsum)
+  write.csv(lipid_subclass_stat_output, 
+            paste0(fileLoc, "lipid_subclass_stat_", plotInfo, "_", pname, ".csv"), 
+            row.names = F)  
   lipid_subclass_stat2 <- lipid_subclass_stat %>%
     group_by(Class, subclass, group) %>%
     summarise(realmean = mean(lipidsum) ,
@@ -163,7 +195,7 @@ FAchainStat <- function(dataSet, mSet,
       }))
     grid_df <- expand.grid(x = 0:max(oneGrpdata$chain), y = 0:max(oneGrpdata$unsaturate))
     if(plotInfo == "all_info"){
-      w_plot <- 25
+      w_plot <- 28
     }
     if(plotInfo == "FA_info"){
       w_plot <- 18
@@ -204,7 +236,7 @@ FAchainStat <- function(dataSet, mSet,
            y = "Number of FA double-bonds", 
            title = "Lipid FA chains statistics", 
            fill = "Regulation State") 
-    ggsave(paste0(fileLoc, "tilePlot_", i, ".pdf"), 
+    ggsave(paste0(fileLoc, "tilePlot_", i, "_", plotInfo, ".pdf"), 
            grid_plot, 
            dpi = 300, width = w_plot, height = h_plot, limitsize = FALSE)
   }

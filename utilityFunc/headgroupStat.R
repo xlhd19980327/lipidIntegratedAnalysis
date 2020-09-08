@@ -1,5 +1,6 @@
 headgroupStat <- function(dataSet, mSet,  
                           fileLoc){
+  dataType <- dataSet$dataType
   allgroups <- dataSet$allgroups
   controlGrp <- dataSet$controlGrp
   groupsLevel <- dataSet$groupsLevel
@@ -8,7 +9,12 @@ headgroupStat <- function(dataSet, mSet,
   
   ## Source will offer the following contents:
   ## Function(s): getFAsInfo
-  source("./utilityFunc/getFAsInfo.R")
+  if(dataType == "LipidSearch"){
+    source("./utilityFunc/getFAsInfo.R")
+  }
+  if(dataType == "MS_DIAL"){
+    source("./utilityFunc/getFAsInfo_msdial.R")
+  }
   ## Source will offer the following contents:
   ## Function(s): getPValue
   source("./utilityFunc/getPValue.R")
@@ -18,7 +24,9 @@ headgroupStat <- function(dataSet, mSet,
   
   data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
     rownames_to_column(var = "lipidName") %>%
-    mutate(Class = gsub("(.*?)\\(.*", "\\1", lipidName))
+    mutate(Class = switch(dataSet$dataType,
+                          LipidSearch = gsub("(.*?)\\(.*", "\\1", lipidName), 
+                          MS_DIAL = gsub("(.*?) .*", "\\1", lipidName)))
   
   ## Seperate MS1 and MS2 lipids & Calculate itensity of lipid class containing FA chain info
   lipids <- data_tidy$lipidName
@@ -96,14 +104,12 @@ headgroupStat <- function(dataSet, mSet,
     geom_errorbar(data = data_sub_classSum_integStat, aes(x = group, ymin = realmean, ymax = realmean + sd), color = "black", width = 0.2) +
     geom_dotplot(data = data_sub_classSum_stat, aes(x = group, y = lipidsum), binaxis='y', stackdir='center', 
                  binwidth = 5) +
-    #!!!!!WARNING: y = realmean+1.5*sd may make some sigLabel be covered in this "black" plot
     geom_text(data = data_sub_classSum_integStat, aes(x = group, y = realmean+1.5*sd, label = sigLabel),
               size = 3, fontface = "bold", color = "red") +
     theme_bw() + 
     theme(axis.text.x=element_text(angle=45, hjust=1), 
           line = element_line(colour = "black", size = 1, 
                               linetype = 1, lineend = "butt")) +
-    scale_y_continuous(expand = c(0,0)) +
     facet_wrap(~Class, scales="free", ncol = 3) +
     labs(x = "group",
          y = "total concentration", 

@@ -31,7 +31,8 @@ getFAsInfo <- function(i){
       }
     }
   }else{
-    result <- list(otherClass = Class, ms1 = NA)
+    result <- list(otherClass = "UnknownPattern", ms1 = NA)
+    names(result) <- c(Class, "ms1")
     return(result)
   }
   n <- length(fas)

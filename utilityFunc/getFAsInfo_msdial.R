@@ -1,7 +1,7 @@
 ##!!!!!WARNING: Class statistics will only contain the following lipid class:
 ## "Cer", "SM", "FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS"
 
-getFAsInfo_msdial <- function(i){
+getFAsInfo <- function(i){
   Class <- gsub("(.*?) .*", "\\1", i, perl = T)
   if(Class %in% c("Cer", "SM")){ #may use Class %in% c("Cer", "SM", "SPH")
     if(grepl("\\|", i)){
@@ -42,7 +42,8 @@ getFAsInfo_msdial <- function(i){
       fas <- unlist(regmatches(i, m))
     }
   }else{
-    result <- list(otherClass = Class, ms1 = NA)
+    result <- list(otherClass = "UnknownPattern", ms1 = NA)
+    names(result) <- c(Class, "ms1")
     return(result)
   }
   n <- length(fas)

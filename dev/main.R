@@ -6,6 +6,7 @@ source("./utilityFunc/lipPCAPlot.R")
 source("./utilityFunc/lipHeatmapPlot.R")
 source("./utilityFunc/headgroupStat.R")
 source("./utilityFunc/FAchainStat.R")
+source("./utilityFunc/plottingPalettes.R")
 
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
@@ -15,9 +16,10 @@ prepDataSet <- function(x, dataset = dataSet){
   dataset$allgroups <- dataset$allgroups[ind]
   return(dataset)
 }
-analOpt <- "all_toghether"
-dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/HeLaData/input/merge_tidy.csv", 
-                            controlGrp = "OA")
+analOpt <- "group_by_group"
+dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/HeLaData/input/data_tidy_testFormat.csv", 
+                            controlGrp = "OA", dataType = "MS_DIAL", 
+                            fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/")
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
@@ -30,7 +32,7 @@ if(analOpt == "group_by_group"){
                fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
     lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
                    fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
-                   topnum = 25)
+                   topnum = 75)
     
     headgroupStat(dataSet = dataset, mSet = mSet, 
                   fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
@@ -45,7 +47,7 @@ if(analOpt == "group_by_group"){
              fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
                  fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
-                 topnum = 25)
+                 topnum = 75)
   
   headgroupStat(dataSet = dataSet, mSet = mSet, 
                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
@@ -63,7 +65,7 @@ if(analOpt == "group_by_group"){
                  fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
   lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
-                 topnum = 25)
+                 topnum = 75)
   
   headgroupStat(dataSet = dataset, mSet = mSet, 
                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")

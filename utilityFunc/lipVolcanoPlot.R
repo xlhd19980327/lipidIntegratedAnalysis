@@ -49,7 +49,9 @@ lipVolcanoPlot <- function(dataSet, mSet,
       down = ifelse(fc.log < -log(fcthresh, 2) & p.log > -log10(pthresh), 2, 0),
       regState = sapply(up + down, function(x) switch(x, "upreg", "downreg")), 
       regState = sapply(regState, function(x) ifelse(is.null(x), 0, x)), 
-      Class = gsub("(.*?)\\(.*", "\\1", lipid)
+      Class = switch(dataSet$dataType,
+                     LipidSearch = gsub("(.*?)\\(.*", "\\1", lipid), 
+                     MS_DIAL = gsub("(.*?) .*", "\\1", lipid))
     )
   volcano.data_reg <- subset(volcano.data, subset = regState != 0)
   volcano.data_unreg <- subset(volcano.data, subset = regState == 0)

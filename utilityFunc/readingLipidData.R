@@ -1,7 +1,19 @@
-readingLipidData <- function(datafile, controlGrp){
+readingLipidData <- function(datafile, controlGrp, dataType, 
+                             lipField = NA, delOddChainOpt = T, fileLoc){
+  if(dataType == "LipidSearch"){
+    if(is.na(lipField)){
+      lipField <- "LipidIon"
+    }
+  }
+  if(dataType == "MS_DIAL"){
+    if(is.na(lipField)){
+      lipField <- "Metabolite.name"
+    }
+  }
   data <- read.csv(datafile, skip = 1)
   #NOTE1-ref: may have the first character garbled
-  allgroups <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"")
+  allgroups <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
+                    na.strings = c("N/A", "NA"))
   notdataColsLen <- sum(allgroups == '')
   allgroups <- allgroups[allgroups != '']
   groupsLevel <- unique(allgroups)
@@ -24,12 +36,12 @@ readingLipidData <- function(datafile, controlGrp){
   
   ### Clean and Tidy the data ###
   ## Delete odd FA chain lipids
-  #!!!Client options: Client should choose whether to delete odd FA chain lipid signal, default TRUE
-  delOddChainOpt <- T
   delOddChain <- function(x, 
                           delOddChainOpt = T){
     if(delOddChainOpt){
-      fas <- x$FattyAcid
+      fas <- switch(dataType, 
+                    LipidSearch = gsub(".*?(\\(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
+                    MS_DIAL = data[[lipField]])
       m <- gregexpr("[0-9]*:", fas)
       fachain <- regmatches(fas, m)
       my.even <-  function(x){
@@ -49,37 +61,44 @@ readingLipidData <- function(datafile, controlGrp){
   data <- delOddChain(data)
   ## Duplication handle
   data_sub_all <- cbind(data, 
-                        lipidName = paste0(data$Class, data$FattyAcid))
-  data_sub_dup <- data_sub_all %>%
+                        lipidName = switch(dataType, 
+                                           LipidSearch = gsub("(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
+                                           #Delete some "0:0" info
+                                           MS_DIAL = gsub("(.*)\\/0:0$", "\\1", data[[lipField]])))
+  data_sub_dup <- data_sub_all[, -1:-notdataColsLen] %>%
     group_by(lipidName) %>%
     filter(n() > 1)
-  data_sub_dup_list <- split(data_sub_dup, data_sub_dup$lipidName)
-  # Rule: duplicated lipids in different modes- chooese stronger intensity
-  #       duplicated lipids in the same modes but have different adduct - choose stronger intensity
-  #       i.e. duplicated lipids all choose stronger intensity
-  getSoloInten <- function(x){
-    data <- x[, (notdataColsLen+1):(notdataColsLen+length(allgroups))]
-    result <- rep(0, length(allgroups))
-    for(i in 1:nrow(data)){
-      one <- unlist(data[i, ])
-      result <- ifelse(one > result, one, result)
-    }
-    return(result)
-  }
-  data_sub_dup_soloInten <- sapply(data_sub_dup_list, getSoloInten)
   data_sub_sing_allhandle <- data_sub_all[, -1:-notdataColsLen] %>%
     group_by(lipidName) %>%
     filter(n() == 1) 
-  data_sub_sing_allhandle <- data_sub_sing_allhandle[, c((length(allgroups)+1), 1:length(allgroups))]
-  data_sub_dup_allhandle <- rownames_to_column(as.data.frame(t(data_sub_dup_soloInten)))
-  colnames(data_sub_dup_allhandle) <- colnames(data_sub_sing_allhandle)
-  data_sub_allhandle <- bind_rows(data_sub_sing_allhandle, data_sub_dup_allhandle)
+  if(nrow(data_sub_dup) == 0){
+    data_sub_allhandle <- data_sub_sing_allhandle
+  }else{
+    data_sub_dup_list <- split(data_sub_dup, data_sub_dup$lipidName)
+    # Rule: duplicated lipids in different modes- chooese stronger intensity
+    #       duplicated lipids in the same modes but have different adduct - choose stronger intensity
+    #       i.e. duplicated lipids all choose stronger intensity
+    #       The signal have the most sum intensity
+    getSoloInten <- function(x){
+      data <- x[, 1:(length(allgroups))]
+      sigSums <- rowSums(data)
+      ind <- match(max(sigSums), sigSums)
+      result <- x[ind, ]
+      return(result)
+    }
+    data_sub_dup_soloInten <- lapply(data_sub_dup_list, getSoloInten)
+    data_sub_dup_allhandle <- do.call(rbind, data_sub_dup_soloInten)
+    data_sub_allhandle <- bind_rows(data_sub_sing_allhandle, data_sub_dup_allhandle)
+  }
   
   data <- data_sub_allhandle
   lipidName <- data$lipidName
   data <- subset(data, select = -lipidName)
+  data_output <- cbind(lipidName = lipidName, data)
+  write.csv(data_output, paste0(fileLoc, "data_tidy.csv"), row.names = F)
   return(list(
     data = data, lipidName = lipidName, 
-    groupsLevel = groupsLevel, allgroups = allgroups, controlGrp = controlGrp, nsamples = nsamples
+    groupsLevel = groupsLevel, allgroups = allgroups, controlGrp = controlGrp, nsamples = nsamples, 
+    dataType = dataType
   ))
 }
