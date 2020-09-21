@@ -74,6 +74,18 @@ FAchainStat <- function(dataSet, mSet,
   
   ## Use lipid_subclass_handle to calculate itensity of lipid class containing FA chain info(subclass)
   ## Visualize with the facet plot
+  divnum <- function(x){
+    ##!!!!!WARNING: Class statistics will only contain the lipid class in getFAsInfo function recognize
+    Class <- unique(x)
+    if(Class %in% c("Cer", "SM", "SPH", "FA", "MG", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS", "ChE")){
+      div <- 1
+    }else if(Class %in% c("DG", "PA", "PC", "PE", "PG", "PI", "PS")){
+      div <- 2
+    }else if(Class %in% c("TG")){
+      div <- 3
+    }
+    return(div)
+  }
   lipid_subclass_stat <- lipid_subclass_handle %>%
     ungroup() %>%
     select(-ms1, -lipidName) %>%
@@ -83,7 +95,7 @@ FAchainStat <- function(dataSet, mSet,
     filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
     #!!!!!WARNING: this algorithm may not appropriate
     summarise(lipidsum = switch(plotInfo, 
-                                FA_info = sum(lipidsum) / n(), 
+                                FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum))) %>% #calc abundance of the lipid in a sample
     mutate(group = allgroups[match(case, names(allgroups))]) %>%
     ungroup() %>%
@@ -98,7 +110,7 @@ FAchainStat <- function(dataSet, mSet,
     filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
     #!!!!!WARNING: this algorithm may not appropriate
     summarise(lipidsum = switch(plotInfo, 
-                                FA_info = sum(lipidsum) / n(), 
+                                FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum)))  %>%
     spread(key = case, value = lipidsum)
   write.csv(lipid_subclass_stat_output, 

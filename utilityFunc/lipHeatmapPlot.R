@@ -27,7 +27,8 @@ lipHeatmapPlot <- function(dataSet, mSet,
                         levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
     data <- t(heatmapdata)[apply(t(heatmapdata), 1, function(x) sd(x)!=0), ]
     x <-pheatmap::pheatmap(mat = data, 
-                           color = plottingPalettes(100, type = "continuous"),
+                           ##This color palette is ugly, use default
+                           #color = plottingPalettes(100, type = "continuous"),
                            annotation = data.frame(group = datagroup, row.names = rownames(heatmapdata)), 
                            fontsize = 8, 
                            fontsize_row = 8, 

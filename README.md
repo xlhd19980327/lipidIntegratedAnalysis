@@ -83,7 +83,7 @@ if(min(nsamples) < 3){
 The control flow WARNING will indicate this code below the comment "!!!!!Control flow WARNING".
 In the ultimate version, these codes should be revised to the correct structure.
 
-- **Client options** A function having client options will have the following formats:
+- **Client options(May NOT applied to later development)** A function having client options will have the following formats:
   - The first line of the function will contain the necessary arguments.
   - The second line of the function  will contain the client-optional arguments. 
   The default parameters will also show there.

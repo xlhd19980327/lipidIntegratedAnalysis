@@ -3,13 +3,17 @@
 ### NOTE2: Sample-list file should be a "csv" file ###
 ### NOTE2: Sample-list file should have the following feature columns: ###
 ### NOTE2: samples(sample names), conditions(usually the experiment design grouping info)
+### NOTE2: Sample-list file may(optical) have the following feature columns: ###
+### NOTE2: batch(batch info, for removing batch effect) ###
+### NOTE2: if batch colum exisits, program will automatically remove batch effect, ###
+### Developer can add a option about removing batch effect(Not achieve yet) 
 ### NOTE3: RNA-seq expression data should have columns names which are same as the sample-list file "samples" colum ###
 
 ###!!!Client options: input RNA-seq expression file
 datafile <- "./testData/RNAseq_test/input/GSE148729_Caco2_polyA_readcounts.tsv"
 ###!!!Client options: input sample-list file
-sampleList <- "./testData/RNAseq_test/input/fileSample.csv"
-###!!!Client options: control group, default will use group of the first column sample / first sample in sample-list file
+sampleList <- "./testData/RNAseq_test/input/fileSample_batch.csv"
+###!!!Client options: control group, default will use group of the first sample in sample-list file
 controlGrp <- "untr"
 #!!!Client options: Client should choose which group to do the comparison(DEA) or do group by group comparison("group_by_group")
 experGrp <- "S2"
@@ -17,11 +21,15 @@ experGrp <- "S2"
 ##!!!!!DEV: set the directory that plot files locate
 fileLoc <- "./testData/RNAseq_test/output/"
 
+source("./utilityFunc/plottingPalettes.R")
+
 library(DESeq2)
+library(limma)
 library(apeglm)
 library(ggplot2)
 library(dplyr)
 library(pheatmap)
+library(ggrepel)
 options(stringsAsFactors = F)
 data <- read.table(datafile,
                    header=T, row.names=1, com='', 
@@ -36,9 +44,10 @@ sampleInfo$conditions <- factor(sampleInfo$conditions,
 data <- data[rowSums(data)>2, ]
 
 ## DESeq2 procedure
+batremvOpt <- T
 ddsFullCountTable <- tryCatch(DESeqDataSetFromMatrix(countData = data,
                                             colData = sampleInfo, 
-                                            design= ~ conditions), 
+                                            design= parse(text = ifelse(batremvOpt, "~ conditions + batch", "~ conditions"))), 
               error = function(e){if(conditionMessage(e) == "some values in assay are not integers"){
                 cat("Convert some float to integer!\n")
                 data <- round(data)
@@ -50,31 +59,59 @@ ddsFullCountTable <- tryCatch(DESeqDataSetFromMatrix(countData = data,
                             ". PROGRAM EXIT!"))
               }})
 dds <- DESeq(ddsFullCountTable)
-#Normalization 
+#Normalization(note: only providing counts scaled by size or normalization factors, 
+#experiment design info only used in the other normalization methods)
 normalized_counts <- counts(dds, normalized=TRUE)
-#Sorting by mad(Median Absolute Deviation) value(Genes with greater differences are ranked higher)
+#Sorting by mad(Median Absolute Deviation) value(Genes with greater 'overall' differences are ranked higher)
 normalized_counts_mad <- apply(normalized_counts, 1, mad)
 normalized_counts <- normalized_counts[order(normalized_counts_mad, decreasing=T), ]
 write.csv(normalized_counts, paste0(fileLoc, "normalized_counts_sorted.csv"))
-#log2 transformation
+#log2 transformation and normalized(may use "vst" instead)
 rld <- rlog(dds, blind=FALSE)
+if(batremvOpt){
+  ## Using limma::removeBatchEffect to remove batch effect, it will change the original count matrix
+  assay(rld) <- limma::removeBatchEffect(assay(rld), rld$batch)
+}
 #PCA plot
-pca_data <- plotPCA(rld, intgroup = "conditions",returnData = T)
+pca_data <- plotPCA(rld, intgroup = ifelse(batremvOpt, c("conditions", "batch"), "conditions"),returnData = T)
+ellipse_coor_all <- data.frame()
+for(i in groupsLevel){
+  groupVar <- var(subset(pca_data, subset = group == i)[, 1:2], na.rm = T)
+  groupMean <- cbind(mean(subset(pca_data, subset = group == i)[, 1], na.rm = T), 
+                     mean(subset(pca_data, subset = group == i)[, 2], na.rm = T))
+  ellipse_coor <- as.data.frame(ellipse::ellipse(groupVar, centre = groupMean, 
+                                                 level = 0.95, npoints = 100))
+  colnames(ellipse_coor) <- c("x", "y")
+  ellipse_coor_all <- rbind(ellipse_coor_all, 
+                            cbind(ellipse_coor, group = i))
+}
 percentVar <- round(100*attr(pca_data, "percentVar"), 1) 
+colorpars <- plottingPalettes(n = length(groupsLevel), type = "discrete")
+colorpars_fill <- alpha(colorpars, 0.3)
+names(colorpars_fill) <- names(colorpars) <- c(controlGrp, groupsLevel[groupsLevel != controlGrp])
 pcaScorePlot <- ggplot() +
-  geom_point(pca_data, mapping =aes(x = PC1, y = PC2, color = conditions)) +
-  scale_color_aaas() +
-  scale_fill_aaas() + 
+  geom_polygon(ellipse_coor_all, mapping = aes(x = x, y = y, 
+                                               color = factor(group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp])), 
+                                               fill = factor(group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp])))) +
+  geom_point(pca_data, mapping =aes(x = PC1, y = PC2, color = group)) +
+  scale_color_manual(values = colorpars) +
+  scale_fill_manual(values = colorpars_fill) +
   theme_bw() + 
-  labs(x = paste0("PC1", "(", percentVar[1], "%)"), 
-       y = paste0("PC2", "(", percentVar[2], "%)"), 
+  labs(x = paste0("PC1", "(", round(percentVar[1], 1), "%)"), 
+       y = paste0("PC2", "(", round(percentVar[2], 1), "%)"), 
        color = "group", 
+       fill = "group",
        title = "PCA Score Plot") +
   theme(plot.title = element_text(hjust = 0.5, size = 20))
 ggsave(paste0(fileLoc, "PCA_score_plot_all.pdf"), plot = pcaScorePlot, 
        device = "pdf", width = 9, height = 9)
 
 ## Differential expression analysis
+## Usually will be two groups comparison
+## This section contains DEA & Volcano-plot & Heatmap, using the following procedure(same as the DESeq DEA procedure):
+## DEA: dds <- DESeq(ddsFullCountTable); res <- results(dds); res
+## Volcano: lfcShrink(dds, ...)
+## Heatmap: use volcano.data to rank genes, plot top genes with normalized_counts
 #!!!Client options: Fold change threshold
 fcthresh <- 2.0
 #!!!Client options: Fold change p.value
@@ -91,6 +128,13 @@ if(experGrp != "group_by_group"){
                        cat("Using DESeq2 default method to calculate LFC\n")
                        return(lfcShrink(dds, coef=coefVar, type="normal"))
                      })
+  ## DEA output
+  deaResult <- as.data.frame(res) %>%
+    rownames_to_column(var = "Gene")
+  write.csv(deaResult, paste0(fileLoc, "DEgeneStatistics.csv"), 
+            row.names = F)
+
+  
   ## Volcano
   volcano.data <- do.call(cbind, resLFC@listData) %>%
     as.data.frame() %>%
@@ -117,7 +161,7 @@ if(experGrp != "group_by_group"){
   volcano.plot <- ggplot(mapping = aes(x = log2FoldChange, y = -log(padj, 10))) +
     geom_point(data = volcano.data_reg, mapping = aes(color = factor(regState))) + 
     geom_point(data = volcano.data_unreg, color = "gray") +
-    geom_text(data = volcano.data_top, mapping = aes(label = gene), 
+    geom_text_repel(data = volcano.data_top, mapping = aes(label = gene), 
               hjust = 0, nudge_x = 0.05) +
     theme_bw() +
     geom_vline(xintercept = c(-log(fcthresh, 2), log(fcthresh, 2)), linetype = "dashed", size = 0.5) +
@@ -126,22 +170,8 @@ if(experGrp != "group_by_group"){
          title = paste0(experGrp, " vs ", controlGrp)) +
     theme(plot.title = element_text(hjust = 0.5, size = 10))+ 
     scale_color_aaas()
-  volcano.plot
-  ## DE gene output
-  getMeanCounts <- function(counts = normalized_counts, group){
-    data <- counts[, colData(dds)$conditions == group]
-    countmean <- apply(data, 1, mean)
-    countmean <- countmean[match(volcano.data_reg$gene, names(countmean))]
-    return(countmean)
-  }
-  #use reg feature that volcano used
-  sigDEgene <- volcano.data_reg %>%
-    mutate(controlGrp = getMeanCounts(group = controlGrp), 
-           experGrp = getMeanCounts(group = experGrp)) %>%
-    select(c('gene', 'controlGrp', 'experGrp', 'log2FoldChange', 'padj')) %>%
-    rename(controlGrp = controlGrp, experGrp = experGrp)
-  write.csv(sigDEgene, paste0(fileLoc, "sigDEgeneStatistics.csv"), 
-            row.names = F)
+  ggsave(paste0(fileLoc, "volcano_", experGrp, "_vs_", controlGrp, ".pdf"), plot = volcano.plot, 
+         device = "pdf", width = 9, height = 9)
   ## Heatmap
   if(showtop2 > nrow(volcano.data)){
     cat("Not enough significant feature! Show all the feature label.\n")
@@ -154,6 +184,9 @@ if(experGrp != "group_by_group"){
   rownames(legend_annotation) <- sampleInfo$samples
   heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
                      annotation = legend_annotation, 
+                     color = plottingPalettes(100, type = "continuous"),
+                     #one-by-one usage
+                     annotation_colors = list(conditions = colorpars[names(colorpars) %in% c(experGrp, controlGrp)]),
                      fontsize = 8, 
                      fontsize_row = 8, 
                      cluster_rows = T, 

@@ -1,4 +1,4 @@
-readingLipidData <- function(datafile, controlGrp, dataType, 
+readingLipidData <- function(datafile, controlGrp = "", dataType, 
                              lipField = NA, delOddChainOpt = T, fileLoc){
   if(dataType == "LipidSearch"){
     if(is.na(lipField)){
@@ -12,13 +12,14 @@ readingLipidData <- function(datafile, controlGrp, dataType,
   }
   data <- read.csv(datafile, skip = 1)
   #NOTE1-ref: may have the first character garbled
-  allgroups <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
+  firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
                     na.strings = c("N/A", "NA"))
-  notdataColsLen <- sum(allgroups == '')
-  allgroups <- allgroups[allgroups != '']
+  #notdataColsLen <- sum(firstline == '')
+  allgroups <- firstline[firstline != '']
+  sampleInd <- which(firstline != '')
   groupsLevel <- unique(allgroups)
   nsamples <- table(factor(allgroups, levels = groupsLevel))
-  names(allgroups) <- colnames(data)[(notdataColsLen+1):(notdataColsLen+length(allgroups))]
+  names(allgroups) <- colnames(data)[sampleInd]
   #NOTE2-ref: should indicate the control group or set on the first column
   if(controlGrp == ""){
     controlGrp <- groupsLevel[1]
@@ -37,8 +38,8 @@ readingLipidData <- function(datafile, controlGrp, dataType,
   ### Clean and Tidy the data ###
   ## Delete odd FA chain lipids
   delOddChain <- function(x, 
-                          delOddChainOpt = T){
-    if(delOddChainOpt){
+                          delOddChainOpt_in = delOddChainOpt){
+    if(delOddChainOpt_in){
       fas <- switch(dataType, 
                     LipidSearch = gsub(".*?(\\(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
                     MS_DIAL = data[[lipField]])
@@ -60,15 +61,15 @@ readingLipidData <- function(datafile, controlGrp, dataType,
   }
   data <- delOddChain(data)
   ## Duplication handle
-  data_sub_all <- cbind(data, 
+  data_sub_all <- cbind(data[, sampleInd], 
                         lipidName = switch(dataType, 
                                            LipidSearch = gsub("(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
                                            #Delete some "0:0" info
                                            MS_DIAL = gsub("(.*)\\/0:0$", "\\1", data[[lipField]])))
-  data_sub_dup <- data_sub_all[, -1:-notdataColsLen] %>%
+  data_sub_dup <- data_sub_all %>%
     group_by(lipidName) %>%
     filter(n() > 1)
-  data_sub_sing_allhandle <- data_sub_all[, -1:-notdataColsLen] %>%
+  data_sub_sing_allhandle <- data_sub_all %>%
     group_by(lipidName) %>%
     filter(n() == 1) 
   if(nrow(data_sub_dup) == 0){

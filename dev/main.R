@@ -16,9 +16,9 @@ prepDataSet <- function(x, dataset = dataSet){
   dataset$allgroups <- dataset$allgroups[ind]
   return(dataset)
 }
-analOpt <- "group_by_group"
+analOpt <- "all_together"
 dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/HeLaData/input/data_tidy_testFormat.csv", 
-                            controlGrp = "OA", dataType = "MS_DIAL", 
+                            controlGrp = "OA", dataType = "MS_DIAL", delOddChainOpt = T,
                             fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/")
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
@@ -38,9 +38,9 @@ if(analOpt == "group_by_group"){
                   fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
     FAchainStat(dataSet = dataset, mSet = mSet, 
                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
-                plotInfo = "all_info")
+                plotInfo = "FA_info")
   }
-}else if(analOpt == "all_toghether"){
+}else if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
   mSet <- MARpreproc(dataSet = dataSet)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
@@ -53,7 +53,7 @@ if(analOpt == "group_by_group"){
                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
   FAchainStat(dataSet = dataSet, mSet = mSet, 
               fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
-              plotInfo = "all_info")
+              plotInfo = "FA_info")
 }else{
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
   dataset <- prepDataSet(analOpt)
