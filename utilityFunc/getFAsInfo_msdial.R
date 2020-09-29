@@ -1,5 +1,5 @@
 ##!!!!!WARNING: Class statistics will only contain the following lipid class:
-## "Cer", "SM", "FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS"
+## "Cer", "SM", "FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS", "CL"
 
 getFAsInfo <- function(i){
   Class <- gsub("(.*?) .*", "\\1", i, perl = T)
@@ -30,7 +30,7 @@ getFAsInfo <- function(i){
     }
   } else if(Class %in% c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
                          "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
-                         "LPS")){#will not contain "CL" or "ChE"
+                         "LPS", "CL")){#will not contain "ChE"
     # All ignore e/p(O-/P-) connection
     if(grepl("\\|", i)){
       fainfo <- gsub(".*\\|(.*)", "\\1", i)
@@ -50,7 +50,7 @@ getFAsInfo <- function(i){
   if(n > 1){
     ms1 <- F
   } else{
-    if(Class %in% c("Cer", "DG", "PA", "PC", "PE", "PG", "PI", "PS", "SM", "TG")){
+    if(Class %in% c("Cer", "DG", "PA", "PC", "PE", "PG", "PI", "PS", "SM", "TG", "CL")){
       ms1 <- T
     } else {
       ms1 <- F

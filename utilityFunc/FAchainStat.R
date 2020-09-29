@@ -1,7 +1,9 @@
 ## plotInfo == "FA_info": Statistics fatty acid chain&unsaturated info in that lipid class
 ## plotInfo == "all_info": Statistics all chain&unsaturated info in that lipid class
 FAchainStat <- function(dataSet, mSet,  
-                        fileLoc, plotInfo){
+                        fileLoc, plotInfo, 
+                        #use this for our statistics method, client cannot modify
+                        stat = F){
   allgroups <- dataSet$allgroups
   controlGrp <- dataSet$controlGrp
   groupsLevel <- dataSet$groupsLevel
@@ -83,6 +85,8 @@ FAchainStat <- function(dataSet, mSet,
       div <- 2
     }else if(Class %in% c("TG")){
       div <- 3
+    }else if(Class %in% c("CL")){
+      div <- 4
     }
     return(div)
   }
@@ -113,9 +117,6 @@ FAchainStat <- function(dataSet, mSet,
                                 FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum)))  %>%
     spread(key = case, value = lipidsum)
-  write.csv(lipid_subclass_stat_output, 
-            paste0(fileLoc, "lipid_subclass_stat_", plotInfo, "_", pname, ".csv"), 
-            row.names = F)  
   lipid_subclass_stat2 <- lipid_subclass_stat %>%
     group_by(Class, subclass, group) %>%
     summarise(realmean = mean(lipidsum) ,
@@ -126,6 +127,23 @@ FAchainStat <- function(dataSet, mSet,
   lipid_subclass_integStat <- left_join(lipid_subclass_stat2, lipid_subclass_stat3)
   sigLabel2 <- addSigLabel(lipid_subclass_integStat$p)
   lipid_subclass_integStat <- cbind(lipid_subclass_integStat, sigLabel = sigLabel2)
+  if(stat == T){
+    #Use for "statFAChains"
+    lipid_subclass_tidyStat <- lipid_subclass_integStat %>%
+      ungroup() %>%
+      select(subclass, Class, group, realmean) %>%
+      distinct() %>%
+      group_by(subclass) %>%
+      mutate(ind = ifelse(group == controlGrp, "A", "B")) %>% 
+      arrange(ind, .by_group = T) %>% ## put controlGrp into ind[1] so that we can recognize the control group
+      mutate(log2FC = log2(realmean / realmean[1])) %>% 
+      filter(group != controlGrp) %>%
+      select(-ind)
+    return(lipid_subclass_tidyStat)
+  }
+  write.csv(lipid_subclass_stat_output, 
+            paste0(fileLoc, "lipid_subclass_stat_", plotInfo, "_", pname, ".csv"), 
+            row.names = F)  
   for(i in unique(lipid_subclass_integStat$Class)){
     oneLipClassData <- subset(lipid_subclass_integStat, 
                               subset = Class == i)

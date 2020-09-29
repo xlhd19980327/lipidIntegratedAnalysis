@@ -1,0 +1,52 @@
+Libnames,Headgroup,otherInfo
+1-acyl LPA,LPA,
+1-acyl LPC,LPC,
+1-acyl LPE,LPE,
+1-acyl LPG,LPG,
+1-acyl LPI,LPI,
+1-acyl LPS,LPS,
+2-acyl LPA,LPA,
+2-acyl LPC,LPC,
+2-acyl LPE,LPE,
+2-acyl LPG,LPG,
+2-acyl LPI,LPI,
+2-acyl LPS,LPS,
+2-MAG,MG,
+2-MAG(20:4),MG,MG(20:4)
+acetate,FA,FA(2:0)
+carboxylate,FA,
+carboxylate(RCOOH),FA,
+Cer,Cer,
+Cer(d18:0/xx:xx),Cer,Cer(d18:0)
+Cer(t18:0/xx:xx),Cer,Cer(t18:0)
+ChE,ChE,ChE()
+ChE(xx:xx),ChE,
+CL,CL,
+DAG,DG,
+FA,FA,
+FA(12:0),FA,FA(12:0)
+FA(12_18:xx),FA,FA(12_18:xx)
+FA(13_22:xx),FA,FA(13_22:xx)
+FA(16:0),FA,FA(16:0)
+FA(16:1),FA,FA(16:1)
+FA(18:0),FA,FA(18:0)
+FA(20:4),FA,FA(20:4)
+FA(20:5),FA,FA(20:5)
+FA(22:5),FA,FA(22:5)
+FA(22:6),FA,FA(22:6)
+FA(23_:xx),FA,FA(23_:xx)
+FA(6_22:xx),FA,FA(6_22:xx)
+LPA,LPA,
+LPC,LPC,
+lysoPC,LPC,
+MAG,MG,
+PA,PA,
+PC,PC,
+PE,PE,
+PG,PG,
+PI,PI,
+PS,PS,
+SM(d18:1/xx:xx),SM,SM(d18:1)
+SPH(d18:0),SPH,SPH(d18:0)
+SPH(d18:1),SPH,SPH(d18:1)
+TAG,TG,

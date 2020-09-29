@@ -14,3 +14,8 @@ plotInfo = "FA_info"
 write.csv(lipid_subclass_stat_output, 
           paste0(fileLoc, "Serum.csv"), 
           row.names = F) 
+
+## Test statFAChains
+lipid_subclass_tidyStat = stat_res
+lipsample = lipsample
+spe = "hsa"

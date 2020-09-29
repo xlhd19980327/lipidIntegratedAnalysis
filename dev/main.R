@@ -7,6 +7,7 @@ source("./utilityFunc/lipHeatmapPlot.R")
 source("./utilityFunc/headgroupStat.R")
 source("./utilityFunc/FAchainStat.R")
 source("./utilityFunc/plottingPalettes.R")
+source("./utilityFunc/statFAChains.R")
 
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
@@ -16,7 +17,8 @@ prepDataSet <- function(x, dataset = dataSet){
   dataset$allgroups <- dataset$allgroups[ind]
   return(dataset)
 }
-analOpt <- "all_together"
+##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
+analOpt <- "DGAT1i+2i"
 dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/HeLaData/input/data_tidy_testFormat.csv", 
                             controlGrp = "OA", dataType = "MS_DIAL", delOddChainOpt = T,
                             fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/")
@@ -71,6 +73,19 @@ if(analOpt == "group_by_group"){
                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
   FAchainStat(dataSet = dataset, mSet = mSet, 
               fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
-              plotInfo = "all_info")
-
+              plotInfo = "FA_info")
 }
+
+##FAchainStat output: lipid_subclass_integStat, use it to do our stat
+##!!!Client options: can be [expr group]
+lipsample <- "DGAT1i+2i"
+dataset <- prepDataSet(lipsample)
+mSet <- MARpreproc(dataSet = dataset)
+stat_res <- FAchainStat(dataSet = dataset, mSet = mSet, 
+                        #fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
+                        #"plotInfo", "stat" can not modify
+                        plotInfo = "FA_info", stat = T)
+statFAChains(lipid_subclass_tidyStat = stat_res, 
+             fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/", 
+             lipsample = lipsample, spe = "hsa")
+
