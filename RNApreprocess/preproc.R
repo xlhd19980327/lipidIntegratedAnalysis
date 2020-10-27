@@ -1,4 +1,4 @@
-### NOTE: RNA-seq expression file should be exported as "tsv" file
+### NOTE: RNA-seq expression file should be exported as "tsv"/"csv" file(Integrate "csv" inputs into final function already)
 ### NOTE2: Clients should prepare a sample-list file indicate the experiment design info
 ### NOTE2: Sample-list file should be a "csv" file ###
 ### NOTE2: Sample-list file should have the following feature columns: ###
@@ -7,7 +7,10 @@
 ### NOTE2: batch(batch info, for removing batch effect) ###
 ### NOTE2: if batch colum exisits, program will automatically remove batch effect, ###
 ### Developer can add a option about removing batch effect(Not achieve yet) 
+### NOTE3: RNA-seq expression data should have gene info(gene_id/gene name) in the 1st column ###
 ### NOTE3: RNA-seq expression data should have columns names which are same as the sample-list file "samples" colum ###
+### NOTE3: DESeq2 notes: RNA-seq expression data should use un-normalized counts(Raw counts) as input ###
+### NOTE3: (ref: http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
 
 ###!!!Client options: input RNA-seq expression file
 datafile <- "./testData/RNAseq_test/input/GSE148729_Caco2_polyA_readcounts.tsv"

@@ -5,6 +5,7 @@ rnaPCAPlot <- function(dataProc = dataProc_RNA,
   controlGrp <- dataProc$dataSet$controlGrp
   batremvOpt <- ifelse("batch" %in% colnames(dataProc$dataSet$sampleInfo), T, F)
   
+  ##use VST or rlog data to do PCA(DESeq2 recommanded, here use rlog)
   pca_data <- plotPCA(rld, intgroup = ifelse(batremvOpt, c("conditions", "batch"), "conditions"),returnData = T)
   ellipse_coor_all <- data.frame()
   for(i in groupsLevel){

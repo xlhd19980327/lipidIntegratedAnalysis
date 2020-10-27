@@ -1,4 +1,4 @@
-rnaHeatmapPlot <- function(DEAresult = DEAresult, showtop = 75, showallgroups = F, 
+rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, 
                            fileLoc){
   if(showallgroups == F){
     resLFC <- DEAresult$resLFC
@@ -45,7 +45,9 @@ rnaHeatmapPlot <- function(DEAresult = DEAresult, showtop = 75, showallgroups = 
     legend_annotation <- data.frame(conditions = sampleInfo$conditions)
     rownames(legend_annotation) <- sampleInfo$samples
     
-    heatmap.data_top <- normalized_counts[1:showtop, ]
+    ##We really donot recommand client to use showtop
+    #heatmap.data_top <- normalized_counts[1:showtop, ]
+    heatmap.data_top <- normalized_counts
     collegend_annotation <- list(conditions = colorpars)
   }
 
@@ -54,21 +56,36 @@ rnaHeatmapPlot <- function(DEAresult = DEAresult, showtop = 75, showallgroups = 
   tidy_ind <- tidy_ind[!is.na(tidy_ind)]
   heatmap.data_top <- heatmap.data_top[, tidy_ind]
   
-  heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
-                                annotation = legend_annotation, 
-                                color = plottingPalettes(100, type = "continuous"),
-                                #one-by-one usage
-                                annotation_colors = collegend_annotation,
-                                fontsize = 8, 
-                                fontsize_row = 8, 
-                                cluster_rows = T, 
-                                cluster_cols = F, 
-                                scale = "row"
-  )
-  pdf(paste0(fileLoc, "heatmap_top", showtop, 
-             ifelse(showallgroups, "_allgroups", 
-                    paste0("_", experGrp, "_vs_", controlGrp)), ".pdf"), 
-      width=(ncol(heatmap.data_top)*25+300)/72, height=(nrow(heatmap.data_top)*18+150)/72)
+  if(showallgroups){
+    heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
+                                  annotation = legend_annotation, 
+                                  color = plottingPalettes(100, type = "continuous"),
+                                  #one-by-one usage
+                                  annotation_colors = collegend_annotation,
+                                  cluster_rows = T, 
+                                  cluster_cols = T, 
+                                  scale = "row"
+    )
+    pdf(paste0(fileLoc, "heatmap_allgroups.pdf"), 
+        width=7, 
+        height=20)
+  }else{
+    heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
+                                  annotation = legend_annotation, 
+                                  color = plottingPalettes(100, type = "continuous"),
+                                  #one-by-one usage
+                                  annotation_colors = collegend_annotation,
+                                  fontsize = 8, 
+                                  fontsize_row = 8, 
+                                  cluster_rows = T, 
+                                  cluster_cols = F, 
+                                  scale = "row"
+    )
+    pdf(paste0(fileLoc, "heatmap_top", showtop, 
+               ifelse(showallgroups, "_allgroups", 
+                      paste0("_", experGrp, "_vs_", controlGrp)), ".pdf"), 
+        width=(ncol(heatmap.data_top)*25+300)/72, height=(nrow(heatmap.data_top)*18+150)/72)
+  }
   grid::grid.newpage()
   grid::grid.draw(heatmap$gtable)
   dev.off()

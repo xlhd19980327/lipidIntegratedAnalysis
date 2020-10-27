@@ -18,10 +18,11 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "DGAT1i+2i"
-dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/HeLaData/input/data_tidy_testFormat.csv", 
-                            controlGrp = "OA", dataType = "MS_DIAL", delOddChainOpt = T,
-                            fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/")
+analOpt <- "COLD"
+dataSet <- readingLipidData(datafile = "./testData/cold_induced/input/lipid_tidy.CSV", 
+                            controlGrp = "RT", dataType = "LipidSearch", delOddChainOpt = T,
+                            fileLoc = "./testData/cold_induced/output/", 
+                            na.char = "######")
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
@@ -46,7 +47,7 @@ if(analOpt == "group_by_group"){
   cat("All groups will be analyzed together\n")
   mSet <- MARpreproc(dataSet = dataSet)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
-             fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
+             fileLoc = "./testData/cold_induced/output/MARresults/")
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
                  fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
                  topnum = 75)
@@ -62,30 +63,31 @@ if(analOpt == "group_by_group"){
   
   mSet <- MARpreproc(dataSet = dataset)
   lipVolcanoPlot(dataSet = dataset, mSet = mSet, 
-                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
+                 fileLoc = "./testData/cold_induced/output/MARresults/")
   lipPCAPlot(dataSet = dataset, mSet = mSet, 
-                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
+                 fileLoc = "./testData/cold_induced/output/MARresults/")
   lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
-                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
+                 fileLoc = "./testData/cold_induced/output/MARresults/", 
                  topnum = 75)
   
   headgroupStat(dataSet = dataset, mSet = mSet, 
-                fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
+                fileLoc = "./testData/cold_induced/output/headgroup/")
   FAchainStat(dataSet = dataset, mSet = mSet, 
-              fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
+              fileLoc = "./testData/cold_induced/output/FAchainVisual/", 
               plotInfo = "FA_info")
 }
 
 ##FAchainStat output: lipid_subclass_integStat, use it to do our stat
 ##!!!Client options: can be [expr group]
-lipsample <- "DGAT1i+2i"
+lipsample <- "COLD"
 dataset <- prepDataSet(lipsample)
 mSet <- MARpreproc(dataSet = dataset)
 stat_res <- FAchainStat(dataSet = dataset, mSet = mSet, 
                         #fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
                         #"plotInfo", "stat" can not modify
                         plotInfo = "FA_info", stat = T)
+##!!!!!WARNING: Result file may have duplicated gene, should fix it!!
 statFAChains(lipid_subclass_tidyStat = stat_res, 
-             fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/", 
-             lipsample = lipsample, spe = "hsa")
+             fileLoc = "./testData/cold_induced/output/", 
+             lipsample = lipsample, spe = "mmu")
 

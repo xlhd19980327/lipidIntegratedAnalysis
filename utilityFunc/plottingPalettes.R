@@ -1,6 +1,6 @@
 plottingPalettes <- function(n, type){
   if(type == "continuous"){
-    color <- pal_gsea("default", n = n, reverse = TRUE)(n)
+    color <- pal_gsea("default", n = n, reverse = F)(n)
   }
   if(type == "discrete"){
     if(n <= 10){

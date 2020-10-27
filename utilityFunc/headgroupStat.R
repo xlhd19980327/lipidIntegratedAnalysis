@@ -34,21 +34,6 @@ headgroupStat <- function(dataSet, mSet,
   fasInfo <- lapply(lipids, getFAsInfo)
   ms1Info <- sapply(fasInfo, function(x) x$ms1)
   data_tidy <- cbind(data_tidy, ms1 = ms1Info)
-  data_sub_ms1 <- subset(data_tidy, subset = ms1 == T)
-  data_sub_ms2 <- subset(data_tidy, subset = ms1 == F)
-  # Tidy and integrate itensity of lipid class containing FA chain info
-  # Use MS2 to do the later statistics only
-  lipid_subclass_handle <- data.frame()
-  for(i in 1:nrow(data_tidy)){
-    # e,p connection info will be ignored
-    fa <- fasInfo[[i]][[1]]
-    Class <- names(fasInfo[[i]][1])
-    subclass <- paste0(Class, "(", fa, ")")
-    lipid_subclass_handle <- rbind(lipid_subclass_handle, 
-                                   cbind(subclass = subclass, 
-                                         bind_rows(replicate(length(subclass), data_tidy[i, ], simplify = FALSE))))
-  }
-  lipid_subclass_handle <- subset(lipid_subclass_handle, subset = ms1 == F)
   
   ### Tidy for and do Visualization ###
   ## Use data_tidy(Delete duplication) to calculate itensity of each lipid class

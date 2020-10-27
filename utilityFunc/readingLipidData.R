@@ -1,5 +1,5 @@
 readingLipidData <- function(datafile, controlGrp = "", dataType, 
-                             lipField = NA, delOddChainOpt = T, fileLoc){
+                             lipField = NA, delOddChainOpt = T, fileLoc, na.char = NULL){
   if(dataType == "LipidSearch"){
     if(is.na(lipField)){
       lipField <- "LipidIon"
@@ -10,7 +10,8 @@ readingLipidData <- function(datafile, controlGrp = "", dataType,
       lipField <- "Metabolite.name"
     }
   }
-  data <- read.csv(datafile, skip = 1)
+  #!!!!!WARNING: The NA string may be others, may add the char clients customized 
+  data <- read.csv(datafile, skip = 1, na.strings = c("N/A", "NA", na.char))
   #NOTE1-ref: may have the first character garbled
   firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
                     na.strings = c("N/A", "NA"))
@@ -29,6 +30,9 @@ readingLipidData <- function(datafile, controlGrp = "", dataType,
   ### Check Data Integrity ###
   if(min(nsamples) < 3){
     stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
+  }
+  if(any(!(apply(data[, which(firstline != "")], 2, is.numeric)))){
+    stop("Data contain non-numeric variable. You may check the NA string and offer na.char parameter. PROGRAM EXIT!")
   }
   
   ### Formatting data ###
@@ -96,7 +100,9 @@ readingLipidData <- function(datafile, controlGrp = "", dataType,
   lipidName <- data$lipidName
   data <- subset(data, select = -lipidName)
   data_output <- cbind(lipidName = lipidName, data)
-  write.csv(data_output, paste0(fileLoc, "data_tidy.csv"), row.names = F)
+  if(!is.na(fileLoc)){
+    write.csv(data_output, paste0(fileLoc, "data_tidy.csv"), row.names = F)
+  }
   return(list(
     data = data, lipidName = lipidName, 
     groupsLevel = groupsLevel, allgroups = allgroups, controlGrp = controlGrp, nsamples = nsamples, 
