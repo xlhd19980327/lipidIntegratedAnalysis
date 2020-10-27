@@ -61,10 +61,9 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
   }
   R_ind <- integ_ind(R_ind, "R_dataInd")
   P_ind <- integ_ind(P_ind, "P_dataInd")
-  reaction_ind <- full_join(R_ind, P_ind)
+  reaction_ind <- inner_join(R_ind, P_ind)
   reaction_ind_list <- split(reaction_ind, reaction_ind$libInd)
   getReactionInfo <- function(ind, data = lipidsubclass){
-    libind <- unique(ind$libind)
     getInd <- function(x, y = ind){
       res <- y[[x]][!is.na(y[[x]])]
       res <- unique(res)
@@ -80,8 +79,27 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
     ))
   }
   reaction_info <- lapply(reaction_ind_list, getReactionInfo)
-  names(reaction_info) <- integReact_filter[as.numeric(names(reaction_info)), ]$gene_symbol
-  
+  gene_info <- data.frame(
+    gene = integReact_filter[as.numeric(names(reaction_info)), ]$gene_symbol,
+    libInd = names(reaction_info)
+  )
+  libIndList <- split(gene_info$libInd, gene_info$gene)
+  bindGeneList <- function(ind){
+    ind <-  names(reaction_info) %in% ind
+    data <- reaction_info[ind]
+    R_lipid <- data.frame()
+    P_lipid <- data.frame()
+    for(i in data){
+      R_lipid <- rbind(R_lipid, data.frame(i[["R_lipid"]]))
+      P_lipid <- rbind(P_lipid, data.frame(i[["P_lipid"]]))
+    }
+    return(list(
+      R_lipid = unique(R_lipid), 
+      P_lipid = unique(P_lipid)
+    ))
+  }
+  reaction_info <- lapply(libIndList, bindGeneList)
+
   ## Statistics use our methods, use t-test to test the statistics(log2FC difference)
   getRegState <- function(data){
     R_info <- subset(data[["R_lipid"]], subset = group == lipsample)

@@ -52,3 +52,11 @@ fileLoc = "./testData/cold_induced/output/"
 
 ## Test DESeq2preproc
 dataSet = dataSet_RNA
+
+## Test statFAChains
+lipid_subclass_tidyStat = stat_res
+fileLoc = "./testData/cold_induced/output/"
+lipsample = lipsample
+spe = "mmu"
+
+
