@@ -1,12 +1,14 @@
 ### NOTE: RNA-seq expression file should be exported as "tsv"/"csv" file(Integrate "csv" inputs into final function already)
+### NOTE: The 1st colum should be gene symbol/gene id or something like this ###
 ### NOTE2: Clients should prepare a sample-list file indicate the experiment design info
 ### NOTE2: Sample-list file should be a "csv" file ###
 ### NOTE2: Sample-list file should have the following feature columns: ###
 ### NOTE2: samples(sample names), conditions(usually the experiment design grouping info)
 ### NOTE2: Sample-list file may(optical) have the following feature columns: ###
 ### NOTE2: batch(batch info, for removing batch effect) ###
+### NOTE2: conditions colum should only use letters/numbers/underscores for grouping identifiers ###
 ### NOTE2: if batch colum exisits, program will automatically remove batch effect, ###
-### Developer can add a option about removing batch effect(Not achieve yet) 
+### ?Developer may add a option about removing batch effect(Not achieve yet) 
 ### NOTE3: RNA-seq expression data should have gene info(gene_id/gene name) in the 1st column ###
 ### NOTE3: RNA-seq expression data should have columns names which are same as the sample-list file "samples" colum ###
 ### NOTE3: DESeq2 notes: RNA-seq expression data should use un-normalized counts(Raw counts) as input ###

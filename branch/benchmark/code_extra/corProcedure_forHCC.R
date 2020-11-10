@@ -1,19 +1,25 @@
+## Do correlation
 library(tidyverse)
 library(pheatmap)
 options(stringsAsFactors = F)
-source("./utilityFunc/readingLipidData.R")
+source("./branch/benchmark/code_extra/readingLipidData_add.R")
 source("./utilityFunc/readingRNAData.R")
 
 h_gene=18
 h_lipid=10
 
-## Data input
-lipiddataSet <- readingLipidData(datafile = "./testData/cold_induced/input/lipid_tidy_forcor.CSV", 
-                                 dataType = "LipidSearch", delOddChainOpt = T,
-                                 fileLoc = NA, 
-                                 na.char = "######")
-genedataSet <- readingRNAData(datafile = "./testData/cold_induced/input/rna_genesymbol.CSV", 
-                              sampleList = "./testData/cold_induced/input/sampleList.CSV")
+## Data input1(HCC)
+lipiddataSet <- readingLipidData(datafile = "./branch/benchmark/input/lipid_tidy_forcor.CSV", 
+                            controlGrp = "Fasn_pos_  mice injected with PLASMIDS", 
+                            dataType = "HCC", delOddChainOpt = F, lipField = "LipidName",
+                            fileLoc = NA, na.char = "")
+genedataSet <- readingRNAData(datafile = "./branch/benchmark/input/gene_tidy.CSV", 
+                              sampleList = "./branch/benchmark/input/sampleList.CSV")
+## Data input2(Han)
+lipiddataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv", 
+                                 controlGrp = "", 
+                                 dataType = "LipidSearch", delOddChainOpt = F,
+                                 fileLoc = NA)
 
 ## Tidy the input files
 alllipidnames <- lipiddataSet$lipidName

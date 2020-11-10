@@ -1,414 +1,414 @@
-reaction_id,R_lipid,P_lipid
-R-MMU-193385,choloyl-CoA,cholate
-R-MMU-2066779,FA(22:6)-CoA,FA(22:6)
-R-MMU-390304,FA(2:0)-CoA,acetate
-R-MMU-1482533,2-acyl LPC,PC
-R-MMU-1482533,acyl-CoA,CoA
-R-MMU-1482547,1-acyl LPC,PC
-R-MMU-1482547,acyl-CoA,CoA
-R-MMU-1482636,1-acyl LPS,PS
-R-MMU-1482636,acyl-CoA,CoA
-R-MMU-1482646,2-acyl LPE,PE
-R-MMU-1482646,acyl-CoA,CoA
-R-MMU-1482667,1-acyl LPE,PE
-R-MMU-1482667,acyl-CoA,CoA
-R-MMU-1482691,2-acyl LPS,PS
-R-MMU-1482691,acyl-CoA,CoA
-R-MMU-1482961,DAG,PC
-R-MMU-1482962,DAG,PE
-R-MMU-1482962,CDP-ethanolamine,CMP
-R-MMU-1483121,PA,CDP-DAG
-R-MMU-1483121,CTP,CDP-DAG
-R-MMU-1482976,CDP-DAG,PI
-R-MMU-1482976,CDP-DAG,CMP
-R-MMU-191972,ChE-(27)OH,"Cholest-5-ene-3beta,7alpha,27-triol"
-R-MMU-192051,ChE,ChE-(7)OH
-R-MMU-192065,ChE-(25)OH,"cholest-5-ene-3beta,7alpha,25-triol"
-R-MMU-75885,1-acyl LPA,PA
-R-MMU-428127,FA(16:0)-CoA,3-ketosphinganine
-R-MMU-192061,ChE,ChE-(24)OH
-R-MMU-6814254,LPC,FA(13_22:xx)
-R-MMU-6814254,LPC,glycerophosphocholine
-R-MMU-192137,"THCA (25(R) 3alpha,7alpha,12alpha-trihydroxy-5beta-cholestanoate)",25(R) THCA-CoA
-R-MMU-193407,"DHCA (25(R) 3alpha,7alpha-dihydroxy-5beta-cholestanoate)",25(R) DHCA-CoA
-R-MMU-193766,"TetraHCA (25(R) 3alpha,7alpha,12alpha,24(S)-tetrahydroxy-5beta-cholestanoate)",25(R) TetraHCA-CoA
-R-MMU-193401,"THCA (25(R) 3alpha,7alpha,12alpha-trihydroxy-5beta-cholestanoate)",25(R) THCA-CoA
-R-MMU-1482771,PS,1-acyl LPS
-R-MMU-1482771,PS,FA(13_22:xx)
-R-MMU-1482825,PI,1-acyl LPI
-R-MMU-1482825,PI,FA(13_22:xx)
-R-MMU-1482856,PC,1-acyl LPC
-R-MMU-1482856,PC,FA(13_22:xx)
-R-MMU-1482884,PE,1-acyl LPE
-R-MMU-1482884,PE,FA(13_22:xx)
-R-MMU-1855221,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-1855221,"PI-(4,5)P2",DAG
-R-MMU-1482543,2-MAG,FA
-R-MMU-1482543,2-MAG,Glycerol
-R-MMU-2045911,"PI-(3,4,5)P3","PI-(4,5)P2"
-R-MMU-1855214,"PI-(4,5)P2",DAG
-R-MMU-1855214,"PI-(4,5)P2","inositol-(1,4,5)P4"
-R-MMU-428260,Cer(d18:0/xx:xx),Cer(t18:0/xx:xx)
-R-MMU-1482612,2-acyl LPC,glycerophosphocholine (GPCho)
-R-MMU-1482612,2-acyl LPC,FA(13_22:xx)
-R-MMU-1482685,1-acyl LPC,glycerophosphocholine (GPCho)
-R-MMU-1482685,1-acyl LPC,FA(13_22:xx)
-R-MMU-1482828,PE,2-acyl LPE
-R-MMU-1482828,PE,FA(13_22:xx)
-R-MMU-1482862,PC,2-acyl LPC
-R-MMU-1482862,PC,FA(13_22:xx)
-R-MMU-1482932,PI,2-acyl LPI
-R-MMU-1482932,PI,FA(13_22:xx)
-R-MMU-428231,Cer,FA(18:0)
-R-MMU-428231,Cer,SPH(d18:1)
-R-MMU-428664,SPH(d18:1)-(1)P,SPH(d18:1)
-R-MMU-428701,SPH(d18:1)-(1)P,SPH(d18:1)
-R-MMU-428701,SPH(d18:1)-(1)P,orthophosphate
-R-MMU-6814797,LPC,ChoP (phosphocholine)
-R-MMU-6814797,LPC,MAG
-R-MMU-549112,Glycerol-3-phosphate (G3P),1-acyl LPA
-R-MMU-549112,acyl-CoA,CoA
-R-MMU-8959462,Cer,ceramide phosphoethanolamine
-R-MMU-8959462,PE,ceramide phosphoethanolamine
-R-MMU-6789310,TAG,DAG
-R-MMU-6789310,TAG,carboxylate(RCOOH)
-R-MMU-1676109,PI-(4)P,"PI-(3,4)P2"
-R-MMU-437162,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-6792445,PA,2-acyl LPA
-R-MMU-6792445,PA,FA(13_22:xx)
-R-MMU-8848339,TAG,DAG
-R-MMU-8848339,TAG,FA(13_22:xx)
-R-MMU-2161814,FA(20:4),FA(20:4)-(19)OH
-R-MMU-2161940,FA(20:4),FA(20:4)-(20)OH
-R-MMU-9027043,FA(22:6),FA(22:6)-(14)OH
-R-MMU-1606602,Cer,carboxylate
-R-MMU-1606602,Cer,SPH(d18:1)
-R-MMU-76466,FA(12:0),FA(12:0)-(12)OH
-R-MMU-193054,ChE,ChE-(22)OH
-R-MMU-193065,ChE-(22)OH,"ChE-(20,22)OH2"
-R-MMU-192123,ChE,ChE-(27)OH
-R-MMU-428185,SPH(d18:0),Cer(d18:0/xx:xx)
-R-MMU-428185,stearyl-CoA,Cer(d18:0/xx:xx)
-R-MMU-201035,FA(16:0),FA(16:0)-CoA
-R-MMU-434382,FA(16:0),FA(16:0)-CoA
-R-MMU-548843,FA(20:4),FA(20:4)-CoA
-R-MMU-5692261,FA(16:0),FA(16:1)
-R-MMU-2161950,FA(20:4),FA(20:4)-(12)OOH
-R-MMU-2162002,FA(20:4),FA(20:4)-(15)OOH
-R-MMU-2161791,FA(20:4)-(15)OOH,FA(20:4)-(15)OH
-R-MMU-2161791,Reduced glutathione,oxidized glutathione
-R-MMU-2161999,FA(20:4)-(12)OOH,FA(20:4)-(12)OH
-R-MMU-2161999,Reduced glutathione,oxidized glutathione
-R-MMU-9018868,FA(20:5)-(18)OOH,FA(20:5)-(18)OH
-R-MMU-9018868,Reduced glutathione,oxidized glutathione
-R-MMU-9018895,FA(20:5)-(18)OOH,FA(20:5)-(18)OH
-R-MMU-9018895,Reduced glutathione,oxidized glutathione
-R-MMU-9020271,FA(22:6)-(17)OOH,FA(22:6)-(17)OH
-R-MMU-9020271,Reduced glutathione,oxidized glutathione
-R-MMU-9020273,FA(22:6)-(17)OOH,FA(22:6)-(17)OH
-R-MMU-9020273,Reduced glutathione,oxidized glutathione
-R-MMU-211924,FA(20:4),FA(20:4)-(12)OH
-R-MMU-5696448,MAG,DAG
-R-MMU-5696448,Acyl-CoA,CoA
-R-MMU-1676005,"PI-(3,5)P2",PI-(3)P
-R-MMU-1676020,"PI-(3,5)P2",PI-(3)P
-R-MMU-1676174,"PI-(3,5)P2",PI-(3)P
-R-MMU-75872,acetyl-CoA,FA(16:0)
-R-MMU-75872,malonyl-CoA,FA(16:0)
-R-MMU-426032,DAG,2-MAG
-R-MMU-426032,DAG,FA
-R-MMU-1602368,PG,1-acyl LPG
-R-MMU-1602368,PG,FA(13_22:xx)
-R-MMU-1602374,PS,1-acyl LPS
-R-MMU-1602374,PS,FA(13_22:xx)
-R-MMU-1602377,PI,1-acyl LPI
-R-MMU-1602377,PI,FA(13_22:xx)
-R-MMU-1602398,PE,1-acyl LPE
-R-MMU-1602398,PE,FA(13_22:xx)
-R-MMU-1602417,PC,1-acyl LPC
-R-MMU-1602417,PC,FA(13_22:xx)
-R-MMU-1602446,PA,1-acyl LPA
-R-MMU-1602446,PA,FA(13_22:xx)
-R-MMU-5695957,FA(23_:xx),FA(23_:xx)-CoA
-R-MMU-5695957,CoA,FA(23_:xx)-CoA
-R-MMU-111879,"PI-(4,5)P2",DAG
-R-MMU-111879,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-1855177,"PI-(4,5)P2",DAG
-R-MMU-1855177,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-398193,"PI-(4,5)P2",DAG
-R-MMU-398193,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-399998,"PI-(4,5)P2",DAG
-R-MMU-399998,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-1675773,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-1676082,PI-(4)P,"PI-(4,5)P2"
-R-MMU-1676145,PI-(3)P,"PI-(3,4)P2"
-R-MMU-8868066,PI-(4)P,"PI-(4,5)P2"
-R-MMU-9021627,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-8952251,lysoPC,GPCho(glycerophosphorylcholine)
-R-MMU-8952251,lysoPC,FA(13_22:xx)
-R-MMU-9020274,FA(22:6),FA(22:6)-(14)OH
-R-MMU-9027624,FA(22:6),FA(22:6)-(7)OH
-R-MMU-9027628,FA(20:5),FA(20:5)-(5)OH
-R-MMU-9020275,FA(22:6),FA(22:6)-(17)OH
-R-MMU-1482539,1-acyl LPG,PG
-R-MMU-1482539,acyl-CoA,CoA
-R-MMU-1482635,2-acyl LPG,PG
-R-MMU-1482635,acyl-CoA,CoA
-R-MMU-1482745,PG,1-acyl LPG
-R-MMU-1482745,PG,FA(13_22:xx)
-R-MMU-1482847,PG,2-acyl LPG
-R-MMU-1482847,PG,FA(13_22:xx)
-R-MMU-1482897,PS,2-acyl LPS
-R-MMU-1482897,PS,FA(13_22:xx)
-R-MMU-1482920,PG,2-acyl LPG
-R-MMU-1482920,PG,FA(13_22:xx)
-R-MMU-429798,PC,DAG
-R-MMU-8868072,PI-(4)P,"PI-(3,4)P2"
-R-MMU-1675949,"PI-(3,4,5)P3","PI-(3,4)P2"
-R-MMU-1676177,"PI-(4,5)P2",PI-(4)P
-R-MMU-1482604,PA,1-acyl LPA
-R-MMU-1482604,PA,FA(13_22:xx)
-R-MMU-1482656,PA,1-acyl LPA
-R-MMU-1482656,PA,FA(13_22:xx)
-R-MMU-1482900,PG,1-acyl LPG
-R-MMU-1482900,PG,FA(13_22:xx)
-R-MMU-77277,FA(16:1)-CoA,FA(16:0)-(3)OH-CoA
-R-MMU-77301,FA(14:1)-CoA,FA(14:0)-(3)OH-CoA
-R-MMU-1675939,PI,PI-(3)P
-R-MMU-1675961,PI,PI-(3)P
-R-MMU-1676024,PI,PI-(3)P
-R-MMU-5672012,PI,PI-(3)P
-R-MMU-6798174,PI,PI-(3)P
-R-MMU-428205,Cer,FA(18:0)
-R-MMU-428205,Cer,SPH(d18:1)
-R-MMU-1676162,"PI-(3,4)P2",PI-(3)P
-R-MMU-1676164,"PI-(3,4)P2",PI-(3)P
-R-MMU-202237,"PI-(3,4,5)P3","PI-(3,4)P2"
-R-MMU-1675824,"PI-(4,5)P2",PI-(4)P
-R-MMU-1675836,"PI-(3,5)P2 ",PI-(3)P
-R-MMU-1675988,PI-(4)P,PI
-R-MMU-8848484,PC,LPC
-R-MMU-8848484,PC,FA
-R-MMU-1482816,PC,1-acyl LPC
-R-MMU-1482816,PC,FA(13_22:xx)
-R-MMU-1482887,PE,1-acyl LPE
-R-MMU-1482887,PE,FA(13_22:xx)
-R-MMU-8869425,PS,2-acyl LPS
-R-MMU-8869425,PS,FA(13_22:xx)
-R-MMU-1675928,PI-(4)P,"PI-(3,4)P2"
-R-MMU-1676206,PI-(4)P,"PI-(3,4)P2"
-R-MMU-1250370,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-1306957,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-1433514,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-202365,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-2029271,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-2424480,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-389158,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-5218819,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-5654701,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-5654717,"PI-(4,5)P2","PI-(3,4,5)P3"
-R-MMU-1675813,PI,PI-(4)P
-R-MMU-1676185,PI,PI-(4)P
-R-MMU-1675883,PI,PI-(4)P
-R-MMU-1675776,PI-(5)P,"PI-(4,5)P2"
-R-MMU-6811522,PI-(5)P,"PI-(4,5)P2"
-R-MMU-1482679,PA,1-acyl LPA
-R-MMU-1482679,PA,FA(13_22:xx)
-R-MMU-1482776,PS,1-acyl LPS
-R-MMU-1482776,PS,FA(13_22:xx)
-R-MMU-1482868,PI,1-acyl LPI
-R-MMU-1482868,PI,FA(13_22:xx)
-R-MMU-1482907,PG,1-acyl LPG
-R-MMU-1482907,PG,FA(13_22:xx)
-R-MMU-111883,PC,FA(20:4)
-R-MMU-111883,PC,LPC
-R-MMU-202407,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-202407,"PI-(4,5)P2",DAG
-R-MMU-114689,"PI-(4,5)P2","inositol-(1,4,5)P3"
-R-MMU-114689,"PI-(4,5)P2",DAG
-R-MMU-1483182,PC,PA
-R-MMU-1483182,PC,choline
-R-MMU-6809720,PI-(3)P,PI
-R-MMU-1482546,2-acyl LPG,PG
-R-MMU-1482546,acyl-CoA,CoA
-R-MMU-1482689,2-acyl LPG,PG
-R-MMU-1482689,acyl-CoA,CoA
-R-MMU-1483063,DAG-CDP,CL
-R-MMU-1483063,PG,CL
-R-MMU-1675780,PI,PI-(4)P
-R-MMU-1675974,PI,PI-(4)P
-R-MMU-1482548,1-acyl LPA,PA
-R-MMU-1482548,acyl-CoA,CoA
-R-MMU-428214,SPH(d18:0),SPH(d18:0)-(1)P
-R-MMU-428273,SPH(d18:1),SPH(d18:1)-(1)P
-R-MMU-1482973,CDP-choline,PC
-R-MMU-1482973,DAG,PC
-R-MMU-1482654,2-MAG,DAG
-R-MMU-1482654,2-MAG,Glycerol
-R-MMU-1482777,TAG,DAG
-R-MMU-1482777,TAG,FA(13_22:xx)
-R-MMU-1482811,DAG,2-MAG
-R-MMU-1482811,DAG,FA(13_22:xx)
-R-MMU-1676149,"PI-(3,4)P2",PI-(4)P
-R-MMU-199456,"PI-(3,4,5)P3","PI-(4,5)P2"
-R-MMU-6786650,PA,1-acyl LPA
-R-MMU-6786650,PA,FA(13_22:xx)
-R-MMU-1483089,PE,ethanolamine(ETA)
-R-MMU-1483089,PE,PS
-R-MMU-389891,FA(19:0)-CoA,FA(19:1)-CoA
-R-MMU-1675810,PI,PI-(5)P
-R-MMU-1676134,PI-(3)P,"PI-(3,5)P2"
-R-MMU-3772436,PI-(4)P,"PI-(4,5)P2"
-R-MMU-1482889,DAG,TAG
-R-MMU-1482889,acyl-CoA,CoA
-R-MMU-549192,DAG,TAG
-R-MMU-549192,FA-CoA,TAG
-R-MMU-428259,Cer(d18:0/xx:xx),Cer
-R-MMU-1482827,PC,2-acyl LPC
-R-MMU-1482827,PC,FA(13_22:xx)
-R-MMU-1482892,PE,2-acyl LPE
-R-MMU-1482892,PE,FA(13_22:xx)
-R-MMU-428690,SPH(d18:1)-(1)P,SPH(d18:1)
-R-MMU-428690,SPH(d18:1)-(1)P,orthophosphate
-R-MMU-428696,SPH(d18:1)-(1)P,SPH(d18:1)
-R-MMU-428696,SPH(d18:1)-(1)P,orthophosphate
-R-MMU-75900,DAG,TAG
-R-MMU-75900,FA-CoA,TAG
-R-MMU-1483165,PA,CDP-DAG
-R-MMU-1483165,CTP,CDP-DAG
-R-MMU-1675994,PI-(3)P,PI
-R-MMU-1676203,"PI-(3,5)P2",PI-(5)P
-R-MMU-191983,ChE,ChE-(25)OH
-R-MMU-6810410,"PI-(4,5)P2",PI-(5)P
-R-MMU-8980228,TAG,DAG
-R-MMU-8980228,TAG,FA(13_22:xx)
-R-MMU-1483186,PC,PS
-R-MMU-1483186,PC,choline
-R-MMU-1606273,SM(d18:1/xx:xx),Cer
-R-MMU-1606273,SM(d18:1/xx:xx),Choline phosphate
-R-MMU-1606288,SM(d18:1/xx:xx),Cer
-R-MMU-1606288,SM(d18:1/xx:xx),Choline phosphate
-R-MMU-429798,Cer,SM(d18:1/xx:xx)
-R-MMU-1605797,SM(d18:1/xx:xx),Cer
-R-MMU-1605797,SM(d18:1/xx:xx),Choline phosphate
-R-MMU-1638845,Cer,ceramide 1-phosphate
-R-MMU-1855223,"PI(1,3,4,5,6)5",5-PP-IP4
-R-MMU-1855178,Glc6P,PI3
-R-MMU-162830,Dolichyl phosphate D-mannose,dolichyl phosphate
-R-MMU-162830,glucosaminyl-acyl-PI,mannose (a1-4) glucosaminyl-acyl-PI
-R-MMU-1855206,"PI(1,3,4,5)4","PI(1,3,4,5,6)5"
-R-MMU-1861788,Glucosylceramide,Cer
-R-MMU-1855157,1-PP-PI5,"1,5-(PP)2-PI4 "
-R-MMU-1855171," PI(1,3,4,6)4","PI(1,3,4)3"
-R-MMU-1855158,5-PP-PI5,5-PPP-PI5
-R-MMU-1855165,(PP)2-PI4,5-PP-PI5
-R-MMU-192425,MAG,glycerol
-R-MMU-192425,MAG,FA(13_22:xx)
-R-MMU-1482759,2-monolysocardiolipin,"2,2'-dilysocardiolipin"
-R-MMU-1482759,2-monolysocardiolipin,FA(13_22:xx)
-R-MMU-9026408,FA(22:5),13(R)-hydroxy-docosapentaenoic acid
-R-MMU-1855232,"PI(1,3,4)3 ","PI(3,4)2"
-R-MMU-1855194,1-PP-PI5,"1,5-(PP)2-PI4"
-R-MMU-1855174,"PI(1,4,5)3","PI(1,4)2 "
-R-MMU-1855224,5-PP-PI5 ,5-PPP-PI5
-R-NUL-1675925,PI3P,"PI(3,5)P2"
-R-MMU-428676,Sphingosine-1-phosphate,trans-hexadec-2-enal
-R-MMU-428676,Sphingosine-2-phosphate,phosphoethanolamine
-R-MMU-162730,PI,N-acetylglucosaminyl-PI
-R-MMU-162730,UDP-GlcNAc ,UDP
-R-MMU-1855208,"PI(1,4)2",PI4
-R-MMU-1855227,PI6  ,5-PP-PI5
-R-MMU-1855210,PI3,Inositol
-R-MMU-1855172,"PI(1,3,4)3 ","PI(1,3,4,5)4"
-R-MMU-1482571,1-acyl LPE,Glycerophosphoethanolamine
-R-MMU-1482571,1-acyl LPE,FA(13_22:xx)
-R-MMU-71031,propionyl-CoA,D-methylmalonyl-CoA
-R-MMU-1855225,PI6,"PI(1,2,4,5,6)5"
-R-MMU-3446785,PGP,PG 
-R-MMU-1855159,"PI(1,3,4,6)4 ","PI(3,4,6)3 "
-R-MMU-1855205,"PI(1,3,4,5)4","PI(1,4,5)3"
-R-MMU-1855230,5-PP-IP4,"1,5-(PP)2-IP3 "
-R-MMU-1855153,"I(1,4,5)P3","I(1,3,4,5)P4"
-R-MMU-1855219,"PI(1,3,4,5,6)5","PI(3,4,5,6)4 "
-R-MMU-1855213,"PI(1,3,4,5)4 ","PI(1,3,4)3 "
-R-MMU-1855179,"PI(1,3,4,5,6)5 ",PI6 
-R-MMU-6785933,Cer,GalCer
-R-MMU-6785933,UDP-Gal,UDP 
-R-MMU-1638104,Cer,Glucosylceramide
-R-MMU-1638104,UDP-Glc ,UDP 
-R-MMU-5617143,UDP-glucuronic acid,UDP
-R-MMU-1855169,"PI(3,4,6)3","PI(1,3,4,6)4"
-R-MMU-1855162,"PI(3,4,5,6)4 ","PI(1,3,4,5,6)5 "
-R-MMU-9032476,"PI(4,5)P2 ",DAGs 
-R-MMU-9032476,"PI(4,5)P2 ","PI(1,4,5)3 "
-R-MMU-1855181,"PI(1,3,4,5,6)5",5-PP-IP4 
-R-MMU-1855166,PP-IP4 ,"I(1,3,4,5,6)P5 "
-R-MMU-1855185,"I(1,4,5,6)P4 ","I(1,3,4,5,6)P5 "
-R-MMU-1855176,"I(1,3,4,5,6)P5 ",IP6 
-R-MMU-1855193,1-PP-IP4 ,"1,5-(PP)2-IP3 "
-R-MMU-8847904,1-O-acyl-sn-glycero-3-phosphocholine,choline alfoscerate
-R-MMU-8847904,1-O-acyl-sn-glycero-3-phosphocholine,FA(13_22:xx)
-R-MMU-994140,"PI(1,3,4)3 ","PI(1,3,4,5)4"
-R-MMU-1855207,IP6 ,5-PP-IP5
-R-MMU-1855198,5-PP-IP5,IP6
-R-MMU-1483172,Glycerol,choline
-R-MMU-1483172,PC,PG
-R-MMU-1482696,2-lysophosphatidylcholine,choline alfoscerate
-R-MMU-1482696,2-lysophosphatidylcholine,FA(13_22:xx)
-R-MMU-1855200,"I(1,3,4,5)P4","I(1,4,5)P3"
-R-MMU-1855180,"PI(1,3,4)3 ","PI(1,3)2"
-R-MMU-1855154,PI1,Inositol
-R-NUL-1675982,PI3P,"PI(3,5)P2 "
-R-MMU-1855211,PI4,Inositol
-R-MMU-75886,FA-CoA ,CoA-SH
-R-MMU-1855222,"PI(1,4,5)3","PI(1,4)2 "
-R-MMU-1855163,"I(1,3,4,5,6)P5 ","I(1,4,5,6)P4 "
-R-MMU-1606583,Cer,SPH(d18:0)
-R-MMU-1482629,2-acyl LPC ,glycerophosphocholine
-R-MMU-1482629,2-acyl LPC ,FA(13_22:xx)
-R-MMU-1606564,GalCer,Cer
-R-MMU-1606564,GalCer,Glc
-R-MMU-162683,FACoA ,CoA-SH
-R-MMU-162683,glucosaminyl-PI , glucosaminyl-acyl-PI
-R-MMU-994137,"PI(3,4,5,6)4","PI(1,3,4,5,6)5"
-R-MMU-1605591,Glucosylceramide,Cer
-R-MMU-1605591,Glucosylceramide,Glc
-R-MMU-2023973,(PP)2-IP4,1/3-PP-IP5 
-R-MMU-266046,leukotriene C4,GLU
-R-MMU-77323,(S)-3-hydroxyhexanoyl-CoA,3-Oxohexanoyl-CoA 
-R-MMU-75886,Glycerol-3-phosphate,1-acyl-glycerol 3-phosphate
-R-MMU-70859,isobutyryl-CoA,methacrylyl-CoA
-R-MMU-77321,3-Oxohexanoyl-CoA ,Ac-CoA
-R-MMU-77304,CoA-SH,Ac-CoA
-R-MMU-159567,salicylic acid,2-hydroxybenzoyl-CoA
-R-MMU-389609,Pristanal,pristanate 
-R-MMU-8862137,beta-estradiol,estrone
-R-MMU-70745,3-methylbutanoyl-CoA,beta-methylcrotonyl-CoA
-R-MMU-5693691,cocaine,benzoylecgonine
-R-MMU-1483002,acyl-CoA,R-MMU-548843
-R-MMU-200406,carnitine,CoA-SH
-R-MMU-200406,palmitoyl-CoA,L-Palmitoylcarnitine
-R-MMU-193072,progesterone,17alpha-hydroxyprogesterone
-R-MMU-77299,palmitoyl-CoA,(E)-hexadec-2-enoyl-CoA
-R-MMU-1483222,ethanolamine,phosphoethanolamine
-R-MMU-191299,squalene,"(S)-2,3-epoxysqualene"
-R-MMU-176517,3'-phospho-5'-adenylyl sulfate,"adenosine 3',5'-bisphosphate"
-R-MMU-176517,pregnenolone,pregnenolone sulfate
-R-MMU-8943279,GSH,Glu
-R-MMU-8943279,GSH,cysteinylglycine
-R-MMU-5693742,anandamide,ethanolamine
-R-NUL-9616944,"PI(4,5)P2","PI(3,4,5)P3"
-R-MMU-1855202,"PI(3,4)2 ",PI3
-R-MMU-193073,dehydroepiandrosterone,Androstenedione
-R-MMU-1483203,PA,DAG 
-R-MMU-6797955,glycine betaine aldehyde,betaine
-R-MMU-77283,(S)-3-Hydroxytetradecanoyl-CoA,3-Oxotetradecanoyl-CoA 
-R-MMU-1855197,"PI(1,3,4)3","PI(1,3,4,6)4 "
-R-MMU-1855218,"PI(1,3,4,5)4","PI(1,3,4)3 "
-R-MMU-194017,cortexone,corticosterone
-R-MMU-1482545,2-acyl LPE,FA(13_22:xx)
-R-MMU-200555,Ac-CoA,malonyl-CoA
-R-MMU-1855233,"PI(1,4,5)3","PI(1,3,4,5)4"
-R-MMU-1855228,"PI(1,3,4,6)4 ","PI(1,3,4,5,6)5"
-R-MMU-5693761,Cer,2-hydroxyceramide
-R-MMU-1482545,2-acyl LPE,GPETA 
+reaction_id,R_lipid,P_lipid,firstLev,secondLev
+R-MMU-193385,choloyl-CoA,cholate,Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-2066779,FA(22:6)-CoA,FA(22:6),alpha-linolenic acid (ALA) metabolism (Mus musculus),alpha-linolenic (omega3) and linoleic (omega6) acid metabolism (Mus musculus)
+R-MMU-390304,FA(2:0)-CoA,acetate,Beta-oxidation of pristanoyl-CoA (Mus musculus),Peroxisomal lipid metabolism (Mus musculus)
+R-MMU-1482533,2-acyl LPC,PC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482533,acyl-CoA,CoA,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482547,1-acyl LPC,PC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482547,acyl-CoA,CoA,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482636,1-acyl LPS,PS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482636,acyl-CoA,CoA,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482646,2-acyl LPE,PE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482646,acyl-CoA,CoA,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482667,1-acyl LPE,PE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482667,acyl-CoA,CoA,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482691,2-acyl LPS,PS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482691,acyl-CoA,CoA,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482961,DAG,PC,Synthesis of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482962,DAG,PE,Synthesis of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482962,CDP-ethanolamine,CMP,Synthesis of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483121,PA,CDP-DAG,Synthesis of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483121,CTP,CDP-DAG,Synthesis of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482976,CDP-DAG,PI,Synthesis of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482976,CDP-DAG,CMP,Synthesis of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-191972,ChE-(27)OH,"Cholest-5-ene-3beta,7alpha,27-triol",Synthesis of bile acids and bile salts via 27-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-192051,ChE,ChE-(7)OH,Endogenous sterols (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-192065,ChE-(25)OH,"cholest-5-ene-3beta,7alpha,25-triol",Endogenous sterols (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-75885,1-acyl LPA,PA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-428127,FA(16:0)-CoA,3-ketosphinganine,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-192061,ChE,ChE-(24)OH,Endogenous sterols (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-6814254,LPC,FA(13_22:xx),Glycerophospholipid catabolism (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-6814254,LPC,glycerophosphocholine,Glycerophospholipid catabolism (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-192137,"THCA (25(R) 3alpha,7alpha,12alpha-trihydroxy-5beta-cholestanoate)",25(R) THCA-CoA,Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-193407,"DHCA (25(R) 3alpha,7alpha-dihydroxy-5beta-cholestanoate)",25(R) DHCA-CoA,Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-193766,"TetraHCA (25(R) 3alpha,7alpha,12alpha,24(S)-tetrahydroxy-5beta-cholestanoate)",25(R) TetraHCA-CoA,Synthesis of bile acids and bile salts via 24-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-193401,"THCA (25(R) 3alpha,7alpha,12alpha-trihydroxy-5beta-cholestanoate)",25(R) THCA-CoA,Synthesis of bile acids and bile salts via 7alpha-hydroxycholesterol (Mus musculus),Synthesis of bile acids and bile salts (Mus musculus)
+R-MMU-1482771,PS,1-acyl LPS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482771,PS,FA(13_22:xx),Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482825,PI,1-acyl LPI,Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482825,PI,FA(13_22:xx),Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482856,PC,1-acyl LPC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482856,PC,FA(13_22:xx),Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482884,PE,1-acyl LPE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482884,PE,FA(13_22:xx),Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1855221,"PI-(4,5)P2","inositol-(1,4,5)P3",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855221,"PI-(4,5)P2",DAG,Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1482543,2-MAG,FA,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482543,2-MAG,Glycerol,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-2045911,"PI-(3,4,5)P3","PI-(4,5)P2",Antigen activates B Cell Receptor (BCR) leading to generation of second messengers (Mus musculus),Signaling by the B Cell Receptor (BCR) (Mus musculus)
+R-MMU-1855214,"PI-(4,5)P2",DAG,Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855214,"PI-(4,5)P2","inositol-(1,4,5)P4",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-428260,Cer(d18:0/xx:xx),Cer(t18:0/xx:xx),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1482612,2-acyl LPC,glycerophosphocholine (GPCho),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482612,2-acyl LPC,FA(13_22:xx),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482685,1-acyl LPC,glycerophosphocholine (GPCho),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482685,1-acyl LPC,FA(13_22:xx),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482828,PE,2-acyl LPE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482828,PE,FA(13_22:xx),Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482862,PC,2-acyl LPC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482862,PC,FA(13_22:xx),Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482932,PI,2-acyl LPI,Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482932,PI,FA(13_22:xx),Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-428231,Cer,FA(18:0),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428231,Cer,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428664,SPH(d18:1)-(1)P,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428701,SPH(d18:1)-(1)P,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428701,SPH(d18:1)-(1)P,orthophosphate,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-6814797,LPC,ChoP (phosphocholine),Glycerophospholipid catabolism (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-6814797,LPC,MAG,Glycerophospholipid catabolism (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-549112,Glycerol-3-phosphate (G3P),1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-549112,acyl-CoA,CoA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-8959462,Cer,ceramide phosphoethanolamine,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-8959462,PE,ceramide phosphoethanolamine,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-6789310,TAG,DAG,Formation of the cornified envelope (Mus musculus),Keratinization (Mus musculus)
+R-MMU-6789310,TAG,carboxylate(RCOOH),Formation of the cornified envelope (Mus musculus),Keratinization (Mus musculus)
+R-MMU-1676109,PI-(4)P,"PI-(3,4)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-437162,"PI-(4,5)P2","PI-(3,4,5)P3",GPVI-mediated activation cascade (Mus musculus),"Platelet activation, signaling and aggregation (Mus musculus)"
+R-MMU-6792445,PA,2-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-6792445,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-8848339,TAG,DAG,Triglyceride catabolism (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-8848339,TAG,FA(13_22:xx),Triglyceride catabolism (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-2161814,FA(20:4),FA(20:4)-(19)OH,Synthesis of (16-20)-hydroxyeicosatetraenoic acids (HETE) (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2161940,FA(20:4),FA(20:4)-(20)OH,Synthesis of (16-20)-hydroxyeicosatetraenoic acids (HETE) (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-9027043,FA(22:6),FA(22:6)-(14)OH,Biosynthesis of maresin-like SPMs (Mus musculus),Biosynthesis of maresins (Mus musculus)
+R-MMU-1606602,Cer,carboxylate,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1606602,Cer,SPH(d18:1),Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-76466,FA(12:0),FA(12:0)-(12)OH,Fatty acids (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-193054,ChE,ChE-(22)OH,Pregnenolone biosynthesis (Mus musculus),Metabolism of steroid hormones (Mus musculus)
+R-MMU-193065,ChE-(22)OH,"ChE-(20,22)OH2",Pregnenolone biosynthesis (Mus musculus),Metabolism of steroid hormones (Mus musculus)
+R-MMU-192123,ChE,ChE-(27)OH,Endogenous sterols (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-428185,SPH(d18:0),Cer(d18:0/xx:xx),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428185,stearyl-CoA,Cer(d18:0/xx:xx),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-201035,FA(16:0),FA(16:0)-CoA,Synthesis of very long-chain fatty acyl-CoAs (Mus musculus),Fatty acyl-CoA biosynthesis (Mus musculus)
+R-MMU-434382,FA(16:0),FA(16:0)-CoA,Intracellular metabolism of fatty acids regulates insulin secretion (Mus musculus),Free fatty acids regulate insulin secretion (Mus musculus)
+R-MMU-548843,FA(20:4),FA(20:4)-CoA,Synthesis of very long-chain fatty acyl-CoAs (Mus musculus),Fatty acyl-CoA biosynthesis (Mus musculus)
+R-MMU-5692261,FA(16:0),FA(16:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-2161950,FA(20:4),FA(20:4)-(12)OOH,Synthesis of 12-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2162002,FA(20:4),FA(20:4)-(15)OOH,Synthesis of 15-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2161791,FA(20:4)-(15)OOH,FA(20:4)-(15)OH,Synthesis of 15-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2161791,Reduced glutathione,oxidized glutathione,Synthesis of 15-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2161999,FA(20:4)-(12)OOH,FA(20:4)-(12)OH,Synthesis of 12-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-2161999,Reduced glutathione,oxidized glutathione,Synthesis of 12-eicosatetraenoic acid derivatives (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-9018868,FA(20:5)-(18)OOH,FA(20:5)-(18)OH,Biosynthesis of E-series 18(S)-resolvins (Mus musculus),Biosynthesis of EPA-derived SPMs (Mus musculus)
+R-MMU-9018868,Reduced glutathione,oxidized glutathione,Biosynthesis of E-series 18(S)-resolvins (Mus musculus),Biosynthesis of EPA-derived SPMs (Mus musculus)
+R-MMU-9018895,FA(20:5)-(18)OOH,FA(20:5)-(18)OH,Biosynthesis of E-series 18(R)-resolvins (Mus musculus),Biosynthesis of EPA-derived SPMs (Mus musculus)
+R-MMU-9018895,Reduced glutathione,oxidized glutathione,Biosynthesis of E-series 18(R)-resolvins (Mus musculus),Biosynthesis of EPA-derived SPMs (Mus musculus)
+R-MMU-9020271,FA(22:6)-(17)OOH,FA(22:6)-(17)OH,Biosynthesis of aspirin-triggered D-series resolvins (Mus musculus),Biosynthesis of DHA-derived SPMs (Mus musculus)
+R-MMU-9020271,Reduced glutathione,oxidized glutathione,Biosynthesis of aspirin-triggered D-series resolvins (Mus musculus),Biosynthesis of DHA-derived SPMs (Mus musculus)
+R-MMU-9020273,FA(22:6)-(17)OOH,FA(22:6)-(17)OH,Biosynthesis of D-series resolvins (Mus musculus),Biosynthesis of DHA-derived SPMs (Mus musculus)
+R-MMU-9020273,Reduced glutathione,oxidized glutathione,Biosynthesis of D-series resolvins (Mus musculus),Biosynthesis of DHA-derived SPMs (Mus musculus)
+R-MMU-211924,FA(20:4),FA(20:4)-(12)OH,Fatty acids (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-5696448,MAG,DAG,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-5696448,Acyl-CoA,CoA,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1676005,"PI-(3,5)P2",PI-(3)P,Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676020,"PI-(3,5)P2",PI-(3)P,Synthesis of PIPs at the late endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676174,"PI-(3,5)P2",PI-(3)P,Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-75872,acetyl-CoA,FA(16:0),Fatty acyl-CoA biosynthesis (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-75872,malonyl-CoA,FA(16:0),Fatty acyl-CoA biosynthesis (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-426032,DAG,2-MAG,Arachidonate production from DAG (Mus musculus),Effects of PIP2 hydrolysis (Mus musculus)
+R-MMU-426032,DAG,FA,Arachidonate production from DAG (Mus musculus),Effects of PIP2 hydrolysis (Mus musculus)
+R-MMU-1602368,PG,1-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602368,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602374,PS,1-acyl LPS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602374,PS,FA(13_22:xx),Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602377,PI,1-acyl LPI,Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602377,PI,FA(13_22:xx),Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602398,PE,1-acyl LPE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602398,PE,FA(13_22:xx),Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602417,PC,1-acyl LPC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602417,PC,FA(13_22:xx),Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602446,PA,1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1602446,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-5695957,FA(23_:xx),FA(23_:xx)-CoA,Synthesis of very long-chain fatty acyl-CoAs (Mus musculus),Fatty acyl-CoA biosynthesis (Mus musculus)
+R-MMU-5695957,CoA,FA(23_:xx)-CoA,Synthesis of very long-chain fatty acyl-CoAs (Mus musculus),Fatty acyl-CoA biosynthesis (Mus musculus)
+R-MMU-111879,"PI-(4,5)P2",DAG,PLC beta mediated events (Mus musculus),G-protein mediated events (Mus musculus)
+R-MMU-111879,"PI-(4,5)P2","inositol-(1,4,5)P3",PLC beta mediated events (Mus musculus),G-protein mediated events (Mus musculus)
+R-MMU-1855177,"PI-(4,5)P2",DAG,Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855177,"PI-(4,5)P2","inositol-(1,4,5)P3",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-398193,"PI-(4,5)P2",DAG,G beta:gamma signalling through PLC beta (Mus musculus),G-protein beta:gamma signalling (Mus musculus)
+R-MMU-398193,"PI-(4,5)P2","inositol-(1,4,5)P3",G beta:gamma signalling through PLC beta (Mus musculus),G-protein beta:gamma signalling (Mus musculus)
+R-MMU-399998,"PI-(4,5)P2",DAG,Acetylcholine regulates insulin secretion (Mus musculus),Regulation of insulin secretion (Mus musculus)
+R-MMU-399998,"PI-(4,5)P2","inositol-(1,4,5)P3",Acetylcholine regulates insulin secretion (Mus musculus),Regulation of insulin secretion (Mus musculus)
+R-MMU-1675773,"PI-(4,5)P2","PI-(3,4,5)P3",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676082,PI-(4)P,"PI-(4,5)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676145,PI-(3)P,"PI-(3,4)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-8868066,PI-(4)P,"PI-(4,5)P2",Clathrin-mediated endocytosis (Mus musculus),Membrane Trafficking (Mus musculus)
+R-MMU-9021627,"PI-(4,5)P2","PI-(3,4,5)P3",Erythropoietin activates Phosphoinositide-3-kinase (PI3K) (Mus musculus),Signaling by Erythropoietin (Mus musculus)
+R-MMU-8952251,lysoPC,GPCho(glycerophosphorylcholine),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-8952251,lysoPC,FA(13_22:xx),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-9020274,FA(22:6),FA(22:6)-(14)OH,Biosynthesis of DHA-derived SPMs (Mus musculus),Biosynthesis of specialized proresolving mediators (SPMs) (Mus musculus)
+R-MMU-9027624,FA(22:6),FA(22:6)-(7)OH,Biosynthesis of electrophilic ω-3 PUFA oxo-derivatives (Mus musculus),Biosynthesis of specialized proresolving mediators (SPMs) (Mus musculus)
+R-MMU-9027628,FA(20:5),FA(20:5)-(5)OH,Biosynthesis of electrophilic ω-3 PUFA oxo-derivatives (Mus musculus),Biosynthesis of specialized proresolving mediators (SPMs) (Mus musculus)
+R-MMU-9020275,FA(22:6),FA(22:6)-(17)OH,Biosynthesis of DHA-derived SPMs (Mus musculus),Biosynthesis of specialized proresolving mediators (SPMs) (Mus musculus)
+R-MMU-1482539,1-acyl LPG,PG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482539,acyl-CoA,CoA,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482635,2-acyl LPG,PG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482635,acyl-CoA,CoA,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482745,PG,1-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482745,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482847,PG,2-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482847,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482897,PS,2-acyl LPS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482897,PS,FA(13_22:xx),Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482920,PG,2-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482920,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-429798,PC,DAG,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-8868072,PI-(4)P,"PI-(3,4)P2",Clathrin-mediated endocytosis (Mus musculus),Membrane Trafficking (Mus musculus)
+R-MMU-1675949,"PI-(3,4,5)P3","PI-(3,4)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676177,"PI-(4,5)P2",PI-(4)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1482604,PA,1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482604,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482656,PA,1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482656,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482900,PG,1-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482900,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-77277,FA(16:1)-CoA,FA(16:0)-(3)OH-CoA,Beta oxidation of myristoyl-CoA to lauroyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-77301,FA(14:1)-CoA,FA(14:0)-(3)OH-CoA,Beta oxidation of palmitoyl-CoA to myristoyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-1675939,PI,PI-(3)P,Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675961,PI,PI-(3)P,Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676024,PI,PI-(3)P,Synthesis of PIPs at the late endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-5672012,PI,PI-(3)P,Macroautophagy (Mus musculus),NA
+R-MMU-6798174,PI,PI-(3)P,RHO GTPases Activate NADPH Oxidases (Mus musculus),RHO GTPase Effectors (Mus musculus)
+R-MMU-428205,Cer,FA(18:0),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428205,Cer,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1676162,"PI-(3,4)P2",PI-(3)P,Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676164,"PI-(3,4)P2",PI-(3)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-202237,"PI-(3,4,5)P3","PI-(3,4)P2",Downstream TCR signaling (Mus musculus),TCR signaling (Mus musculus)
+R-MMU-1675824,"PI-(4,5)P2",PI-(4)P,Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675836,"PI-(3,5)P2 ",PI-(3)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675988,PI-(4)P,PI,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-8848484,PC,LPC,COPI-independent Golgi-to-ER retrograde traffic (Mus musculus),Golgi-to-ER retrograde transport (Mus musculus)
+R-MMU-8848484,PC,FA,COPI-independent Golgi-to-ER retrograde traffic (Mus musculus),Golgi-to-ER retrograde transport (Mus musculus)
+R-MMU-1482816,PC,1-acyl LPC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482816,PC,FA(13_22:xx),Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482887,PE,1-acyl LPE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482887,PE,FA(13_22:xx),Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-8869425,PS,2-acyl LPS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-8869425,PS,FA(13_22:xx),Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1675928,PI-(4)P,"PI-(3,4)P2",Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676206,PI-(4)P,"PI-(3,4)P2",Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1250370,"PI-(4,5)P2","PI-(3,4,5)P3",PI3K events in ERBB4 signaling (Mus musculus),Signaling by ERBB4 (Mus musculus)
+R-MMU-1306957,"PI-(4,5)P2","PI-(3,4,5)P3",PI3K events in ERBB2 signaling (Mus musculus),Signaling by ERBB2 (Mus musculus)
+R-MMU-1433514,"PI-(4,5)P2","PI-(3,4,5)P3",Signaling by SCF-KIT (Mus musculus),Signaling by Receptor Tyrosine Kinases (Mus musculus)
+R-MMU-202365,"PI-(4,5)P2","PI-(3,4,5)P3",Downstream TCR signaling (Mus musculus),TCR signaling (Mus musculus)
+R-MMU-2029271,"PI-(4,5)P2","PI-(3,4,5)P3",Role of phospholipids in phagocytosis (Mus musculus),Fcgamma receptor (FCGR) dependent phagocytosis (Mus musculus)
+R-MMU-2424480,"PI-(4,5)P2","PI-(3,4,5)P3",DAP12 signaling (Mus musculus),DAP12 interactions (Mus musculus)
+R-MMU-389158,"PI-(4,5)P2","PI-(3,4,5)P3",CD28 dependent PI3K/Akt signaling (Mus musculus),CD28 co-stimulation (Mus musculus)
+R-MMU-5218819,"PI-(4,5)P2","PI-(3,4,5)P3",VEGFA-VEGFR2 Pathway (Mus musculus),Signaling by VEGF (Mus musculus)
+R-MMU-5654701,"PI-(4,5)P2","PI-(3,4,5)P3",PI-3K cascade:FGFR2 (Mus musculus),Downstream signaling of activated FGFR2 (Mus musculus)
+R-MMU-5654717,"PI-(4,5)P2","PI-(3,4,5)P3",PI-3K cascade:FGFR4 (Mus musculus),Downstream signaling of activated FGFR4 (Mus musculus)
+R-MMU-1675813,PI,PI-(4)P,Synthesis of PIPs at the ER membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676185,PI,PI-(4)P,Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675883,PI,PI-(4)P,Synthesis of PIPs at the Golgi membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675776,PI-(5)P,"PI-(4,5)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-6811522,PI-(5)P,"PI-(4,5)P2",PI5P Regulates TP53 Acetylation (Mus musculus),Regulation of TP53 Activity through Acetylation (Mus musculus)
+R-MMU-1482679,PA,1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482679,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482776,PS,1-acyl LPS,Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482776,PS,FA(13_22:xx),Acyl chain remodelling of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482868,PI,1-acyl LPI,Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482868,PI,FA(13_22:xx),Acyl chain remodelling of PI (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482907,PG,1-acyl LPG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482907,PG,FA(13_22:xx),Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-111883,PC,FA(20:4),Arachidonic acid metabolism (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-111883,PC,LPC,Arachidonic acid metabolism (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-202407,"PI-(4,5)P2","inositol-(1,4,5)P3",Generation of second messenger molecules (Mus musculus),TCR signaling (Mus musculus)
+R-MMU-202407,"PI-(4,5)P2",DAG,Generation of second messenger molecules (Mus musculus),TCR signaling (Mus musculus)
+R-MMU-114689,"PI-(4,5)P2","inositol-(1,4,5)P3",GPVI-mediated activation cascade (Mus musculus),"Platelet activation, signaling and aggregation (Mus musculus)"
+R-MMU-114689,"PI-(4,5)P2",DAG,GPVI-mediated activation cascade (Mus musculus),"Platelet activation, signaling and aggregation (Mus musculus)"
+R-MMU-1483182,PC,PA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483182,PC,choline,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-6809720,PI-(3)P,PI,Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1482546,2-acyl LPG,PG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482546,acyl-CoA,CoA,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482689,2-acyl LPG,PG,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482689,acyl-CoA,CoA,Acyl chain remodelling of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483063,DAG-CDP,CL,Synthesis of CL (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483063,PG,CL,Synthesis of CL (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1675780,PI,PI-(4)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1675974,PI,PI-(4)P,Synthesis of PIPs at the early endosome membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1482548,1-acyl LPA,PA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482548,acyl-CoA,CoA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-428214,SPH(d18:0),SPH(d18:0)-(1)P,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428273,SPH(d18:1),SPH(d18:1)-(1)P,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1482973,CDP-choline,PC,Synthesis of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482973,DAG,PC,Synthesis of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482654,2-MAG,DAG,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482654,2-MAG,Glycerol,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482777,TAG,DAG,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482777,TAG,FA(13_22:xx),Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482811,DAG,2-MAG,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482811,DAG,FA(13_22:xx),Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1676149,"PI-(3,4)P2",PI-(4)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-199456,"PI-(3,4,5)P3","PI-(4,5)P2",Downstream TCR signaling (Mus musculus),TCR signaling (Mus musculus)
+R-MMU-6786650,PA,1-acyl LPA,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-6786650,PA,FA(13_22:xx),Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483089,PE,ethanolamine(ETA),Synthesis of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483089,PE,PS,Synthesis of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-389891,FA(19:0)-CoA,FA(19:1)-CoA,Beta-oxidation of pristanoyl-CoA (Mus musculus),Peroxisomal lipid metabolism (Mus musculus)
+R-MMU-1675810,PI,PI-(5)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676134,PI-(3)P,"PI-(3,5)P2",Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-3772436,PI-(4)P,"PI-(4,5)P2",WNT mediated activation of DVL (Mus musculus),TCF dependent signaling in response to WNT (Mus musculus)
+R-MMU-1482889,DAG,TAG,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482889,acyl-CoA,CoA,Acyl chain remodeling of DAG and TAG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-549192,DAG,TAG,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-549192,FA-CoA,TAG,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-428259,Cer(d18:0/xx:xx),Cer,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1482827,PC,2-acyl LPC,Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482827,PC,FA(13_22:xx),Acyl chain remodelling of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482892,PE,2-acyl LPE,Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482892,PE,FA(13_22:xx),Acyl chain remodelling of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-428690,SPH(d18:1)-(1)P,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428690,SPH(d18:1)-(1)P,orthophosphate,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428696,SPH(d18:1)-(1)P,SPH(d18:1),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428696,SPH(d18:1)-(1)P,orthophosphate,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-75900,DAG,TAG,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-75900,FA-CoA,TAG,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-1483165,PA,CDP-DAG,Synthesis of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483165,CTP,CDP-DAG,Synthesis of PG (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1675994,PI-(3)P,PI,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-1676203,"PI-(3,5)P2",PI-(5)P,Synthesis of PIPs at the plasma membrane (Mus musculus),PI Metabolism (Mus musculus)
+R-MMU-191983,ChE,ChE-(25)OH,Synthesis of bile acids and bile salts (Mus musculus),Bile acid and bile salt metabolism (Mus musculus)
+R-MMU-6810410,"PI-(4,5)P2",PI-(5)P,PI5P Regulates TP53 Acetylation (Mus musculus),Regulation of TP53 Activity through Acetylation (Mus musculus)
+R-MMU-8980228,TAG,DAG,HDL remodeling (Mus musculus),Plasma lipoprotein remodeling (Mus musculus)
+R-MMU-8980228,TAG,FA(13_22:xx),HDL remodeling (Mus musculus),Plasma lipoprotein remodeling (Mus musculus)
+R-MMU-1483186,PC,PS,Synthesis of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1483186,PC,choline,Synthesis of PS (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1606273,SM(d18:1/xx:xx),Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1606273,SM(d18:1/xx:xx),Choline phosphate,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1606288,SM(d18:1/xx:xx),Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1606288,SM(d18:1/xx:xx),Choline phosphate,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-429798,Cer,SM(d18:1/xx:xx),Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1605797,SM(d18:1/xx:xx),Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1605797,SM(d18:1/xx:xx),Choline phosphate,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1638845,Cer,ceramide 1-phosphate,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1855223,"PI(1,3,4,5,6)5",5-PP-IP4,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855178,Glc6P,PI3,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-162830,Dolichyl phosphate D-mannose,dolichyl phosphate,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-162830,glucosaminyl-acyl-PI,mannose (a1-4) glucosaminyl-acyl-PI,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-1855206,"PI(1,3,4,5)4","PI(1,3,4,5,6)5",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1861788,Glucosylceramide,Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1855157,1-PP-PI5,"1,5-(PP)2-PI4 ",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855171," PI(1,3,4,6)4","PI(1,3,4)3",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855158,5-PP-PI5,5-PPP-PI5,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855165,(PP)2-PI4,5-PP-PI5,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-192425,MAG,glycerol,Digestion of dietary lipid (Mus musculus),Digestion (Mus musculus)
+R-MMU-192425,MAG,FA(13_22:xx),Digestion of dietary lipid (Mus musculus),Digestion (Mus musculus)
+R-MMU-1482759,2-monolysocardiolipin,"2,2'-dilysocardiolipin",Acyl chain remodeling of CL (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482759,2-monolysocardiolipin,FA(13_22:xx),Acyl chain remodeling of CL (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-9026408,FA(22:5),13(R)-hydroxy-docosapentaenoic acid,Biosynthesis of DPAn-3 SPMs (Mus musculus),Biosynthesis of DPA-derived SPMs (Mus musculus)
+R-MMU-1855232,"PI(1,3,4)3 ","PI(3,4)2","Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855194,1-PP-PI5,"1,5-(PP)2-PI4",Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855174,"PI(1,4,5)3","PI(1,4)2 ","Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855224,5-PP-PI5 ,5-PPP-PI5,Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-NUL-1675925,PI3P,"PI(3,5)P2",NA,NA
+R-MMU-428676,Sphingosine-1-phosphate,trans-hexadec-2-enal,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-428676,Sphingosine-2-phosphate,phosphoethanolamine,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-162730,PI,N-acetylglucosaminyl-PI,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-162730,UDP-GlcNAc ,UDP,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-1855208,"PI(1,4)2",PI4,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855227,PI6  ,5-PP-PI5,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855210,PI3,Inositol,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855172,"PI(1,3,4)3 ","PI(1,3,4,5)4",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1482571,1-acyl LPE,Glycerophosphoethanolamine,Hydrolysis of LPE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482571,1-acyl LPE,FA(13_22:xx),Hydrolysis of LPE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-71031,propionyl-CoA,D-methylmalonyl-CoA,Propionyl-CoA catabolism (Mus musculus),Mitochondrial Fatty Acid Beta-Oxidation (Mus musculus)
+R-MMU-1855225,PI6,"PI(1,2,4,5,6)5",Synthesis of IPs in the ER lumen (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-3446785,PGP,PG ,NA,NA
+R-MMU-1855159,"PI(1,3,4,6)4 ","PI(3,4,6)3 ",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855205,"PI(1,3,4,5)4","PI(1,4,5)3",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855230,5-PP-IP4,"1,5-(PP)2-IP3 ",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855153,"I(1,4,5)P3","I(1,3,4,5)P4",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855219,"PI(1,3,4,5,6)5","PI(3,4,5,6)4 ",Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855213,"PI(1,3,4,5)4 ","PI(1,3,4)3 ",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855179,"PI(1,3,4,5,6)5 ",PI6 ,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-6785933,Cer,GalCer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-6785933,UDP-Gal,UDP ,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1638104,Cer,Glucosylceramide,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1638104,UDP-Glc ,UDP ,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-5617143,UDP-glucuronic acid,UDP,O-linked glycosylation (Mus musculus),Post-translational protein modification (Mus musculus)
+R-MMU-1855169,"PI(3,4,6)3","PI(1,3,4,6)4",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855162,"PI(3,4,5,6)4 ","PI(1,3,4,5,6)5 ",Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-9032476,"PI(4,5)P2 ",DAGs ,NA,NA
+R-MMU-9032476,"PI(4,5)P2 ","PI(1,4,5)3 ",NA,NA
+R-MMU-1855181,"PI(1,3,4,5,6)5",5-PP-IP4 ,Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855166,PP-IP4 ,"I(1,3,4,5,6)P5 ",Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855185,"I(1,4,5,6)P4 ","I(1,3,4,5,6)P5 ",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855176,"I(1,3,4,5,6)P5 ",IP6 ,Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855193,1-PP-IP4 ,"1,5-(PP)2-IP3 ",Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-8847904,1-O-acyl-sn-glycero-3-phosphocholine,choline alfoscerate,NA,NA
+R-MMU-8847904,1-O-acyl-sn-glycero-3-phosphocholine,FA(13_22:xx),NA,NA
+R-MMU-994140,"PI(1,3,4)3 ","PI(1,3,4,5)4",Factors involved in megakaryocyte development and platelet production (Mus musculus),NA
+R-MMU-1855207,IP6 ,5-PP-IP5,Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855198,5-PP-IP5,IP6,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1483172,Glycerol,choline,NA,NA
+R-MMU-1483172,PC,PG,NA,NA
+R-MMU-1482696,2-lysophosphatidylcholine,choline alfoscerate,Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482696,2-lysophosphatidylcholine,FA(13_22:xx),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1855200,"I(1,3,4,5)P4","I(1,4,5)P3",Synthesis of IPs in the ER lumen (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855180,"PI(1,3,4)3 ","PI(1,3)2","Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855154,PI1,Inositol,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-NUL-1675982,PI3P,"PI(3,5)P2 ",NA,NA
+R-MMU-1855211,PI4,Inositol,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-75886,FA-CoA ,CoA-SH,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-1855222,"PI(1,4,5)3","PI(1,4)2 ","Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855163,"I(1,3,4,5,6)P5 ","I(1,4,5,6)P4 ",Synthesis of IPs in the ER lumen (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1606583,Cer,SPH(d18:0),Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1482629,2-acyl LPC ,glycerophosphocholine,Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1482629,2-acyl LPC ,FA(13_22:xx),Hydrolysis of LPC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-1606564,GalCer,Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1606564,GalCer,Glc,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-162683,FACoA ,CoA-SH,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-162683,glucosaminyl-PI , glucosaminyl-acyl-PI,Synthesis of glycosylphosphatidylinositol (GPI) (Mus musculus),Post-translational modification: synthesis of GPI-anchored proteins (Mus musculus)
+R-MMU-994137,"PI(3,4,5,6)4","PI(1,3,4,5,6)5",Factors involved in megakaryocyte development and platelet production (Mus musculus),NA
+R-MMU-1605591,Glucosylceramide,Cer,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1605591,Glucosylceramide,Glc,Glycosphingolipid metabolism (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-2023973,(PP)2-IP4,1/3-PP-IP5 ,Synthesis of pyrophosphates in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-266046,leukotriene C4,GLU,Synthesis of Leukotrienes (LT) and Eoxins (EX) (Mus musculus),Arachidonic acid metabolism (Mus musculus)
+R-MMU-77323,(S)-3-hydroxyhexanoyl-CoA,3-Oxohexanoyl-CoA ,Beta oxidation of hexanoyl-CoA to butanoyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-75886,Glycerol-3-phosphate,1-acyl-glycerol 3-phosphate,Triglyceride biosynthesis (Mus musculus),Triglyceride metabolism (Mus musculus)
+R-MMU-70859,isobutyryl-CoA,methacrylyl-CoA,Branched-chain amino acid catabolism (Mus musculus),Metabolism of amino acids and derivatives (Mus musculus)
+R-MMU-77321,3-Oxohexanoyl-CoA ,Ac-CoA,Beta oxidation of hexanoyl-CoA to butanoyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-77304,CoA-SH,Ac-CoA,Beta oxidation of palmitoyl-CoA to myristoyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-159567,salicylic acid,2-hydroxybenzoyl-CoA,Conjugation of salicylate with glycine (Mus musculus),Conjugation of carboxylic acids (Mus musculus)
+R-MMU-389609,Pristanal,pristanate ,Alpha-oxidation of phytanate (Mus musculus),Peroxisomal lipid metabolism (Mus musculus)
+R-MMU-8862137,beta-estradiol,estrone,Estrogen biosynthesis (Mus musculus),Metabolism of steroid hormones (Mus musculus)
+R-MMU-70745,3-methylbutanoyl-CoA,beta-methylcrotonyl-CoA,Branched-chain amino acid catabolism (Mus musculus),Metabolism of amino acids and derivatives (Mus musculus)
+R-MMU-5693691,cocaine,benzoylecgonine,Phase I - Functionalization of compounds (Mus musculus),Biological oxidations (Mus musculus)
+R-MMU-1483002,acyl-CoA,R-MMU-548843,Synthesis of PA (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-200406,carnitine,CoA-SH,Carnitine metabolism (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-200406,palmitoyl-CoA,L-Palmitoylcarnitine,Carnitine metabolism (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-193072,progesterone,17alpha-hydroxyprogesterone,Androgen biosynthesis (Mus musculus),Metabolism of steroid hormones (Mus musculus)
+R-MMU-77299,palmitoyl-CoA,(E)-hexadec-2-enoyl-CoA,Beta oxidation of palmitoyl-CoA to myristoyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-1483222,ethanolamine,phosphoethanolamine,Synthesis of PE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-191299,squalene,"(S)-2,3-epoxysqualene",Cholesterol biosynthesis (Mus musculus),Metabolism of steroids (Mus musculus)
+R-MMU-176517,3'-phospho-5'-adenylyl sulfate,"adenosine 3',5'-bisphosphate",Cytosolic sulfonation of small molecules (Mus musculus),Phase II - Conjugation of compounds (Mus musculus)
+R-MMU-176517,pregnenolone,pregnenolone sulfate,Cytosolic sulfonation of small molecules (Mus musculus),Phase II - Conjugation of compounds (Mus musculus)
+R-MMU-8943279,GSH,Glu,Glutathione synthesis and recycling (Mus musculus),Glutathione conjugation (Mus musculus)
+R-MMU-8943279,GSH,cysteinylglycine,Glutathione synthesis and recycling (Mus musculus),Glutathione conjugation (Mus musculus)
+R-MMU-5693742,anandamide,ethanolamine,Arachidonic acid metabolism (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-NUL-9616944,"PI(4,5)P2","PI(3,4,5)P3",NA,NA
+R-MMU-1855202,"PI(3,4)2 ",PI3,"Synthesis of IP2, IP, and Ins in the cytosol (Mus musculus)",Inositol phosphate metabolism (Mus musculus)
+R-MMU-193073,dehydroepiandrosterone,Androstenedione,Androgen biosynthesis (Mus musculus),Metabolism of steroid hormones (Mus musculus)
+R-MMU-1483203,PA,DAG ,Synthesis of PC (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-6797955,glycine betaine aldehyde,betaine,Choline catabolism (Mus musculus),Metabolism of amino acids and derivatives (Mus musculus)
+R-MMU-77283,(S)-3-Hydroxytetradecanoyl-CoA,3-Oxotetradecanoyl-CoA ,Beta oxidation of myristoyl-CoA to lauroyl-CoA (Mus musculus),mitochondrial fatty acid beta-oxidation of saturated fatty acids (Mus musculus)
+R-MMU-1855197,"PI(1,3,4)3","PI(1,3,4,6)4 ",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855218,"PI(1,3,4,5)4","PI(1,3,4)3 ",Synthesis of IP3 and IP4 in the cytosol (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-194017,cortexone,corticosterone,Endogenous sterols (Mus musculus),Cytochrome P450 - arranged by substrate type (Mus musculus)
+R-MMU-1482545,2-acyl LPE,FA(13_22:xx),Hydrolysis of LPE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)
+R-MMU-200555,Ac-CoA,malonyl-CoA,Fatty acyl-CoA biosynthesis (Mus musculus),Fatty acid metabolism (Mus musculus)
+R-MMU-1855233,"PI(1,4,5)3","PI(1,3,4,5)4",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-1855228,"PI(1,3,4,6)4 ","PI(1,3,4,5,6)5",Synthesis of IPs in the nucleus (Mus musculus),Inositol phosphate metabolism (Mus musculus)
+R-MMU-5693761,Cer,2-hydroxyceramide,Sphingolipid de novo biosynthesis (Mus musculus),Sphingolipid metabolism (Mus musculus)
+R-MMU-1482545,2-acyl LPE,GPETA ,Hydrolysis of LPE (Mus musculus),Glycerophospholipid biosynthesis (Mus musculus)

@@ -63,8 +63,9 @@ After the comment, there are some codes that will offer optional arguments to cl
 Details are shown in the "Script style" corresponding section.
 - **Developer notes** refer to some info given to developers. 
 They will info the developers to do some specific actions to the following codes.
+Or they may give the developers some useful information or hints.
 The comment info will start with a "!!!!!DEV: ".
-In the ultimate version, these codes may be revised in someways.
+In the ultimate version, those refed codes may be revised in someways.
 - **Source info** indicate what contents the source will offer to the current environment. 
 It will be comment as "Source will offer the following contents:" and indicate the contents in the next line(s).
 

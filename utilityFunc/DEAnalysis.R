@@ -11,13 +11,13 @@ DEAnalysis <- function(dataProc = dataProc_RNA, experGrp,
                        return(lfcShrink(dds, coef=coefVar, type="normal"))
                      })
   ## DEA output
-  deaResult <- res[order(res$pvalue), ] %>%
+  deaResult <- do.call(cbind, resLFC@listData) %>%
     as.data.frame() %>%
-    rownames_to_column(var = "Gene")
+    rownames_to_column(var = "gene")
   write.csv(deaResult, paste0(fileLoc, "DEgeneStatistics_", 
                               experGrp, "_vs_", controlGrp, ".csv"), 
             row.names = F)
   return(list(
-    dataProc = dataProc, resLFC = resLFC, experGrp = experGrp
+    dataProc = dataProc, resLFC = deaResult, experGrp = experGrp
   ))
 }

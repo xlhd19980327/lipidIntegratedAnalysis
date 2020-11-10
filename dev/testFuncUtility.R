@@ -2,12 +2,13 @@
 dataSet <- readingLipidData(datafile = "./testData/otherlipidData/20201020_lipid.CSV", 
                             controlGrp = "", dataType = "MS_DIAL", delOddChainOpt = T, 
                             fileLoc = "~/temp/")
-datafile = "./testData/cold_induced/input/lipid_tidy.CSV"
-controlGrp = "COLD"
-dataType = "LipidSearch"
-delOddChainOpt = T
-lipField = NA
-fileLoc = "./testData/cold_induced/output/"
+datafile = "./branch/benchmark/input/lipid_tidy.CSV"
+controlGrp = "Fasn_neg_ mice injected with PLASMIDS"
+dataType = "HCC"
+delOddChainOpt = F
+lipField = "LipidName"
+fileLoc = "./branch/benchmark/output/"
+na.char = ""
 
 ## Test MARpreproc
 mSet <- MARpreproc(dataSet = dataSet)
@@ -55,7 +56,7 @@ dataSet = dataSet_RNA
 
 ## Test statFAChains
 lipid_subclass_tidyStat = stat_res
-fileLoc = "./testData/cold_induced/output/"
+fileLoc = "./branch/benchmark/output/"
 lipsample = lipsample
 spe = "mmu"
 

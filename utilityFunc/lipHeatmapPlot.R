@@ -26,6 +26,9 @@ lipHeatmapPlot <- function(dataSet, mSet,
     datagroup <- factor(dataSet[["allgroups"]][match(row.names(heatmapdata), names(dataSet[["allgroups"]]))], 
                         levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
     data <- t(heatmapdata)[apply(t(heatmapdata), 1, function(x) sd(x)!=0), ]
+    if(nrow(data) < ncol(heatmapdata)){
+      cat("Some lipids in low variation will be removed.\n")
+    }
     x <-pheatmap::pheatmap(mat = data, 
                            ##This color palette is ugly, use default
                            #color = plottingPalettes(100, type = "continuous"),

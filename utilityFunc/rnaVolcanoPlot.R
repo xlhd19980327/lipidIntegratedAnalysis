@@ -1,4 +1,4 @@
-rnaVolcanoPlot <- function(DEAresult = DEAresult, 
+rnaVolcanoPlot <- function(DEAresult = DEAresult, type = "RNAseq",
                            fileLoc, fcthresh = 2.0, pthresh = 0.1,
                            #Show top gene labels in volcano or set "F" to do not show any
                            showtop = 20){
@@ -6,12 +6,16 @@ rnaVolcanoPlot <- function(DEAresult = DEAresult,
   experGrp <- DEAresult$experGrp
   controlGrp <- DEAresult$dataProc$dataSet$controlGrp
   
-  volcano.data <- do.call(cbind, resLFC@listData) %>%
-    as.data.frame() %>%
+  if(type == "MiAr"){
+    resLFC <- resLFC %>%
+      dplyr::rename(log2FoldChange = logFC, 
+                    padj = adj.P.Val) 
+  }
+  
+  volcano.data <- resLFC %>%
     mutate(
       log2FoldChange = ifelse(is.na(log2FoldChange), 0, log2FoldChange),
       padj = ifelse(is.na(padj), 1, padj),
-      gene = resLFC@rownames, 
       up = ifelse(log2FoldChange > log(fcthresh, 2) & padj < pthresh, 1, 0),
       down = ifelse(log2FoldChange < -log(fcthresh, 2) & padj < pthresh, 2, 0),
       regState = sapply(up + down, function(x) switch(x, "upreg", "downreg")), 

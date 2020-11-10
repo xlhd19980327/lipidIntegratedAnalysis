@@ -8,6 +8,7 @@ source("./utilityFunc/headgroupStat.R")
 source("./utilityFunc/FAchainStat.R")
 source("./utilityFunc/plottingPalettes.R")
 source("./utilityFunc/statFAChains.R")
+source("./utilityFunc/statFAChains_pathAna.R")
 
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
@@ -78,7 +79,6 @@ if(analOpt == "group_by_group"){
 }
 
 ##FAchainStat output: lipid_subclass_integStat, use it to do our stat
-##!!!Client options: can be [expr group]
 lipsample <- "COLD"
 dataset <- prepDataSet(lipsample)
 mSet <- MARpreproc(dataSet = dataset)
@@ -86,8 +86,9 @@ stat_res <- FAchainStat(dataSet = dataset, mSet = mSet,
                         #fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
                         #"plotInfo", "stat" can not modify
                         plotInfo = "FA_info", stat = T)
-##!!!!!WARNING: Result file may have duplicated gene, should fix it!!
-statFAChains(lipid_subclass_tidyStat = stat_res, 
-             fileLoc = "./testData/cold_induced/output/", 
+regStat_gene <- statFAChains(lipid_subclass_tidyStat = stat_res, 
+             fileLoc = "./branch/benchmark/output/", 
              lipsample = lipsample, spe = "mmu")
-
+regStat_path <- statFAChains_pathAna(lipid_subclass_tidyStat = stat_res, 
+                                     fileLoc = "./branch/benchmark/output/", 
+                                     lipsample = lipsample, spe = "mmu")

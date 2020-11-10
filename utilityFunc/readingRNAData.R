@@ -16,6 +16,7 @@ readingRNAData <- function(datafile, sampleList, controlGrp = ""){
     controlGrp <- sampleInfo$conditions[1]
   }
   if(any(duplicated(data[, 1]))){
+    cat("Duplicate gene identifier detected! Choose stronger intensity for analysis.\n")
     data_list <- split(data, data[,1])
     # Rule: duplicated gene symbols will choose stronger intensity
     #       The signal have the most sum intensity
@@ -44,8 +45,6 @@ readingRNAData <- function(datafile, sampleList, controlGrp = ""){
   sampleInfo$conditions <- factor(sampleInfo$conditions, 
                                   levels = c(groupsLevel[groupsLevel == controlGrp], groupsLevel[groupsLevel != controlGrp]))
   
-  ## Delete low gene abundance feature
-  data <- data[rowSums(data)>2, ]
   return(list(
     data = data, sampleInfo = sampleInfo, 
     groupsLevel = groupsLevel, controlGrp = controlGrp

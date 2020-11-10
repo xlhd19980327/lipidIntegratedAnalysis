@@ -1,4 +1,4 @@
-statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
+statFAChains_pathAna <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
   source("./utilityFunc/addLibnames.R")
   #source("./utilityFunc/FAchainStat.R")
   
@@ -23,7 +23,7 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
   allReact <- unique(subset(allReact, select = c("reaction_id", "gene_symbol")))
   integReact <- inner_join(lipReact, allReact, by = "reaction_id")
   integReact <- subset(integReact, 
-                       select = c("reaction_id", "gene_symbol", "firstLev", "R_lipid", "P_lipid"))
+                       select = c("reaction_id", "firstLev", "gene_symbol", "R_lipid", "P_lipid"))
   
   # !!!!!WARNING: Some libnames will be wrong, cause carbon base info add
   lipidsubclass <- cbind(lipid_subclass_tidyStat, 
@@ -80,11 +80,11 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
   }
   reaction_info <- lapply(reaction_ind_list, getReactionInfo)
   gene_info <- data.frame(
-    gene = integReact_filter[as.numeric(names(reaction_info)), ]$gene_symbol,
+    pathway = integReact_filter[as.numeric(names(reaction_info)), ]$firstLev,
     libInd = names(reaction_info), 
-    pathway = integReact_filter[as.numeric(names(reaction_info)), ]$firstLev
+    gene = integReact_filter[as.numeric(names(reaction_info)), ]$gene_symbol
   )
-  libIndList <- split(gene_info$libInd, gene_info$gene)
+  libIndList <- split(gene_info$libInd, gene_info$pathway)
   bindGeneList <- function(ind){
     ind <-  names(reaction_info) %in% ind
     data <- reaction_info[ind]
@@ -100,7 +100,7 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
     ))
   }
   reaction_info <- lapply(libIndList, bindGeneList)
-
+  
   ## Statistics use our methods, use t-test to test the statistics(log2FC difference)
   getRegState <- function(data){
     R_info <- subset(data[["R_lipid"]], subset = group == lipsample)
@@ -134,10 +134,10 @@ statFAChains <- function(lipid_subclass_tidyStat, fileLoc, lipsample, spe){
     return(regState)
   }
   regState <- lapply(reaction_info, getRegState)
-  regState <- cbind(gene = names(regState), 
+  regState <- cbind(pathway = gsub("(.*)\\(.*?\\)$", "\\1", names(regState)), 
                     do.call(rbind, regState))
   write.csv(regState, 
             paste0(fileLoc, "regStat_", lipsample, ".csv"), row.names = F)
   gene_info$pathway <- gsub("(.*)\\(.*?\\)$", "\\1", gene_info$pathway)
-  return(list(regState = regState, gene_info = gene_info))
+  return(list(regState = regState, path_info = gene_info))
 }

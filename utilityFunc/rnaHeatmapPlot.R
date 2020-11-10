@@ -1,41 +1,44 @@
-rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, 
+rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, type = "RNAseq", 
                            fileLoc){
   if(showallgroups == F){
-    resLFC <- DEAresult$resLFC
-    experGrp <- DEAresult$experGrp
     controlGrp <- DEAresult$dataProc$dataSet$controlGrp
     sampleInfo <- DEAresult$dataProc$dataSet$sampleInfo
-    normalized_counts <- DEAresult$dataProc$normalized_counts
-    dds <- DEAresult$dataProc$dds
     groupsLevel <- DEAresult$dataProc$dataSet$groupsLevel
+    experGrp <- DEAresult$experGrp
     
     colorpars <- plottingPalettes(n = length(groupsLevel), type = "discrete")
     names(colorpars) <- c(controlGrp, groupsLevel[groupsLevel != controlGrp])
     legend_annotation <- data.frame(conditions = sampleInfo$conditions)
     rownames(legend_annotation) <- sampleInfo$samples
     
-    volcano.data <- do.call(cbind, resLFC@listData) %>%
-      as.data.frame() %>%
-      mutate(
-        #log2FoldChange = ifelse(is.na(log2FoldChange), 0, log2FoldChange),
-        padj = ifelse(is.na(padj), 1, padj),
-        gene = resLFC@rownames#, 
-        #up = ifelse(log2FoldChange > log(fcthresh, 2) & padj < pthresh, 1, 0),
-        #down = ifelse(log2FoldChange < -log(fcthresh, 2) & padj < pthresh, 2, 0),
-        #regState = sapply(up + down, function(x) switch(x, "upreg", "downreg")), 
-        #regState = sapply(regState, function(x) ifelse(is.null(x), 0, x))
-      )
-    if(showtop > nrow(volcano.data)){
-      cat("Not enough significant feature! Show all the feature label.\n")
+    if(type == "RNAseq"){
+      resLFC <- DEAresult$resLFC
+      normalized_counts <- DEAresult$dataProc$normalized_counts
+      dds <- DEAresult$dataProc$dds
+      
+      volcano.data <- resLFC %>%
+        mutate(padj = ifelse(is.na(padj), 1, padj))
+      if(showtop > nrow(volcano.data)){
+        cat("Not enough significant feature! Show all the feature label.\n")
+      }
+      #!!!!!WARNING: use p_value as rank standard, may use others(eg. mad?)
+      heatmap.data_topgene <- volcano.data[order(volcano.data$padj), ][1:showtop, ]$gene
+      heatmap.data_top <- normalized_counts[match(heatmap.data_topgene, rownames(normalized_counts)), 
+                                            colData(dds)$conditions %in% c(controlGrp, experGrp)]
     }
-    #!!!!!WARNING: use p_value as rank standard, may use others(eg. mad?)
-    heatmap.data_topgene <- volcano.data[order(volcano.data$padj), ][1:showtop, ]$gene
-    heatmap.data_top <- normalized_counts[match(heatmap.data_topgene, rownames(normalized_counts)), 
-                                          colData(dds)$conditions %in% c(controlGrp, experGrp)]
+    if(type == "MiAr"){
+      fit <- DEAresult$fit
+      resLFC <- topTable(fit, adjust="BH", number = showtop)
+      normalized_counts <- DEAresult[["dataProc"]][["eset"]]
+      
+      heatmap.data_topgene <- rownames(resLFC)
+      heatmap.data_top <- normalized_counts[match(heatmap.data_topgene, rownames(normalized_counts)), 
+                                            sampleInfo$conditions %in% c(controlGrp, experGrp)]
+      
+    }
     collegend_annotation <- list(conditions = colorpars[names(colorpars) %in% c(experGrp, controlGrp)])
-  }else{
+  } else{
     #Use dataProc to do overall heatmap
-    normalized_counts <- DEAresult$normalized_counts
     controlGrp <- DEAresult$dataSet$controlGrp
     sampleInfo <- DEAresult$dataSet$sampleInfo
     groupsLevel <- DEAresult$dataSet$groupsLevel
@@ -44,6 +47,13 @@ rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F,
     names(colorpars) <- c(controlGrp, groupsLevel[groupsLevel != controlGrp])
     legend_annotation <- data.frame(conditions = sampleInfo$conditions)
     rownames(legend_annotation) <- sampleInfo$samples
+    
+    if(type == "RNAseq"){
+      normalized_counts <- DEAresult$normalized_counts
+    }
+    if(type == "MiAr"){
+      normalized_counts <- DEAresult$eset
+    }
     
     ##We really donot recommand client to use showtop
     #heatmap.data_top <- normalized_counts[1:showtop, ]
@@ -56,6 +66,11 @@ rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F,
   tidy_ind <- tidy_ind[!is.na(tidy_ind)]
   heatmap.data_top <- heatmap.data_top[, tidy_ind]
   
+  ntop <- nrow(heatmap.data_top)
+  heatmap.data_top <- heatmap.data_top[apply(heatmap.data_top, 1, function(x) sd(x)!=0), ]
+  if(nrow(heatmap.data_top) < ntop){
+    cat("Some genes in low variation will be removed.\n")
+  }
   if(showallgroups){
     heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
                                   annotation = legend_annotation, 

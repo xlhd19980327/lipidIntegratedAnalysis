@@ -3,6 +3,8 @@ DESeq2preproc <- function(dataSet = dataSet_RNA,
   data <- dataSet$data
   sampleInfo <- dataSet$sampleInfo
   
+  ## Delete low gene abundance feature
+  data <- data[rowSums(data)>2, ]
   batremvOpt <- ifelse("batch" %in% colnames(sampleInfo), T, F)
   designFormula <- eval(parse(text = ifelse(batremvOpt, "~ conditions + batch", "~ conditions")))
   ddsFullCountTable <- tryCatch(DESeqDataSetFromMatrix(countData = data,
@@ -18,6 +20,17 @@ DESeq2preproc <- function(dataSet = dataSet_RNA,
                                   stop(paste0("Error in read counts input: ", conditionMessage(e), 
                                               ". PROGRAM EXIT!"))
                                 }})
+  # dds <- tryCatch(DESeq(ddsFullCountTable), 
+  #                 error = function(e){if(grepl("all gene-wise dispersion estimates are within 2 orders of magnitude", 
+  #                                              conditionMessage(e))){
+  #                   cat("Little variance among groups detect! Using proper data to do test is recommanded.\n")
+  #                   dds <- estimateDispersionsGeneEst(ddsFullCountTable)
+  #                   dispersions(dds) <- mcols(dds)$dispGeneEst
+  #                   DESeq(dds)
+  #                 } else{
+  #                   stop(paste0("Error in DESeq: ", conditionMessage(e), 
+  #                               ". PROGRAM EXIT!"))
+  #                 }})
   dds <- DESeq(ddsFullCountTable)
   #Normalization(Note: only providing counts scaled by size or normalization factors, 
   #experiment design info only used in the other normalization methods.
