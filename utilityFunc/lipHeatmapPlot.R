@@ -56,6 +56,10 @@ lipHeatmapPlot <- function(dataSet, mSet,
   }
   plotSubHeatmap <- function(mSetObj = mSet, 
                              norm = T, topnum_in = topnum){
+    if(topnum_in > length(mSet[["dataSet"]][["orig.var.nms"]])){
+      cat("Not enough number of features, show all the features instead!\n")
+      topnum_in <- length(mSet[["dataSet"]][["orig.var.nms"]])
+    }
     if(length(groupsLevel) == 2){
       mSetObj <- Ttests.Anal(mSetObj)
       toplip <- names(sort(mSetObj$analSet$tt$p.value))[1:topnum_in]

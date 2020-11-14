@@ -19,18 +19,17 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "COLD"
-dataSet <- readingLipidData(datafile = "./testData/cold_induced/input/lipid_tidy.CSV", 
-                            controlGrp = "RT", dataType = "LipidSearch", delOddChainOpt = T,
-                            fileLoc = "./testData/cold_induced/output/", 
-                            na.char = "######")
+analOpt <- "preRes"
+dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv", 
+                            controlGrp = "", dataType = "LipidSearch", delOddChainOpt = F,
+                            fileLoc = "./branch/benchmark/output/")
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
     dataset <- prepDataSet(i)
     
     mSet <- MARpreproc(dataSet = dataset)
-    lipVolcanoPlot(dataSet = dataset, mSet = mSet, 
+    lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
                    fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
     lipPCAPlot(dataSet = dataset, mSet = mSet, 
                fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/")
@@ -48,22 +47,22 @@ if(analOpt == "group_by_group"){
   cat("All groups will be analyzed together\n")
   mSet <- MARpreproc(dataSet = dataSet)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
-             fileLoc = "./testData/cold_induced/output/MARresults/")
+             fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
-                 fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/MARresults/", 
+                 fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/", 
                  topnum = 75)
   
   headgroupStat(dataSet = dataSet, mSet = mSet, 
-                fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/headgroup/")
+                fileLoc = "./branch/benchmark/output/headgroup/")
   FAchainStat(dataSet = dataSet, mSet = mSet, 
-              fileLoc = "./testData/zsy_DGATinhibitors/HeLaData/output/FAchainVisual/", 
+              fileLoc = "./testData/CerebrospinalFluid_multiomics/output/FAchainVisual/", 
               plotInfo = "FA_info")
 }else{
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
   dataset <- prepDataSet(analOpt)
   
   mSet <- MARpreproc(dataSet = dataset)
-  lipVolcanoPlot(dataSet = dataset, mSet = mSet, 
+  lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
                  fileLoc = "./testData/cold_induced/output/MARresults/")
   lipPCAPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = "./testData/cold_induced/output/MARresults/")

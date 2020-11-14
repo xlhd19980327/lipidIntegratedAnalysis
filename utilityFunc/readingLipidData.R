@@ -1,5 +1,5 @@
 readingLipidData <- function(datafile, controlGrp = "", dataType, 
-                             lipField = NA, delOddChainOpt = T, fileLoc, na.char = NULL){
+                             lipField = NA, delOddChainOpt = F, fileLoc, na.char = NULL){
   if(dataType == "LipidSearch"){
     if(is.na(lipField)){
       lipField <- "LipidIon"
@@ -69,7 +69,8 @@ readingLipidData <- function(datafile, controlGrp = "", dataType,
                         lipidName = switch(dataType, 
                                            LipidSearch = gsub("(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
                                            #Delete some "0:0" info
-                                           MS_DIAL = gsub("(.*)\\/0:0$", "\\1", data[[lipField]])))
+                                           MS_DIAL = gsub("(.*)\\/0:0$", "\\1", data[[lipField]]), 
+                                           Metabolites = data[[lipField]]))
   data_sub_dup <- data_sub_all %>%
     group_by(lipidName) %>%
     filter(n() > 1)

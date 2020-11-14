@@ -1,4 +1,4 @@
-lipVolcanoPlot <- function(dataSet, mSet, 
+lipVolcanoPlot <- function(dataSet, mSet, showLipClass = F, 
                            fileLoc){
   source("./utilityFunc/plottingPalettes.R")
   controlGrp <- dataSet$controlGrp
@@ -48,11 +48,9 @@ lipVolcanoPlot <- function(dataSet, mSet,
       up = ifelse(fc.log > log(fcthresh, 2) & p.log > -log10(pthresh), 1, 0),
       down = ifelse(fc.log < -log(fcthresh, 2) & p.log > -log10(pthresh), 2, 0),
       regState = sapply(up + down, function(x) switch(x, "upreg", "downreg")), 
-      regState = sapply(regState, function(x) ifelse(is.null(x), 0, x)), 
-      Class = switch(dataSet$dataType,
-                     LipidSearch = gsub("(.*?)\\(.*", "\\1", lipid), 
-                     MS_DIAL = gsub("(.*?) .*", "\\1", lipid))
+      regState = sapply(regState, function(x) ifelse(is.null(x), 0, x))
     )
+  
   volcano.data_reg <- subset(volcano.data, subset = regState != 0)
   volcano.data_unreg <- subset(volcano.data, subset = regState == 0)
   volcano.plot <- ggplot() +
@@ -69,19 +67,29 @@ lipVolcanoPlot <- function(dataSet, mSet,
     scale_color_aaas()
   ggsave(paste0(fileLoc, "volcano_reg_", exper, ".pdf"), plot = volcano.plot, 
          device = "pdf", width = 9, height = 9)
-  nClass <- length(unique(volcano.data$Class))
-  volcano.plot_class <- ggplot() +
-    geom_point(data = subset(volcano.data, subset = regState != 0), 
-               aes(x = fc.log, y = p.log, color = reorder(Class, -abs(fc.log), mean)))+ 
-    geom_point(data = subset(volcano.data, subset = regState == 0), 
-               aes(x = fc.log, y = p.log), color = "gray") +
-    theme_bw() +
-    geom_vline(xintercept = c(-log(fcthresh, 2), log(fcthresh, 2)), linetype = "dashed", size = 0.5) +
-    geom_hline(yintercept = -log10(pthresh), linetype = "dashed", size = 0.5) + 
-    labs(x = "log2(Fold change)", y = "-log10(p.value)", color = "Class", 
-         title = paste0(exper, " vs ", controlGrp)) + 
-    theme(plot.title = element_text(hjust = 0.5, size = 10)) +
-    scale_color_manual(values = plottingPalettes(nClass, type = "discrete"))
-  ggsave(paste0(fileLoc, "volcano_regClass_", exper, ".pdf"), plot = volcano.plot_class, 
-         device = "pdf", width = 9, height = 9)
+  
+  if(showLipClass){
+    volcano.data <- volcano.data %>%
+      mutate(
+        Class = switch(dataSet$dataType,
+                       LipidSearch = gsub("(.*?)\\(.*", "\\1", lipid), 
+                       MS_DIAL = gsub("(.*?) .*", "\\1", lipid))
+      )
+    nClass <- length(unique(volcano.data$Class))
+    volcano.plot_class <- ggplot() +
+      geom_point(data = subset(volcano.data, subset = regState != 0), 
+                 aes(x = fc.log, y = p.log, color = reorder(Class, -abs(fc.log), mean)))+ 
+      geom_point(data = subset(volcano.data, subset = regState == 0), 
+                 aes(x = fc.log, y = p.log), color = "gray") +
+      theme_bw() +
+      geom_vline(xintercept = c(-log(fcthresh, 2), log(fcthresh, 2)), linetype = "dashed", size = 0.5) +
+      geom_hline(yintercept = -log10(pthresh), linetype = "dashed", size = 0.5) + 
+      labs(x = "log2(Fold change)", y = "-log10(p.value)", color = "Class", 
+           title = paste0(exper, " vs ", controlGrp)) + 
+      theme(plot.title = element_text(hjust = 0.5, size = 10)) +
+      scale_color_manual(values = plottingPalettes(nClass, type = "discrete"))
+    ggsave(paste0(fileLoc, "volcano_regClass_", exper, ".pdf"), plot = volcano.plot_class, 
+           device = "pdf", width = 9, height = 9)
+  }
+  
 }
