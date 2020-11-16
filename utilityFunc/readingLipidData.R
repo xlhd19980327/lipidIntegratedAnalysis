@@ -1,37 +1,42 @@
-readingLipidData <- function(datafile, controlGrp = "", dataType, 
+readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType, 
                              lipField = NA, delOddChainOpt = F, fileLoc, na.char = NULL){
   if(dataType == "LipidSearch"){
     if(is.na(lipField)){
       lipField <- "LipidIon"
     }
-  }
-  if(dataType == "MS_DIAL"){
+  }else if(dataType == "MS_DIAL"){
     if(is.na(lipField)){
-      lipField <- "Metabolite.name"
+      lipField <- "Metabolite name"
+    }
+  }else{
+    if(is.na(lipField)){
+      stop("You should indicate the feature colum instead of NA, PROGRAM EXIT!")
     }
   }
   #!!!!!WARNING: The NA string may be others, may add the char clients customized 
-  data <- read.csv(datafile, skip = 1, na.strings = c("N/A", "NA", na.char))
-  #NOTE1-ref: may have the first character garbled
+  data <- read.csv(datafile, na.strings = c("N/A", "NA", na.char))
   firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
                     na.strings = c("N/A", "NA"))
-  #notdataColsLen <- sum(firstline == '')
-  allgroups <- firstline[firstline != '']
-  sampleInd <- which(firstline != '')
+  colnames(data) <- firstline
+  if(!lipField %in% colnames(data)){
+    stop("You should indicate the right feature colum, PROGRAM EXIT!")
+  }
+  sampleInfo <- read.csv(sampleList)
+  allgroups <- sampleInfo$conditions
+  sampleInd <- colnames(data) %in% sampleInfo$samples 
   groupsLevel <- unique(allgroups)
   nsamples <- table(factor(allgroups, levels = groupsLevel))
-  names(allgroups) <- colnames(data)[sampleInd]
-  #NOTE2-ref: should indicate the control group or set on the first column
+  names(allgroups) <- sampleInfo$samples
+  #NOTE2-ref: should indicate the control group or set on the first row in sampleList
   if(controlGrp == ""){
     controlGrp <- groupsLevel[1]
   }
-  
   
   ### Check Data Integrity ###
   if(min(nsamples) < 3){
     stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
   }
-  if(any(!(apply(data[, which(firstline != "")], 2, is.numeric)))){
+  if(any(!(apply(data[, sampleInd], 2, is.numeric)))){
     stop("Data contain non-numeric variable. You may check the NA string and offer na.char parameter. PROGRAM EXIT!")
   }
   
@@ -70,7 +75,8 @@ readingLipidData <- function(datafile, controlGrp = "", dataType,
                                            LipidSearch = gsub("(.*\\))[\\+\\-].*", "\\1", data[[lipField]]), 
                                            #Delete some "0:0" info
                                            MS_DIAL = gsub("(.*)\\/0:0$", "\\1", data[[lipField]]), 
-                                           Metabolites = data[[lipField]]))
+                                           Metabolites = data[[lipField]], 
+                                           Proteins = data[[lipField]]))
   data_sub_dup <- data_sub_all %>%
     group_by(lipidName) %>%
     filter(n() > 1)

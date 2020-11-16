@@ -7,9 +7,6 @@ source("./utilityFunc/lipHeatmapPlot.R")
 source("./utilityFunc/headgroupStat.R")
 source("./utilityFunc/FAchainStat.R")
 source("./utilityFunc/plottingPalettes.R")
-source("./utilityFunc/statFAChains.R")
-source("./utilityFunc/statFAChains_pathAna.R")
-
 
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
@@ -21,37 +18,50 @@ prepDataSet <- function(x, dataset = dataSet){
 }
 
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "all_together"
+analOpt <- "preRes"
 ##!!!!!DEV: delOddChainOpt should always be F in the Metabolites mode
-dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANLipidMediator_imm.CSV", 
+dataSet <- readingLipidData(datafile = "./testData/CerebrospinalFluid_multiomics/input/metabolites_tidy2.csv",
+                            sampleList = "./testData/CerebrospinalFluid_multiomics/input/sampleList_lip.csv", 
                             controlGrp = "", dataType = "Metabolites", delOddChainOpt = F,
-                            lipField = "LipidMediator",
-                            fileLoc = "./branch/benchmark/output/")
-
-cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
-dataset <- prepDataSet(analOpt)
-mSet <- MARpreproc(dataSet = dataset)
-##!!!!!DEV: showLipClass should always be F in the Metabolites mode
-lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = F, 
+                            lipField = "metabolites",
+                            fileLoc = "./testData/CerebrospinalFluid_multiomics/output/")
+if(analOpt == "group_by_group"){
+  cat("Group-by-group analysis mode\n")
+  for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
+    dataset <- prepDataSet(i)
+    
+    mSet <- MARpreproc(dataSet = dataset)
+    ##!!!!!DEV: showLipClass should always be F in the Metabolites mode
+    lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = F,
+                   fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
+    lipPCAPlot(dataSet = dataset, mSet = mSet, 
                fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
-lipPCAPlot(dataSet = dataset, mSet = mSet, 
-           fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
-lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
-               fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/", 
-               topnum = 75)
-
-if(analOpt == "all_together"){
+    lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
+                   fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/", 
+                   topnum = 75)
+  }
+}else if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
   mSet <- MARpreproc(dataSet = dataSet)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
-             fileLoc = "./branch/benchmark/output/MARresults/")
+             fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
-                 fileLoc = "./branch/benchmark/output/MARresults/", 
+                 fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/", 
                  topnum = 75)
+}else{
+  cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
+  dataset <- prepDataSet(analOpt)
   
-  headgroupStat(dataSet = dataSet, mSet = mSet, 
-                fileLoc = "./testData/CerebrospinalFluid_multiomics/output/headgroup/")
-  FAchainStat(dataSet = dataSet, mSet = mSet, 
-              fileLoc = "./testData/CerebrospinalFluid_multiomics/output/FAchainVisual/", 
-              plotInfo = "FA_info")
+  mSet <- MARpreproc(dataSet = dataset)
+  ##!!!!!DEV: showLipClass should always be F in the Metabolites mode
+  lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = F,
+                 fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
+  lipPCAPlot(dataSet = dataset, mSet = mSet, 
+             fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/")
+  lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
+                 fileLoc = "./testData/CerebrospinalFluid_multiomics/output/MARresults/", 
+                 topnum = 75)
 }
+
+
+

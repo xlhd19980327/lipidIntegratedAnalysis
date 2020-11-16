@@ -11,24 +11,27 @@ dataSet_RNA <- readingRNAData(datafile = "./branch/benchmark/input/gene_tidy.CSV
                               controlGrp = "HCC_FASNpos")
 dataProc_RNA <- limmaPreproc(dataSet = dataSet_RNA, norm = T, 
                              fileLoc = "./branch/benchmark/output/")
-## These plots only show the result after normalization
-## We recommand you run this PCA/Heatmap only when you want to see within-group/between-group variability across multiple groups 
-## If you want to see the detail DE genes, run Heatmap/Volcano between two groups in the later section
-rnaMiArPCAPlot(dataProc = dataProc_RNA, 
-               fileLoc = "./branch/benchmark/output/")
-##!!!!!DEV: rnaHeatmapPlot input differ in different situation
-rnaHeatmapPlot(DEAresult = dataProc_RNA, showallgroups = T, type = "MiAr", 
-               fileLoc = "./branch/benchmark/output/")
-analOpt = "HCC_FASNneg"
+
+##!!!Client options: can be "group_by_group"/"only_show_variability"/[expr group]
+analOpt = "group_by_group"
 if(analOpt == "group_by_group"){
   for(i in dataSet_RNA$groupsLevel[dataSet_RNA$groupsLevel != dataSet_RNA$controlGrp]){
     DEAresult <- DEAnalysis_limma(dataProc = dataProc_RNA, experGrp = i, 
                             fileLoc = "./testData/cold_induced/output/")
-    rnaVolcanoPlot(DEAresult, 
+    rnaVolcanoPlot(DEAresult, type = "MiAr",
                    fileLoc = "./testData/cold_induced/output/")
-    rnaHeatmapPlot(DEAresult, 
+    rnaHeatmapPlot(DEAresult, type = "MiAr", 
                    fileLoc = "./testData/cold_induced/output/")
   }
+}else if(analOpt == "only_show_variability"){
+  ##NOTE: These plots only show the result after normalization of size factor(account for differences in sequencing depth)
+  ##NOTE: We recommand you run this PCA/Heatmap only when you want to see within-group/between-group variability across multiple groups 
+  ##NOTE: If you want to see the detail DE genes, run Heatmap/Volcano between two groups using "group_by_group"/[expr group] options
+  rnaMiArPCAPlot(dataProc = dataProc_RNA, 
+                 fileLoc = "./branch/benchmark/output/")
+  ##!!!!!DEV: rnaHeatmapPlot input differ in different situation
+  rnaHeatmapPlot(DEAresult = dataProc_RNA, showallgroups = T, type = "MiAr", 
+                 fileLoc = "./branch/benchmark/output/")
 }else{
   DEAresult <- DEAnalysis_limma(dataProc = dataProc_RNA, experGrp = analOpt, 
                           fileLoc = "./branch/benchmark/output/")
