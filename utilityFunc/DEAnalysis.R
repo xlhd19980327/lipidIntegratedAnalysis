@@ -1,5 +1,4 @@
-DEAnalysis <- function(dataProc = dataProc_RNA, experGrp, 
-                       fileLoc){
+DEAnalysis <- function(dataProc, experGrp, fileLoc){
   dds <- dataProc$dds
   controlGrp <- dataProc$dataSet$controlGrp
   

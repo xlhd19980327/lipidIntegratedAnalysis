@@ -1,5 +1,4 @@
-DESeq2preproc <- function(dataSet = dataSet_RNA, 
-                          fileLoc){
+DESeq2preproc <- function(dataSet, fileLoc){
   data <- dataSet$data
   sampleInfo <- dataSet$sampleInfo
   

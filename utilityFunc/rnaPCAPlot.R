@@ -1,5 +1,4 @@
-rnaPCAPlot <- function(dataProc = dataProc_RNA, 
-                       fileLoc){
+rnaPCAPlot <- function(dataProc, fileLoc){
   rld <- dataProc$rld
   groupsLevel <- dataProc$dataSet$groupsLevel
   controlGrp <- dataProc$dataSet$controlGrp

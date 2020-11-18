@@ -1,4 +1,4 @@
-DEAnalysis_limma <- function(dataProc = dataProc_RNA, experGrp,
+DEAnalysis_limma <- function(dataProc, experGrp,
                              fileLoc){
   sampleList <- dataProc$dataSet$sampleInfo
   eset <- dataProc$eset

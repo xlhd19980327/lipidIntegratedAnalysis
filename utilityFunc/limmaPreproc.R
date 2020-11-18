@@ -1,4 +1,4 @@
-limmaPreproc <- function(dataSet = dataSet_RNA, norm = T, 
+limmaPreproc <- function(dataSet, norm = T, 
                          fileLoc){
   eset <- dataSet$data
   sampleList <- dataSet$sampleInfo

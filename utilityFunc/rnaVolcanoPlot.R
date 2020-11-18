@@ -1,6 +1,6 @@
-rnaVolcanoPlot <- function(DEAresult = DEAresult, type = "RNAseq",
+rnaVolcanoPlot <- function(DEAresult, type = "RNAseq",
                            fileLoc, fcthresh = 2.0, pthresh = 0.1,
-                           #Show top gene labels in volcano or set "F" to do not show any
+                           #Show top gene labels in volcano or set 0 to do not show any
                            showtop = 20){
   resLFC <- DEAresult$resLFC
   experGrp <- DEAresult$experGrp
@@ -24,7 +24,7 @@ rnaVolcanoPlot <- function(DEAresult = DEAresult, type = "RNAseq",
   volcano.data_reg <- subset(volcano.data, subset = regState != 0)
   volcano.data_unreg <- subset(volcano.data, subset = regState == 0)
   #!!!!!WARNING: use p_value as rank standard, may use others(eg. mad?)
-  if(showtop != F){
+  if(showtop != 0){
     if(showtop > nrow(volcano.data_reg)){
       cat("Not enough significant feature! Show all the feature label.\n")
     }
