@@ -1,5 +1,5 @@
 headgroupStat <- function(dataSet, mSet,  
-                          fileLoc){
+                          fileLoc, ignore = T, stat = F){
   dataType <- dataSet$dataType
   allgroups <- dataSet$allgroups
   controlGrp <- dataSet$controlGrp
@@ -8,13 +8,8 @@ headgroupStat <- function(dataSet, mSet,
                                                          "_vs_", controlGrp))
   
   ## Source will offer the following contents:
-  ## Function(s): getFAsInfo
-  if(dataType == "LipidSearch"){
-    source("./utilityFunc/getFAsInfo.R")
-  }
-  if(dataType == "MS_DIAL"){
-    source("./utilityFunc/getFAsInfo_msdial.R")
-  }
+  ## Function(s): getClassInfo
+  source("./utilityFunc/getClassInfo.R")
   ## Source will offer the following contents:
   ## Function(s): getPValue
   source("./utilityFunc/getPValue.R")
@@ -25,25 +20,26 @@ headgroupStat <- function(dataSet, mSet,
   data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
     rownames_to_column(var = "lipidName") %>%
     mutate(Class = switch(dataSet$dataType,
-                          LipidSearch = gsub("(.*?)\\(.*", "\\1", lipidName), 
-                          MS_DIAL = gsub("(.*?) .*", "\\1", lipidName)))
-  
-  ## Seperate MS1 and MS2 lipids & Calculate itensity of lipid class containing FA chain info
-  lipids <- data_tidy$lipidName
-  # Get the FA info and MS1 info
-  fasInfo <- lapply(lipids, getFAsInfo)
-  ms1Info <- sapply(fasInfo, function(x) x$ms1)
-  data_tidy <- cbind(data_tidy, ms1 = ms1Info)
+                          LipidSearch = sapply(lipidName, getClassInfo, "LipidSearch", ignore = ignore), 
+                          MS_DIAL = sapply(lipidName, getClassInfo, "MS_DIAL", ignore = ignore)))
   
   ### Tidy for and do Visualization ###
   ## Use data_tidy(Delete duplication) to calculate itensity of each lipid class
   data_sub_classSum_stat <- data_tidy %>%
     ungroup() %>%
-    select(-ms1, -lipidName) %>%
+    select(-lipidName) %>%
     gather(key = "case", value = "lipidsum", -Class) %>%
     group_by(Class, case) %>%
     summarise(lipidsum = sum(lipidsum, na.rm = T)) %>%
     mutate(group = allgroups[match(case, names(allgroups))]) 
+  if(stat == T){
+    #Use for "statClassSum"
+    data_classSum <- data_sub_classSum_stat %>%
+      spread(Class, lipidsum) %>%
+      select(c(-case, -group)) %>%
+      t()
+    return(data_classSum)
+  }
   data_sub_classSum_stat2 <- data_sub_classSum_stat %>%
     group_by(Class, group) %>%
     summarise(realmean = mean(lipidsum),
@@ -54,6 +50,7 @@ headgroupStat <- function(dataSet, mSet,
   sigLabel <- addSigLabel(data_sub_classSum_stat3$p)
   data_sub_classSum_stat3 <- cbind(data_sub_classSum_stat3, sigLabel = sigLabel)
   data_sub_classSum_integStat <- left_join(data_sub_classSum_stat2, data_sub_classSum_stat3)
+  
   nclass <- length(unique(data_sub_classSum_integStat$Class))
   h_plot <- nclass / 3 * (12/7)
   h2_plot <- nclass / 3 * (16/7)

@@ -1,8 +1,18 @@
 ##!!!!!WARNING: Class statistics will only contain the following lipid class:
 ## "Cer", "SM", "FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS", "CL"
 
-getFAsInfo <- function(i){
-  Class <- gsub("(.*?) .*", "\\1", i, perl = T)
+getFAsInfo <- function(i, ignorei){
+  ## Source will offer the following contents:
+  ## Function(s): getClassInfo
+  source("./utilityFunc/getClassInfo.R")
+  
+  Class <- getClassInfo(i, "MS_DIAL", ignore = ignorei)
+  spclasses <- c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
+                 "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
+                 "LPS", "CL")
+  epclasses <- c(paste0(spclasses, "(O)"), paste0(spclasses, "(P)"))
+  spclasses2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS", "TG", "CL")
+  epclasses2 <- c(paste0(spclasses2, "(O)"), paste0(spclasses2, "(P)"))
   if(Class %in% c("Cer", "SM")){ #may use Class %in% c("Cer", "SM", "SPH")
     if(grepl("\\|", i)){
       spbase <- gsub(".*\\|.*?([0-9]+:[0-9]+;[0-9]O).*", "\\1", i, perl = T)
@@ -28,10 +38,8 @@ getFAsInfo <- function(i){
       spall_tidy <- paste0(spall_OH_label, spall_carbon)
       fas <- spall_tidy
     }
-  } else if(Class %in% c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
-                         "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
-                         "LPS", "CL")){#will not contain "ChE"
-    # All ignore e/p(O-/P-) connection
+  } else if(Class %in% c(spclasses, epclasses)){#will not contain "ChE", cuz MSDIAL will regard sth. like "Cholesterol" as ChE instead of "ChE"
+    # All ignore O-/P- connection
     if(grepl("\\|", i)){
       fainfo <- gsub(".*\\|(.*)", "\\1", i)
       fas <- strsplit(fainfo, "[_/]")
@@ -50,7 +58,7 @@ getFAsInfo <- function(i){
   if(n > 1){
     ms1 <- F
   } else{
-    if(Class %in% c("Cer", "DG", "PA", "PC", "PE", "PG", "PI", "PS", "SM", "TG", "CL")){
+    if(Class %in% c("Cer", "SM", spclasses2, epclasses2)){
       ms1 <- T
     } else {
       ms1 <- F

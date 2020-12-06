@@ -1,9 +1,9 @@
 ## plotInfo == "FA_info": Statistics fatty acid chain&unsaturated info in that lipid class
 ## plotInfo == "all_info": Statistics all chain&unsaturated info in that lipid class
 FAchainStat <- function(dataSet, mSet,  
-                        fileLoc, plotInfo, 
+                        fileLoc, plotInfo, ignore = T,
                         #use this for our statistics method, client cannot modify
-                        stat = F){
+                        stat = F, stat2 = F){
   allgroups <- dataSet$allgroups
   controlGrp <- dataSet$controlGrp
   groupsLevel <- dataSet$groupsLevel
@@ -29,13 +29,13 @@ FAchainStat <- function(dataSet, mSet,
   data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
     rownames_to_column(var = "lipidName") %>%
     mutate(Class = switch(dataSet$dataType,
-                          LipidSearch = gsub("(.*?)\\(.*", "\\1", lipidName), 
-                          MS_DIAL = gsub("(.*?) .*", "\\1", lipidName)))
+                          LipidSearch = sapply(lipidName, getClassInfo, "LipidSearch", ignore = ignore), 
+                          MS_DIAL = sapply(lipidName, getClassInfo, "MS_DIAL", ignore = ignore)))
   
   ## Seperate MS1 and MS2 lipids & Calculate itensity of lipid class containing FA chain info
   lipids <- data_tidy$lipidName
   # Get the FA info and MS1 info
-  fasInfo <- lapply(lipids, getFAsInfo)
+  fasInfo <- lapply(lipids, getFAsInfo, ignore)
   ms1Info <- sapply(fasInfo, function(x) x$ms1)
   data_tidy <- cbind(data_tidy, ms1 = ms1Info)
   
@@ -78,14 +78,18 @@ FAchainStat <- function(dataSet, mSet,
   ## Visualize with the facet plot
   divnum <- function(x){
     ##!!!!!WARNING: Class statistics will only contain the lipid class in getFAsInfo function recognize
+    class1 <- c("FA", "MG", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS", "ChE")
+    epclass1 <- c(paste0(class1, "(O)"), paste0(class1, "(P)"))
+    class2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS")
+    epclass2 <- c(paste0(class2, "(O)"), paste0(class2, "(P)"))
     Class <- unique(x)
-    if(Class %in% c("Cer", "SM", "SPH", "FA", "MG", "LPA", "LPC", "LPE", "LPG", "LPI", "LPS", "ChE")){
+    if(Class %in% c("Cer", "SM", "SPH", class1, epclass1)){
       div <- 1
-    }else if(Class %in% c("DG", "PA", "PC", "PE", "PG", "PI", "PS")){
+    }else if(Class %in% c(class2, epclass2)){
       div <- 2
-    }else if(Class %in% c("TG")){
+    }else if(Class %in% c("TG", "TG(O)", "TG(P)")){
       div <- 3
-    }else if(Class %in% c("CL")){
+    }else if(Class %in% c("CL", "CL(O)", "CL(P)")){
       div <- 4
     }
     return(div)
@@ -117,6 +121,9 @@ FAchainStat <- function(dataSet, mSet,
                                 FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum)))  %>%
     spread(key = case, value = lipidsum)
+  if(stat2 == T){
+    return(lipid_subclass_stat_output)
+  }
   lipid_subclass_stat2 <- lipid_subclass_stat %>%
     group_by(Class, subclass, group) %>%
     summarise(realmean = mean(lipidsum) ,
@@ -198,7 +205,7 @@ FAchainStat <- function(dataSet, mSet,
     filter(!grepl("\\([a-z][0-9]+:", subclass)) %>%
     mutate(chain = as.numeric(gsub(".*?([0-9]+):.*", "\\1", subclass)), 
            unsaturate = as.numeric(gsub(".*?:([0-9]+).*", "\\1", subclass)), 
-           Class = gsub("(.*?)\\(.*", "\\1", subclass))
+           Class = Class)
   sigLabel3 <- addSigLabel(lipid_subclass_stat_tile$p)
   lipid_subclass_stat_tile <- cbind(lipid_subclass_stat_tile, sigLabel = sigLabel3)
   for(i in groupsLevel[groupsLevel != controlGrp]){

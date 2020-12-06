@@ -1,8 +1,19 @@
 ##!!!!!WARNING: Class statistics will only contain the following lipid class:
 ## Cer, SM, SPH, FA, MG, DG, TG, PA, PC, PE, PG, PI, PS, LPA, LPC, LPE, LPG, LPI, LPS, ChE, CL
+## & its O/P Class
 
-getFAsInfo <- function(i){
-  Class <- gsub("(.*?)\\(.*", "\\1", i, perl = T)
+getFAsInfo <- function(i, ignorei){
+  ## Source will offer the following contents:
+  ## Function(s): getClassInfo
+  source("./utilityFunc/getClassInfo.R")
+  
+  Class <- getClassInfo(i, "LipidSearch", ignore = ignorei)
+  spclasses <- c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
+                 "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
+                 "LPS", "ChE", "CL")
+  epclasses <- c(paste0(spclasses, "(O)"), paste0(spclasses, "(P)"))
+  spclasses2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS", "TG", "CL")
+  epclasses2 <- c(paste0(spclasses2, "(O)"), paste0(spclasses2, "(P)"))
   if(Class %in% c("Cer", "SM", "SPH")){ 
     # Ignore "+O" info
     if(grepl("_", i)){
@@ -13,10 +24,8 @@ getFAsInfo <- function(i){
       spall <- gsub(".*\\(([mdt][0-9]+:[0-9]+)(\\+O)*.*", "\\1", i, perl = T)
       fas <- spall
     }
-  } else if(Class %in% c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
-                         "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
-                         "LPS", "ChE", "CL")){
-    # All ignore e/p(O-/P-) connection
+  } else if(Class %in% c(spclasses, epclasses)){
+    # All ignore e/p connection
     if(grepl("_", i)){
       fainfo <- gsub(".*\\((.*)\\)", "\\1", i)
       fas <- strsplit(fainfo, "[_/]")
@@ -39,7 +48,7 @@ getFAsInfo <- function(i){
   if(n > 1){
     ms1 <- F
   } else{
-    if(Class %in% c("Cer", "DG", "PA", "PC", "PE", "PG", "PI", "PS", "SM", "TG", "CL")){
+    if(Class %in% c("Cer", "SM", spclasses2, epclasses2)){
       ms1 <- T
     } else {
       ms1 <- F

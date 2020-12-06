@@ -3,8 +3,8 @@ library(tidyverse)
 library(dplyr)
 library(pheatmap)
 options(stringsAsFactors = F)
-source("./utilityFunc/readingLipidData.R")
-source("./utilityFunc/readingRNAData.R")
+source("./branch/correlation/readingRNAData_cor.R")
+source("./branch/correlation/readingLipidData_cor.R")
 
 h_gene=1
 h_lipid=1
@@ -13,9 +13,9 @@ cutoff_correlation=0.7
 ## Data input
 lipiddataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANLipidMediator_imm_forcor.CSV", 
                                             controlGrp = "", dataType = "Metabolites", delOddChainOpt = F,
-                                            lipField = "LipidMediator",
+                                            lipField = "LipidMediator", sampleList = "./branch/benchmark/input/HANsampleList_lipmid.csv", 
                                             fileLoc = "./branch/benchmark/output/")
-genedataSet <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy_geneid.CSV", 
+genedataSet <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy.CSV", 
                               sampleList = "./branch/benchmark/input/HANsampleList.CSV")
 
 ## Tidy the input files
@@ -127,14 +127,14 @@ lipidname <- extract_name(result_list, 'R')
 
 
 ### Output
+correlation_filt <- correlation[rownames(correlation) %in% unique(lipidname), 
+                                colnames(correlation) %in% unique(genename)]
 rownames(correlation) <- alllipidnames[as.integer(gsub("^L([0-9]+)", "\\1", 
                                                       rownames(correlation)))]
 colnames(correlation) <- allgenenames[as.integer(gsub("^G([0-9]+)", "\\1", 
                                                        colnames(correlation)))]
 list_addlipn <- pheatmap(correlation)
 
-correlation_filt <- correlation[rownames(correlation) %in% unique(lipidname), 
-                                colnames(correlation) %in% unique(genename)]
 rownames(correlation_filt) <- alllipidnames[as.integer(gsub("^L([0-9]+)", "\\1", 
                                                        rownames(correlation_filt)))]
 colnames(correlation_filt) <- allgenenames[as.integer(gsub("^G([0-9]+)", "\\1", 
@@ -153,17 +153,22 @@ up <- c("Maresin 1", "5,6-diHETE ", "5-HEPE ", "5,15-diHETE ", "18-HEPE ",
         "AA", "10S,17S-diHDHA", "15-HETE ", "12-HEPE ")
 down <- c("AT-LXB4 ", "RvD2 ", "RvD3 ", "17R-RvD1 ", "RvD6 ", "7S,12-trans Mar1")
 
+write.csv(up, "~/temp/up_lipmed.csv")
+write.csv(down, "~/temp/down_lipmed.csv")
+
 correlation_filt_up <- correlation_filt[rownames(correlation_filt) %in% up, ]
-up_summ <- colSums(correlation_filt_up)
-up_regdown_gene <- names(up_summ[up_summ < 0])
-up_regup_gene <- names(up_summ[up_summ > 0])
+up_summ <- apply(correlation_filt_up, 2, median)
+# up_gene <- rbind(data.frame(up_gene = names(up_summ[up_summ < 0]), median = up_summ[up_summ < 0]), 
+#                  data.frame(up_gene = names(up_summ[up_summ > 0]), median = up_summ[up_summ > 0]))
+up_regdown_gene <- data.frame(up_gene = names(up_summ[up_summ < 0]), median = up_summ[up_summ < 0])
+up_regup_gene <- data.frame(up_gene = names(up_summ[up_summ > 0]), median = up_summ[up_summ > 0])
 write.csv(up_regdown_gene, "~/temp/up_regdown_gene.csv")
 write.csv(up_regup_gene, "~/temp/up_regup_gene.csv")
 
 correlation_filt_down <- correlation_filt[rownames(correlation_filt) %in% down, ]
-down_summ <- colSums(correlation_filt_down)
-down_regdown_gene <- names(down_summ[down_summ < 0])
-down_regup_gene <- names(down_summ[down_summ > 0])
+down_summ <- apply(correlation_filt_down, 2, median)
+down_regdown_gene <- data.frame(down_gene = names(down_summ[down_summ < 0]), median = down_summ[down_summ < 0])
+down_regup_gene <- data.frame(down_gene = names(down_summ[down_summ > 0]), median = down_summ[down_summ > 0])
 write.csv(down_regdown_gene, "~/temp/down_regdown_gene.csv")
 write.csv(down_regup_gene, "~/temp/down_regup_gene.csv")
 
@@ -171,8 +176,8 @@ RvD2 <- c("RvD2 ")
 correlation_rvd2 <- correlation[rownames(correlation) %in% RvD2, ]
 #data <- rbind(correlation_rvd2, correlation_rvd2)
 #pheatmap(data)
-correlation_rvd2_regup_gene <- names(correlation_rvd2)[correlation_rvd2 > 0.8]
-correlation_rvd2_regdown_gene <- names(correlation_rvd2)[correlation_rvd2 < -0.8]
+correlation_rvd2_regup_gene <- correlation_rvd2[correlation_rvd2 > 0.8]
+correlation_rvd2_regdown_gene <- correlation_rvd2[correlation_rvd2 < -0.8]
 write.csv(correlation_rvd2_regup_gene, "~/temp/correlation_rvd2_regup_gene.csv")
 write.csv(correlation_rvd2_regdown_gene, "~/temp/correlation_rvd2_regdown_gene.csv")
 

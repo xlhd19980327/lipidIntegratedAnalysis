@@ -10,7 +10,7 @@ source("./utilityFunc/plottingPalettes.R")
 source("./utilityFunc/statFAChains.R")
 source("./utilityFunc/statFAChains_pathAna.R")
 
-outputLoc <- "./testData/zsy_DGATinhibitors/cos7Data/output/"
+outputLoc <- "./testData/cold_induced/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -20,11 +20,12 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "COS7OADGAT1+2i"
-dataSet <- readingLipidData(datafile = "./testData/zsy_DGATinhibitors/cos7Data/input/Cos7_integ_2.csv",
-                            sampleList = "./testData/zsy_DGATinhibitors/cos7Data/input/Cos7_integ_sampleList.csv", 
-                            controlGrp = "", dataType = "LipidSearch", delOddChainOpt = F,
-                            fileLoc = outputLoc)
+analOpt <- "COLD"
+dataSet <- readingLipidData(datafile = "./testData/cold_induced/input/lipid_tidy2.CSV",
+                            sampleList = "./testData/cold_induced/input/sampleList_lipid.csv", 
+                            controlGrp = "RT", dataType = "LipidSearch", delOddChainOpt = F,
+                            lipField = "LipidIon", fileLoc = outputLoc, 
+                            na.char = "######")
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
@@ -39,9 +40,9 @@ if(analOpt == "group_by_group"){
                    fileLoc = paste0(outputLoc, "MARresults/"), 
                    topnum = 75)
     
-    headgroupStat(dataSet = dataset, mSet = mSet, 
+    headgroupStat(dataSet = dataset, mSet = mSet, ignore = F, 
                   fileLoc = paste0(outputLoc, "headgroup/"))
-    FAchainStat(dataSet = dataset, mSet = mSet, 
+    FAchainStat(dataSet = dataset, mSet = mSet, ignore = F, 
                 fileLoc = paste0(outputLoc, "FAchainVisual/"), 
                 plotInfo = "FA_info")
   }
@@ -72,9 +73,9 @@ if(analOpt == "group_by_group"){
                  fileLoc = paste0(outputLoc, "MARresults/"), 
                  topnum = 75)
   
-  headgroupStat(dataSet = dataset, mSet = mSet, 
+  headgroupStat(dataSet = dataset, mSet = mSet, ignore = F, 
                 fileLoc = paste0(outputLoc, "headgroup/"))
-  FAchainStat(dataSet = dataset, mSet = mSet, 
+  FAchainStat(dataSet = dataset, mSet = mSet, ignore = F, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
               plotInfo = "FA_info")
 }

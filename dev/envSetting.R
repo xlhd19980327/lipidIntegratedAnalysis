@@ -18,6 +18,9 @@ library(ggrepel)
 library(ggsci)
 options(stringsAsFactors = F)
 
+library(clusterProfiler)
+
+
 #Shell interaction
 #library(getopt)
 library(optparse)
