@@ -32,6 +32,8 @@ limmaPreproc <- function(dataSet, norm = T,
     batch <- sampleList$batch
     eset <- removeBatchEffect(eset, batch)
   }
+  write.csv(eset, paste0(fileLoc, "expression_microarray_data", 
+                         ifelse(norm, "_normalized", ""), ".csv"))
   return(list(
     eset = eset, dataSet = dataSet
   ))

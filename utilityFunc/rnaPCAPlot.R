@@ -34,7 +34,10 @@ rnaPCAPlot <- function(dataProc, fileLoc){
          color = "group", 
          fill = "group",
          title = "PCA Score Plot") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
+    theme(plot.title = element_text(hjust = 0.5, size = 20), 
+          axis.title = element_text(size = 15), 
+          legend.text = element_text(size = 12), 
+          legend.title = element_text(size = 12))
   ggsave(paste0(fileLoc, "PCA_score_plot_all.pdf"), plot = pcaScorePlot, 
          device = "pdf", width = 9, height = 9)
 }

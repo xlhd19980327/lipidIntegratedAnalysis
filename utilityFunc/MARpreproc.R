@@ -1,4 +1,4 @@
-MARpreproc <- function(dataSet){
+MARpreproc <- function(dataSet, fileLoc){
   data <- dataSet$data
   lipidName <- dataSet$lipidName
   allgroups <- dataSet$allgroups
@@ -24,6 +24,7 @@ MARpreproc <- function(dataSet){
   mSet$dataSet$mumType <- "table"
   mSet$dataSet$orig.var.nms <- orig.var.nms
   mSet$dataSet$orig <- conc
+  qs::qsave(conc, file = "data_orig.qs")
   mSet$msgSet$read.msg <- c(paste("The uploaded data file contains ", 
                                   nrow(conc), " (samples) by ", ncol(conc), " (", tolower(GetVariableLabel(mSet$dataSet$type)), 
                                   ") data matrix.", sep = ""))
@@ -49,7 +50,7 @@ MARpreproc <- function(dataSet){
     if(remove == T){
       data<-RemoveMissingPercent(data, percent=percent)
     }
-    data<-ImputeVar(data, method=imput)
+    data<-ImputeMissingVar(data, method=imput)
     return(data)
   }
   #!!!Client options
@@ -62,6 +63,9 @@ MARpreproc <- function(dataSet){
   #!!!Client options
   mSet<-FilterVariable(mSet, 
                        filter = "none", qcFilter = "F", rsd = 25)
+  if(!is.na(fileLoc)){
+    write.csv(t(mSet[["dataSet"]][["proc"]]), paste0(fileLoc, "data_tidy.csv"))
+  }
   ## Normalization / Scaling
   # Default methods: 
   # 1. Normalization method: Probabilistic Quotient Normalization(PQN) without using a reference sample

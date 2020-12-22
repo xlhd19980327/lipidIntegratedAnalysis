@@ -1,5 +1,6 @@
 readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType, 
-                             lipField = NA, delOddChainOpt = F, fileLoc, na.char = NULL){
+                             lipField = NA, delOddChainOpt = F, #fileLoc, 
+                             na.char = NULL){
   if(dataType == "LipidSearch"){
     if(is.na(lipField)){
       lipField <- "LipidIon"
@@ -107,9 +108,9 @@ readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType,
   lipidName <- data$lipidName
   data <- subset(data, select = -lipidName)
   data_output <- cbind(lipidName = lipidName, data)
-  if(!is.na(fileLoc)){
-    write.csv(data_output, paste0(fileLoc, "data_tidy.csv"), row.names = F)
-  }
+  # if(!is.na(fileLoc)){
+  #   write.csv(data_output, paste0(fileLoc, "data_tidy.csv"), row.names = F)
+  # }
   return(list(
     data = data, lipidName = lipidName, 
     groupsLevel = groupsLevel, allgroups = allgroups, controlGrp = controlGrp, nsamples = nsamples, 

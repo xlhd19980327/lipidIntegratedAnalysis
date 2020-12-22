@@ -74,7 +74,8 @@ rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, type = "R
   if(showallgroups){
     heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
                                   annotation = legend_annotation, 
-                                  color = plottingPalettes(100, type = "continuous"),
+                                  #ugly
+                                  #color = plottingPalettes(100, type = "continuous"),
                                   #one-by-one usage
                                   annotation_colors = collegend_annotation,
                                   cluster_rows = T, 
@@ -87,7 +88,8 @@ rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, type = "R
   }else{
     heatmap <- pheatmap::pheatmap(mat = heatmap.data_top, 
                                   annotation = legend_annotation, 
-                                  color = plottingPalettes(100, type = "continuous"),
+                                  #ugly
+                                  #color = plottingPalettes(100, type = "continuous"),
                                   #one-by-one usage
                                   annotation_colors = collegend_annotation,
                                   fontsize = 8, 
@@ -99,7 +101,7 @@ rnaHeatmapPlot <- function(DEAresult, showtop = 75, showallgroups = F, type = "R
     pdf(paste0(fileLoc, "heatmap_top", showtop, 
                ifelse(showallgroups, "_allgroups", 
                       paste0("_", experGrp, "_vs_", controlGrp)), ".pdf"), 
-        width=(ncol(heatmap.data_top)*25+300)/72, height=(nrow(heatmap.data_top)*18+150)/72)
+        width=(ncol(heatmap.data_top)*16+300)/72, height=(nrow(heatmap.data_top)*11+150)/72)
   }
   grid::grid.newpage()
   grid::grid.draw(heatmap$gtable)

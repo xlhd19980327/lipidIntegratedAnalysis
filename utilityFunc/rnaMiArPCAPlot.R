@@ -40,7 +40,10 @@ rnaMiArPCAPlot <- function(dataProc = dataProc_RNA,
          color = "group", 
          fill = "group",
          title = "PCA Score Plot") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
+    theme(plot.title = element_text(hjust = 0.5, size = 20), 
+          axis.title = element_text(size = 15), 
+          legend.text = element_text(size = 12), 
+          legend.title = element_text(size = 12))
   pname <- ifelse(length(groupsLevel) > 2, "all", paste0(groupsLevel[groupsLevel != controlGrp], 
                                                          "_vs_", controlGrp))
   ggsave(paste0(fileLoc, "PCA_score_plot_", pname, ".pdf"), plot = pcaScorePlot, 

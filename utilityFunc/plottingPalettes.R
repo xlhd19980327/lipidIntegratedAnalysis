@@ -4,7 +4,7 @@ plottingPalettes <- function(n, type){
   }
   if(type == "discrete"){
     if(n <= 10){
-      color <- pal_aaas("default")(n)
+      color <- pal_npg("nrc")(n)
     }else{
       color <- colorRampPalette(brewer.pal(9, "Set1"))(n)
     }

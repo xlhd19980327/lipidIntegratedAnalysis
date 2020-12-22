@@ -2,11 +2,13 @@
 #Lipid
 library(tidyverse)
 library(MetaboAnalystR)
-library(ggsci)
+library(ggrepel)
+library(ggpubr)
 options(stringsAsFactors = F)
 
 #Color
 library(RColorBrewer)
+library(ggsci)
 
 #RNA-seq
 library(DESeq2)
@@ -15,7 +17,6 @@ library(apeglm)
 library(tidyverse)
 library(pheatmap)
 library(ggrepel)
-library(ggsci)
 options(stringsAsFactors = F)
 
 library(clusterProfiler)

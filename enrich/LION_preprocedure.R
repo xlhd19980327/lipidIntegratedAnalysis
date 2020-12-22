@@ -2,17 +2,9 @@
 ##!!!Client options: 
 dataType <- "LipidSearch"
 
-tidy_lipid <- function(lipids){
-  if(dataType == "LipidSearch"){
-    lipids <- gsub(".*?(\\(.*\\))[\\+\\-].*", "\\1", lipids)
-  }
-  if(dataType == "MS_DIAL"){
-    lipids <- gsub("^.*\\|", "", lipids)
-  }
-  return(lipids)
-}
+source("./utilityFunc/tidyLip_forLION.R")
 
-#'Target-list mode'
+#'Target-list mode' (Not used later)
 controlGrp <- dataSet$controlGrp
 groupsLevel <- dataSet$groupsLevel
 data_norm <- mSet$dataSet$norm
@@ -70,10 +62,10 @@ background.data <- t(data_norm)
 # write.csv(target.data.up, "~/temp/tar_data_up.csv")
 # write.csv(target.data.down, "~/temp/tar_data_down.csv")
 # write.csv(background.data, "~/temp/bg_data.csv")
-lipid_target_list <- tidy_lipid(rownames(target.data.up))
-lipid_background_list <- tidy_lipid(rownames(background.data))
+lipid_target_list <- tidy_lipid(rownames(target.data.up), dataType = dataType)
+lipid_background_list <- tidy_lipid(rownames(background.data), dataType = dataType)
 
 #'Ranking mode'
-data_norm <- mSet$dataSet$norm
-colnames(data_norm) <- tidy_lipid(colnames(data_norm))
-write.csv(t(data_norm), "~/temp/data.csv")
+data_input <- lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
+                             fileLoc = paste0(outputLoc, "MARresults/"), stat = T)
+data_input$lipid <- tidy_lipid(lipids = data_input$lipid, dataType = dataType)

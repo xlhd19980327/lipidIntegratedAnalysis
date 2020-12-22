@@ -96,3 +96,7 @@ mSet<-Normalization(mSet,    ## necessary arguments
                     rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL,   ## client-optional arguments
                     ratio=FALSE, ratioNum=20)   
 ``` 
+
+## Changing log(From 2020.12.06)
+- **2020.12.06** Changing some code adapted for the changeful code in MetaboAnalystR
+- **2020.12.06** Changing some presentation of visualization plot

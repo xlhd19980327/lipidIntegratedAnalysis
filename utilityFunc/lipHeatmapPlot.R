@@ -4,7 +4,7 @@ lipHeatmapPlot <- function(dataSet, mSet,
   groupsLevel <- dataSet$groupsLevel
   controlGrp <- dataSet$controlGrp
   data_norm <- mSet$dataSet$norm
-  data_prenorm <- mSet$dataSet$prenorm
+  data_prenorm <- mSet$dataSet$proc
   colorpars <- plottingPalettes(n = length(groupsLevel), type = "discrete")
   names(colorpars) <- c(controlGrp, groupsLevel[groupsLevel != controlGrp])
   
@@ -45,10 +45,12 @@ lipHeatmapPlot <- function(dataSet, mSet,
     )
     pname <- ifelse(length(groupsLevel) > 2, "all", paste0(groupsLevel[groupsLevel != controlGrp], 
                                                            "_vs_", controlGrp))
+    lipnames <- rownames(data)
+    maxlen <- max(nchar(lipnames))
     if(all(is.na(topind))){
-      pdf(paste0(fileLoc, "heatmap_", pname, ".pdf"), width=(nrow(heatmapdata)*25+300)/72, height=(ncol(heatmapdata)*18+150)/72)
+      pdf(paste0(fileLoc, "heatmap_", pname, ".pdf"), width=7/18*(9.5/71*maxlen+4/6*nrow(heatmapdata)+4.5), height=(ncol(heatmapdata)*11+150)/72)
     }else{
-      pdf(paste0(fileLoc, "heatmap_top", length(topind), "_", pname, ".pdf"), width=(nrow(heatmapdata)*25+300)/72, height=(ncol(heatmapdata)*18+150)/72)
+      pdf(paste0(fileLoc, "heatmap_top", length(topind), "_", pname, ".pdf"), width=7/18*(9.5/71*maxlen+4/6*nrow(heatmapdata)+4.5), height=(ncol(heatmapdata)*11+150)/72)
     }
     grid::grid.newpage()
     grid::grid.draw(x$gtable)
@@ -56,9 +58,9 @@ lipHeatmapPlot <- function(dataSet, mSet,
   }
   plotSubHeatmap <- function(mSetObj = mSet, 
                              norm = T, topnum_in = topnum){
-    if(topnum_in > length(mSet[["dataSet"]][["orig.var.nms"]])){
+    if(topnum_in > length(dataSet[["lipidName"]])){
       cat("Not enough number of features, show all the features instead!\n")
-      topnum_in <- length(mSet[["dataSet"]][["orig.var.nms"]])
+      topnum_in <- length(dataSet[["lipidName"]])
     }
     if(length(groupsLevel) == 2){
       mSetObj <- Ttests.Anal(mSetObj)

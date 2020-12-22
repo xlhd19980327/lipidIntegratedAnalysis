@@ -7,6 +7,10 @@ source("./utilityFunc/rnaVolcanoPlot.R")
 source("./utilityFunc/rnaHeatmapPlot.R")
 source("./utilityFunc/plottingPalettes.R")
 
+source("./utilityFunc/limmaPreproc.R")
+source("./utilityFunc/rnaMiArPCAPlot.R")
+source("./utilityFunc/DEAnalysis_limma.R")
+
 library(RColorBrewer)
 
 #RNA-seq

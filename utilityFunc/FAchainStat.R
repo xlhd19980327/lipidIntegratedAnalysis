@@ -1,7 +1,7 @@
 ## plotInfo == "FA_info": Statistics fatty acid chain&unsaturated info in that lipid class
 ## plotInfo == "all_info": Statistics all chain&unsaturated info in that lipid class
 FAchainStat <- function(dataSet, mSet,  
-                        fileLoc, plotInfo, ignore = T,
+                        fileLoc, plotInfo = "FA_info", ignore = T,
                         #use this for our statistics method, client cannot modify
                         stat = F, stat2 = F){
   allgroups <- dataSet$allgroups
@@ -25,10 +25,13 @@ FAchainStat <- function(dataSet, mSet,
   ## Source will offer the following contents:
   ## Function(s): addSigLabel
   source("./utilityFunc/addSigLabel.R")
+  ## Source will offer the following contents:
+  ## Function(s): getClassInfo
+  source("./utilityFunc/getClassInfo.R")
   
-  data_tidy <- as.data.frame(t(mSet[["dataSet"]][["preproc"]])) %>%
-    rownames_to_column(var = "lipidName") %>%
-    mutate(Class = switch(dataSet$dataType,
+  data_tidy <- dataSet[["data"]] %>%
+    mutate(lipidName = dataSet[["lipidName"]], 
+           Class = switch(dataSet$dataType,
                           LipidSearch = sapply(lipidName, getClassInfo, "LipidSearch", ignore = ignore), 
                           MS_DIAL = sapply(lipidName, getClassInfo, "MS_DIAL", ignore = ignore)))
   
@@ -150,40 +153,72 @@ FAchainStat <- function(dataSet, mSet,
   }
   write.csv(lipid_subclass_stat_output, 
             paste0(fileLoc, "lipid_subclass_stat_", plotInfo, "_", pname, ".csv"), 
-            row.names = F)  
-  for(i in unique(lipid_subclass_integStat$Class)){
-    oneLipClassData <- subset(lipid_subclass_integStat, 
-                              subset = Class == i)
-    oneLipClassData2 <- subset(lipid_subclass_stat, 
-                               subset = Class == i)
-    oneLipClassData$group <- 
-      factor(oneLipClassData$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
-    oneLipClassData2$group <- 
-      factor(oneLipClassData2$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
-    if(nrow(oneLipClassData) != 0 & nrow(oneLipClassData2) != 0){
-      nsubclass <- length(unique(oneLipClassData$subclass))
-      h_plot <- ifelse(nsubclass > 3, nsubclass, 3) / 3 * (25/12)
-      ggplot() +
-        geom_bar(data = oneLipClassData, aes(x = group, y = realmean, fill = group), stat = "identity") +
-        geom_errorbar(data = oneLipClassData, aes(x = group, ymin = realmean, ymax = realmean + sd, color = group), width = 0.2) +
-        geom_dotplot(data = oneLipClassData2, aes(x = group, y = lipidsum), binaxis='y', stackdir='center') +
-        geom_text(data = oneLipClassData, aes(x = group, y = realmean+2*sd, label = sigLabel),
-                  size = 3, fontface = "bold", color = "red") +
-        theme_bw() +
-        theme(axis.text.x = element_blank(), 
-              axis.ticks.x = element_blank()) +
-        facet_wrap(~subclass, scales="free", ncol = 3) +
-        scale_fill_aaas() +
-        scale_color_aaas() +
-        labs(x = "group",
-             y = "concentration", 
-             color = "group", 
-             title = "Lipid subclass statistics") +
-        theme(plot.title = element_text(hjust = 0.5, size = 20)) 
-      ggsave(paste0(fileLoc, "integPlot_", i, "_", pname, ".pdf"), 
-             dpi = 300, width = 9, height = h_plot, limitsize = FALSE)
-    }
+            row.names = F)
+  
+  ## Visualize with the subclass plot
+  data_sub_classSum_stat_split <- split(lipid_subclass_stat, f = lipid_subclass_stat$Class)
+  for(i in 1:length(data_sub_classSum_stat_split)){
+    data_sub_classSum_stat_split[[i]]$group <- 
+      factor(data_sub_classSum_stat_split[[i]]$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+    Classi <- data_sub_classSum_stat_split[[i]]$Class[1]
+    nclass <- length(unique(data_sub_classSum_stat_split[[i]]$subclass))
+    w_plot <- length(groupsLevel) * (ifelse(nclass >= 3, 9, nclass*(9/3)+1)/3)
+    h_plot <- ifelse(nclass > 3, nclass, 3) / 3 * (30/9)
+    p <- ggboxplot(data_sub_classSum_stat_split[[i]], x = "group", y = "lipidsum",
+                   color = "group", add = "jitter")+ # Add global p-value
+      stat_compare_means(aes(label = ..p.signif..),
+                         method = "t.test", ref.group = controlGrp)+
+      scale_color_npg() +
+      facet_wrap(~subclass, scales="free", ncol = 3) +
+      labs(title = paste0(Classi, " subclass statistics"), 
+           x = "group",
+           y = "concentration") +
+      theme(legend.position = "right", 
+            strip.background = element_blank(), 
+            plot.title = element_text(hjust = 0.5, size = 20), 
+            axis.title = element_text(size = 15), 
+            legend.text = element_text(size = 12),
+            legend.title = element_text(size = 12)
+            # legend.text = element_blank(), 
+            # legend.title = element_blank()
+            ) +
+      scale_y_continuous(expand = c(0.2,0))
+    ggsave(paste0(fileLoc, Classi, ".pdf"), p, width = w_plot, height = h_plot, limitsize = FALSE)
   }
+  # w_plot <- length(groupsLevel) * (6/3)
+  # for(i in unique(lipid_subclass_integStat$Class)){
+  #   oneLipClassData <- subset(lipid_subclass_integStat, 
+  #                             subset = Class == i)
+  #   oneLipClassData2 <- subset(lipid_subclass_stat, 
+  #                              subset = Class == i)
+  #   oneLipClassData$group <- 
+  #     factor(oneLipClassData$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+  #   oneLipClassData2$group <- 
+  #     factor(oneLipClassData2$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+  #   if(nrow(oneLipClassData) != 0 & nrow(oneLipClassData2) != 0){
+  #     nsubclass <- length(unique(oneLipClassData$subclass))
+  #     h_plot <- ifelse(nsubclass > 3, nsubclass, 3) / 3 * (25/12)
+  #     ggplot() +
+  #       geom_bar(data = oneLipClassData, aes(x = group, y = realmean, fill = group), stat = "identity") +
+  #       geom_errorbar(data = oneLipClassData, aes(x = group, ymin = realmean, ymax = realmean + sd, color = group), width = 0.2) +
+  #       geom_dotplot(data = oneLipClassData2, aes(x = group, y = lipidsum), binaxis='y', stackdir='center') +
+  #       geom_text(data = oneLipClassData, aes(x = group, y = realmean+2*sd, label = sigLabel),
+  #                 size = 3, fontface = "bold", color = "red") +
+  #       theme_bw() +
+  #       theme(axis.text.x = element_blank(),
+  #             axis.ticks.x = element_blank()) +
+  #       facet_wrap(~subclass, scales="free", ncol = 3) +
+  #       scale_fill_npg() +
+  #       scale_color_npg() +
+  #       labs(x = "group",
+  #            y = "concentration",
+  #            color = "group",
+  #            title = "Lipid subclass statistics") +
+  #       theme(plot.title = element_text(hjust = 0.5, size = 20))
+  #     ggsave(paste0(fileLoc, "integPlot_", i, "_", pname, ".pdf"), 
+  #            dpi = 300, width = w_plot, height = h_plot, limitsize = FALSE)
+  #   }
+  # }
   
   ## Visualize with the tile plot
   realmean <- lipid_subclass_stat2$realmean
@@ -215,13 +250,13 @@ FAchainStat <- function(dataSet, mSet,
       mutate(regState = apply(oneGrpdata, 1, function(x){
         names(x) <- colnames(oneGrpdata)
         if(as.numeric(x[names(x) == "FC"]) > 1){
-          if(x[names(x) == "sigLabel"] != ""){
+          if(x[names(x) == "sigLabel"] != "ns"){
             return("up-sig")
           } else{
             return("up-unsig")
           }
         } else if(as.numeric(x[names(x) == "FC"]) < 1){
-          if(x[names(x) == "sigLabel"] != ""){
+          if(x[names(x) == "sigLabel"] != "ns"){
             return("down-sig")
           } else{
             return("down-unsig")
@@ -232,12 +267,12 @@ FAchainStat <- function(dataSet, mSet,
       }))
     grid_df <- expand.grid(x = 0:max(oneGrpdata$chain), y = 0:max(oneGrpdata$unsaturate))
     if(plotInfo == "all_info"){
-      w_plot <- 28
+      w2_plot <- 28
     }
     if(plotInfo == "FA_info"){
-      w_plot <- 18
+      w2_plot <- 18
     }
-    h_plot <- w_plot * max(oneGrpdata$unsaturate) / max(max(oneGrpdata$chain), 1) * length(unique(oneGrpdata$Class)) +6
+    h2_plot <- w2_plot * max(oneGrpdata$unsaturate) / max(max(oneGrpdata$chain), 1) * length(unique(oneGrpdata$Class)) +6
     grid_plot <- ggplot(mapping = aes(x = chain, y = unsaturate)) + 
       geom_point(data = subset(oneGrpdata, regState != "notreg"), 
                  mapping = aes(fill = factor(regState)), color = "black", 
@@ -275,6 +310,6 @@ FAchainStat <- function(dataSet, mSet,
            fill = "Regulation State") 
     ggsave(paste0(fileLoc, "tilePlot_", i, "_", plotInfo, ".pdf"), 
            grid_plot, 
-           dpi = 300, width = w_plot, height = h_plot, limitsize = FALSE)
+           dpi = 300, width = w2_plot, height = h2_plot, limitsize = FALSE)
   }
 }

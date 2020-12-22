@@ -26,7 +26,7 @@ rnaVolcanoPlot <- function(DEAresult, type = "RNAseq",
   #!!!!!WARNING: use p_value as rank standard, may use others(eg. mad?)
   if(showtop != 0){
     if(showtop > nrow(volcano.data_reg)){
-      cat("Not enough significant feature! Show all the feature label.\n")
+      cat("No enough significant features! Show all the feature labels.\n")
     }
     volcano.data_top <- volcano.data_reg[order(volcano.data_reg$padj), ][1:showtop, ]
   }else{
@@ -42,7 +42,10 @@ rnaVolcanoPlot <- function(DEAresult, type = "RNAseq",
     geom_hline(yintercept = -log10(pthresh), linetype = "dashed", size = 0.5) + 
     labs(x = "log2(Fold change)", y = "-log10(p.value)", color = "regulation", 
          title = paste0(experGrp, " vs ", controlGrp)) +
-    theme(plot.title = element_text(hjust = 0.5, size = 10))+ 
+    theme(plot.title = element_text(hjust = 0.5, size = 20), 
+          axis.title = element_text(size = 15), 
+          legend.text = element_text(size = 12), 
+          legend.title = element_text(size = 12))+ 
     scale_color_aaas()
   ggsave(paste0(fileLoc, "volcano_", experGrp, "_vs_", controlGrp, ".pdf"), plot = volcano.plot, 
          device = "pdf", width = 9, height = 9)

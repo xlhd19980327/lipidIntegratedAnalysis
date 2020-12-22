@@ -1,4 +1,4 @@
-readingRNAData <- function(datafile, sampleList, controlGrp = ""){
+readingRNAData <- function(datafile, sampleList, controlGrp = "", type){
   if(grepl(".*\\.tsv$", datafile, ignore.case = T)){
     firstline <- scan(datafile, what = "character", nlines = 1, sep = "", quote = "", 
                       na.strings = c("N/A", "NA"))
@@ -45,8 +45,49 @@ readingRNAData <- function(datafile, sampleList, controlGrp = ""){
   sampleInfo$conditions <- factor(sampleInfo$conditions, 
                                   levels = c(groupsLevel[groupsLevel == controlGrp], groupsLevel[groupsLevel != controlGrp]))
   
-  return(list(
-    data = data, sampleInfo = sampleInfo, 
-    groupsLevel = groupsLevel, controlGrp = controlGrp
-  ))
+  if(type == "RNAseq"){
+    ## Delete low gene abundance feature
+    data <- data[rowSums(data)>2, ]
+    batremvOpt <- ifelse("batch" %in% colnames(sampleInfo), T, F)
+    designFormula <- eval(parse(text = ifelse(batremvOpt, "~ conditions + batch", "~ conditions")))
+    ddsFullCountTable <- tryCatch(DESeqDataSetFromMatrix(countData = data,
+                                                         colData = sampleInfo, 
+                                                         design= designFormula), 
+                                  error = function(e){if(conditionMessage(e) == "some values in assay are not integers"){
+                                    cat("Convert some float to integer!\n")
+                                    data <- round(data)
+                                    DESeqDataSetFromMatrix(countData = data,
+                                                           colData = sampleInfo, 
+                                                           design= designFormula)
+                                  }else{
+                                    stop(paste0("Error in read counts input: ", conditionMessage(e), 
+                                                ". PROGRAM EXIT!"))
+                                  }})
+    # dds <- tryCatch(DESeq(ddsFullCountTable), 
+    #                 error = function(e){if(grepl("all gene-wise dispersion estimates are within 2 orders of magnitude", 
+    #                                              conditionMessage(e))){
+    #                   cat("Little variance among groups detect! Using proper data to do test is recommanded.\n")
+    #                   dds <- estimateDispersionsGeneEst(ddsFullCountTable)
+    #                   dispersions(dds) <- mcols(dds)$dispGeneEst
+    #                   DESeq(dds)
+    #                 } else{
+    #                   stop(paste0("Error in DESeq: ", conditionMessage(e), 
+    #                               ". PROGRAM EXIT!"))
+    #                 }})
+    dds <- DESeq(ddsFullCountTable)
+    #Normalization(Note: only providing counts scaled by size or normalization factors, 
+    #experiment design info only used in the other normalization methods.
+    #In our code, this only scale data by size factors, which account for differences in sequencing depth)
+    normalized_counts <- counts(dds, normalized=TRUE)
+    
+    return(normalized_counts)
+  }
+  if(type == "MiAr"){
+    eset <- data
+    
+    eset <- normalizeBetweenArrays(eset)
+    
+    return(eset)
+  }
+
 }

@@ -12,10 +12,13 @@ source("./utilityFunc/statFAChains_pathAna.R")
 
 library(tidyverse)
 library(MetaboAnalystR)
-library(ggsci)
+library(ggrepel)
+library(ggpubr)
 options(stringsAsFactors = F)
 
+#Color
 library(RColorBrewer)
+library(ggsci)
 
 #Shell interaction
 #library(getopt)
@@ -38,7 +41,13 @@ option_list <- list(
   make_option(c("-e", "--top_number"), action="store", default = NA, type = "integer"), 
   make_option(c("-u", "--lipidclass_output"), action="store"), 
   make_option(c("-v", "--fachains_output"), action="store"), 
-  make_option(c("-g", "--plot_type"), action="store") 
+  make_option(c("-g", "--plot_type"), action="store", default = "FA_info"),
+  make_option(c("-b", "--paired"), action="store", default = F),
+  make_option(c("-h", "--p_type"), action="store", default = "raw"), 
+  make_option(c("-j", "--fc_thresh"), action="store", default = 2), 
+  make_option(c("-k", "--p_thresh"), action="store", default = 0.1), 
+  make_option(c("-m", "--show_volcano_top"), action="store", default = 10),
+  make_option(c("-w", "--ignore_subclass"), action="store", default = T)
 )
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
@@ -56,10 +65,10 @@ analOpt <- opt$analysis_option
 dataSet <- readingLipidData(datafile = opt$input_file, sampleList = opt$description_file, 
                             controlGrp = opt$control_group, dataType = opt$data_type, 
                             lipField = opt$feature_field, delOddChainOpt = opt$lipid_odd_chain_deletion,
-                            fileLoc = opt$tidy_output, na.char = opt$NA_string)
+                            na.char = opt$NA_string)
 if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
-  mSet <- MARpreproc(dataSet = dataSet)
+  mSet <- MARpreproc(dataSet = dataSet, fileLoc = opt$tidy_output)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
              fileLoc = opt$pca_output)
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
@@ -67,19 +76,20 @@ if(analOpt == "all_together"){
                  topnum = opt$top_number)
   if(opt$data_type %in% c("LipidSearch", "MS_DIAL")){
     headgroupStat(dataSet = dataSet, mSet = mSet, 
-                fileLoc = opt$lipidclass_output)
+                fileLoc = opt$lipidclass_output, ignore = opt$ignore_subclass)
     FAchainStat(dataSet = dataSet, mSet = mSet, 
                 fileLoc = opt$fachains_output, 
-                plotInfo = opt$plot_type)
+                plotInfo = opt$plot_type, ignore = opt$ignore_subclass)
   }
 }else if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
     dataset <- prepDataSet(i)
     
-    mSet <- MARpreproc(dataSet = dataset)
+    mSet <- MARpreproc(dataSet = dataset, fileLoc = opt$tidy_output)
     lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = opt$show_lipid_class,
-                   fileLoc = opt$volcano_output)
+                   fileLoc = opt$volcano_output, paired = opt$paired, pval.type = opt$p_type, 
+                   fcthresh = opt$fc_thresh, pthresh = opt$p_thresh, showtop = opt$show_volcano_top)
     lipPCAPlot(dataSet = dataset, mSet = mSet, 
                fileLoc = opt$pca_output)
     lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
@@ -87,19 +97,20 @@ if(analOpt == "all_together"){
                    topnum = opt$top_number)
     if(opt$data_type %in% c("LipidSearch", "MS_DIAL")){
       headgroupStat(dataSet = dataset, mSet = mSet, 
-                    fileLoc = opt$lipidclass_output)
+                    fileLoc = opt$lipidclass_output, ignore = opt$ignore_subclass)
       FAchainStat(dataSet = dataset, mSet = mSet, 
                   fileLoc = opt$fachains_output, 
-                  plotInfo = opt$plot_type)
+                  plotInfo = opt$plot_type, ignore = opt$ignore_subclass)
     }
   }
 }else{
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
   dataset <- prepDataSet(analOpt)
   
-  mSet <- MARpreproc(dataSet = dataset)
+  mSet <- MARpreproc(dataSet = dataset, fileLoc = opt$tidy_output)
   lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = opt$show_lipid_class,
-                 fileLoc = opt$volcano_output)
+                 fileLoc = opt$volcano_output, paired = opt$paired, pval.type = opt$p_type, 
+                 fcthresh = opt$fc_thresh, pthresh = opt$p_thresh, showtop = opt$show_volcano_top)
   lipPCAPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = opt$pca_output)
   lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
@@ -107,10 +118,10 @@ if(analOpt == "all_together"){
                  topnum = opt$top_number)
   if(opt$data_type %in% c("LipidSearch", "MS_DIAL")){
     headgroupStat(dataSet = dataset, mSet = mSet, 
-                  fileLoc = opt$lipidclass_output)
+                  fileLoc = opt$lipidclass_output, ignore = opt$ignore_subclass)
     FAchainStat(dataSet = dataset, mSet = mSet, 
                 fileLoc = opt$fachains_output, 
-                plotInfo = opt$plot_type)
+                plotInfo = opt$plot_type, ignore = opt$ignore_subclass)
   }
 }
 
