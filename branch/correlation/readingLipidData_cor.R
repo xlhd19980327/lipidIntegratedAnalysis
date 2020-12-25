@@ -128,6 +128,7 @@ readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType,
   mSet$dataSet$mumType <- "table"
   mSet$dataSet$orig.var.nms <- orig.var.nms
   mSet$dataSet$orig <- conc
+  qs::qsave(conc, file = "data_orig.qs")
   mSet$msgSet$read.msg <- c(paste("The uploaded data file contains ", 
                                   nrow(conc), " (samples) by ", ncol(conc), " (", tolower(GetVariableLabel(mSet$dataSet$type)), 
                                   ") data matrix.", sep = ""))
@@ -153,7 +154,7 @@ readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType,
     if(remove == T){
       data<-RemoveMissingPercent(data, percent=percent)
     }
-    data<-ImputeVar(data, method=imput)
+    data<-ImputeMissingVar(data, method=imput)
     return(data)
   }
   #!!!Client options

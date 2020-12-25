@@ -44,8 +44,8 @@ rnaMiArPCAPlot <- function(dataProc = dataProc_RNA,
           axis.title = element_text(size = 15), 
           legend.text = element_text(size = 12), 
           legend.title = element_text(size = 12))
-  pname <- ifelse(length(groupsLevel) > 2, "all", paste0(groupsLevel[groupsLevel != controlGrp], 
-                                                         "_vs_", controlGrp))
-  ggsave(paste0(fileLoc, "PCA_score_plot_", pname, ".pdf"), plot = pcaScorePlot, 
+  # pname <- ifelse(length(groupsLevel) > 2, "all", paste0(groupsLevel[groupsLevel != controlGrp], 
+  #                                                        "_vs_", controlGrp))
+  ggsave(paste0(fileLoc, "PCA_score_plot_all.pdf"), plot = pcaScorePlot, 
          device = "pdf", width = 9, height = 9)
 }

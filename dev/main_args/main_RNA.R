@@ -34,7 +34,7 @@ option_list <- list(
   make_option(c("-c", "--control_group"), action="store", default = ""), 
   make_option(c("-o", "--tidy_output"), action="store"), 
   make_option(c("-n", "--norm"), action="store", default = T), 
-  make_option(c("-q", "--dea_putput"), action="store"), 
+  make_option(c("-q", "--dea_output"), action="store"), 
   make_option(c("-t", "--data_type"), action="store", default = "RNAseq"), 
   make_option(c("-s", "--volcano_output"), action="store"), 
   make_option(c("-f", "--fc_thresh"), action="store", default = 2.0), 
@@ -65,11 +65,11 @@ if(analOpt == "group_by_group"){
   for(i in dataSet_RNA$groupsLevel[dataSet_RNA$groupsLevel != dataSet_RNA$controlGrp]){
     if(opt$data_type == "RNAseq"){
       DEAresult <- DEAnalysis(dataProc = dataProc_RNA, experGrp = i, 
-                            fileLoc = opt$dea_putput)
+                            fileLoc = opt$dea_output)
     }
     if(opt$data_type == "MiAr"){
       DEAresult <- DEAnalysis_limma(dataProc = dataProc_RNA, experGrp = i, 
-                                    fileLoc = opt$dea_putput)
+                                    fileLoc = opt$dea_output)
     }
     rnaVolcanoPlot(DEAresult = DEAresult, type = opt$data_type, fcthresh = opt$fc_thresh, 
                    pthresh = opt$p_thresh, showtop = opt$show_volcano_top, 
@@ -95,11 +95,11 @@ if(analOpt == "group_by_group"){
 }else{
   if(opt$data_type == "RNAseq"){
     DEAresult <- DEAnalysis(dataProc = dataProc_RNA, experGrp = analOpt, 
-                          fileLoc = opt$dea_putput)
+                          fileLoc = opt$dea_output)
   }
   if(opt$data_type == "MiAr"){
     DEAresult <- DEAnalysis_limma(dataProc = dataProc_RNA, experGrp = analOpt, 
-                                  fileLoc = opt$dea_putput)
+                                  fileLoc = opt$dea_output)
   }
   rnaVolcanoPlot(DEAresult = DEAresult, type = opt$data_type, fcthresh = opt$fc_thresh, 
                  pthresh = opt$p_thresh, showtop = opt$show_volcano_top, 

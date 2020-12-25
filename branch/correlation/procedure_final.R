@@ -7,8 +7,8 @@ library(limma)
 options(stringsAsFactors = F)
 source("./branch/correlation/readingLipidData_cor.R")
 source("./branch/correlation/readingRNAData_cor.R")
-kg <- 4
-kl <- 4
+kg <- 7
+kl <- 6
 
 ## Data input
 lipid_data <- readingLipidData(datafile = "./branch/benchmark/input/HANLipidMediator_imm_forcor.CSV", 

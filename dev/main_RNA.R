@@ -8,8 +8,8 @@ source("./utilityFunc/rnaHeatmapPlot.R")
 source("./utilityFunc/plottingPalettes.R")
 
 outputLoc <- "./branch/benchmark/output/"
-dataSet_RNA <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy_geneid.CSV", 
-                              sampleList = "./branch/benchmark/input/HANsampleList.CSV", 
+dataSet_RNA <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy_geneid_allgroups.CSV", 
+                              sampleList = "./branch/benchmark/input/HANsampleList_allgroups.CSV", 
                               controlGrp = "")
 dataProc_RNA <- DESeq2preproc(dataSet = dataSet_RNA, 
                               fileLoc = outputLoc)
