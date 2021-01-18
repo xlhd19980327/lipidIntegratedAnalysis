@@ -25,7 +25,7 @@ lipHeatmapPlot <- function(dataSet, mSet,
     heatmapdata <- heatmapdata[tidy_ind, ]
     datagroup <- factor(dataSet[["allgroups"]][match(row.names(heatmapdata), names(dataSet[["allgroups"]]))], 
                         levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
-    data <- t(heatmapdata)[apply(t(heatmapdata), 1, function(x) sd(x)!=0), ]
+    data <- t(heatmapdata)[apply(t(heatmapdata), 1, function(x) ifelse(is.na(sd(x, na.rm = T)), F, ifelse(sd(x, na.rm = T) == 0, F, T))), ]
     if(nrow(data) < ncol(heatmapdata)){
       cat("Some lipids in low variation will be removed.\n")
     }

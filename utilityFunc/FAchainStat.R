@@ -1,7 +1,7 @@
 ## plotInfo == "FA_info": Statistics fatty acid chain&unsaturated info in that lipid class
 ## plotInfo == "all_info": Statistics all chain&unsaturated info in that lipid class
 FAchainStat <- function(dataSet, mSet,  
-                        fileLoc, plotInfo = "FA_info", ignore = T,
+                        fileLoc, plotInfo = "FA_info", ignore = T, topnum = 70,
                         #use this for our statistics method, client cannot modify
                         stat = F, stat2 = F){
   allgroups <- dataSet$allgroups
@@ -124,6 +124,60 @@ FAchainStat <- function(dataSet, mSet,
                                 FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum)))  %>%
     spread(key = case, value = lipidsum)
+  
+  ## Visualize with the heatmap plot
+  datagroup <- factor(allgroups, 
+                      levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
+  colorpars <- plottingPalettes(n = length(groupsLevel), type = "discrete")
+  names(colorpars) <- c(controlGrp, groupsLevel[groupsLevel != controlGrp])
+  
+  lipid_subclass_heatmap <- lipid_subclass_stat_output %>%
+    mutate(Class = gsub("\\(.*\\)$", "", subclass)) %>%
+    column_to_rownames(var = "subclass")
+  lipid_subclass_heatmap <- lipid_subclass_heatmap[apply(lipid_subclass_heatmap, 1, function(x) ifelse(is.na(sd(x[-length(x)], na.rm = T)), F, ifelse(sd(x[-length(x)], na.rm = T) == 0, F, T))), ]
+  if(!is.na(topnum)){
+    if(topnum > nrow(lipid_subclass_heatmap)){
+      cat("Not enough features found! Using all the lipid items.\n")
+      topnum <- nrow(lipid_subclass_heatmap)
+      pname2 <- "alllipids"
+    }else{
+      pname2 <- paste0("top", topnum)
+    }
+    data_mad <- apply(lipid_subclass_heatmap, 1, function(x) mad(as.numeric(x[-length(x)]), na.rm = T))
+    lipid_subclass_heatmap <- lipid_subclass_heatmap[order(data_mad, decreasing=T), ][1:topnum, ]
+  }else{
+    pname2 <- "alllipids"
+  }
+  # if(nrow(data_Class_det) < nrow(data_tidy)){
+  #   cat("Some lipids in low variation will not show in the plot.\n")
+  # }
+  lipid_subclass_heatmap <- arrange(lipid_subclass_heatmap, Class) 
+  ClassInfo <- lipid_subclass_heatmap$Class
+  colorpars2 <- plottingPalettes(n = length(unique(ClassInfo))+length(groupsLevel), type = "discrete")[-1:-length(groupsLevel)]
+  names(colorpars2) <- unique(ClassInfo)
+  lipid_subclass_heatmap <- select(lipid_subclass_heatmap, -Class) 
+  lipid_subclass_heatmap <- lipid_subclass_heatmap[, match(colnames(lipid_subclass_heatmap), names(allgroups))]
+  x <- pheatmap::pheatmap(mat = lipid_subclass_heatmap,
+                          annotation_col = data.frame(group = datagroup, row.names = colnames(lipid_subclass_heatmap)), 
+                          annotation_row = data.frame(lipidClass = ClassInfo, row.names = rownames(lipid_subclass_heatmap)),
+                          # fontsize_col = 20, 
+                          # fontsize_row = 20, 
+                          fontsize = 20,
+                          clustering_distance_rows = "euclidean", 
+                          clustering_distance_cols = "euclidean", 
+                          clustering_methods = "ward.D", 
+                          cluster_rows = F, 
+                          cluster_cols = F, 
+                          scale = "row", 
+                          show_rownames = T, 
+                          annotation_colors = list(group = colorpars, lipidClass = colorpars2))
+  w_heat <- 12/7.65*(4.95/9*length(allgroups)+2.7)
+  h_heat <- 28/17.8*(16.7/70*nrow(lipid_subclass_heatmap)+1.1)
+  pdf(paste0(fileLoc, "heatmap_lipsubClass_", pname, "_", pname2, ".pdf"), width=w_heat, height=h_heat)
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+  
   if(stat2 == T){
     return(lipid_subclass_stat_output)
   }
@@ -134,9 +188,9 @@ FAchainStat <- function(dataSet, mSet,
   lipid_subclass_stat_p <- split(lipid_subclass_stat, lipid_subclass_stat$subclass)
   lipid_subclass_stat3 <- lapply(lipid_subclass_stat_p, getPValue, "FAchain", controlGrp)
   lipid_subclass_stat3 <- do.call(rbind, lipid_subclass_stat3)
-  lipid_subclass_integStat <- left_join(lipid_subclass_stat2, lipid_subclass_stat3)
-  sigLabel2 <- addSigLabel(lipid_subclass_integStat$p)
-  lipid_subclass_integStat <- cbind(lipid_subclass_integStat, sigLabel = sigLabel2)
+  #lipid_subclass_integStat <- left_join(lipid_subclass_stat2, lipid_subclass_stat3)
+  #sigLabel2 <- addSigLabel(lipid_subclass_integStat$p)
+  #lipid_subclass_integStat <- cbind(lipid_subclass_integStat, sigLabel = sigLabel2)
   if(stat == T){
     #Use for "statFAChains"
     lipid_subclass_tidyStat <- lipid_subclass_integStat %>%
@@ -157,33 +211,84 @@ FAchainStat <- function(dataSet, mSet,
   
   ## Visualize with the subclass plot
   data_sub_classSum_stat_split <- split(lipid_subclass_stat, f = lipid_subclass_stat$Class)
+  seq_gen <<-function(x, y) {
+    myi <<- myi + 1L
+    return(list(p.value = all_pvalues[myi]))
+  }
+  get_multi_pvalue <- function(x){
+    ## Dunnett’s multiple comparison test in one-way ANOVA
+    if(length(unique(x$group)) == 1){
+      return(rep(NA, length(groupsLevel)-1))
+    }
+    data_ano <- aov(lipidsum ~ group, data = x)
+    multcp <- glht(data_ano, linfct=mcp(group="Dunnett"),alternative="two.side") 
+    multcp_sum <- summary(multcp)
+    return(multcp_sum$test$pvalues)
+  }
   for(i in 1:length(data_sub_classSum_stat_split)){
+    all_pvalues <- c()
+    cplist <- mapply(c, controlGrp, groupsLevel[groupsLevel != controlGrp], 
+                     SIMPLIFY = F, USE.NAMES = F)
     data_sub_classSum_stat_split[[i]]$group <- 
       factor(data_sub_classSum_stat_split[[i]]$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
     Classi <- data_sub_classSum_stat_split[[i]]$Class[1]
     nclass <- length(unique(data_sub_classSum_stat_split[[i]]$subclass))
-    w_plot <- length(groupsLevel) * (ifelse(nclass >= 3, 9, nclass*(9/3)+1)/3)
-    h_plot <- ifelse(nclass > 3, nclass, 3) / 3 * (30/9)
-    p <- ggboxplot(data_sub_classSum_stat_split[[i]], x = "group", y = "lipidsum",
-                   color = "group", add = "jitter")+ # Add global p-value
-      stat_compare_means(aes(label = ..p.signif..),
-                         method = "t.test", ref.group = controlGrp)+
+    
+    w_plot <- 22/14.0*(1.5+((12.5/3-0.8)/3*length(groupsLevel)+0.8)*ifelse(nclass >= 3, 3, nclass))
+    h_plot <- 100/29.4*(29.15/13*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+0.25)
+    
+    p <- ggplot(data = data_sub_classSum_stat_split[[i]], aes(x = group, y = lipidsum, color = group)) + 
+      geom_boxplot(width = 0.5, size = 1.2)+ 
+      #geom_jitter(color = "black", position=position_jitter(0.2)) +
       scale_color_npg() +
-      facet_wrap(~subclass, scales="free", ncol = 3) +
-      labs(title = paste0(Classi, " subclass statistics"), 
+      facet_wrap(~subclass, scales="free", ncol = 3)+
+      labs(title = Classi, 
            x = "group",
-           y = "concentration") +
-      theme(legend.position = "right", 
-            strip.background = element_blank(), 
-            plot.title = element_text(hjust = 0.5, size = 20), 
-            axis.title = element_text(size = 15), 
-            legend.text = element_text(size = 12),
-            legend.title = element_text(size = 12)
-            # legend.text = element_blank(), 
-            # legend.title = element_blank()
-            ) +
-      scale_y_continuous(expand = c(0.2,0))
+           y = "total concentration") +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        legend.position = "right",
+        plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
+        axis.title = element_text(size = 25), 
+        axis.text = element_text(size = 25),
+        legend.text = element_text(size = 25), 
+        legend.title = element_text(size = 25), 
+        strip.text = element_text(hjust = 0.5, size = 25, face = "bold")
+      ) 
+    if(length(groupsLevel) == 2){
+      p <- p + ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, 
+                                     step_increase = 0.1, tip_length = 0, textsize = 8, test = "t.test")
+    }else if(length(groupsLevel) > 2){
+      data_sub_classSum_stat_split_subspt <- split(data_sub_classSum_stat_split[[i]], f = data_sub_classSum_stat_split[[i]]$subclass)
+      print(Classi)
+      all_pvalues <- unlist(lapply(data_sub_classSum_stat_split_subspt, get_multi_pvalue))
+      myi <<- 0
+      p <- p + 
+        ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, test = "seq_gen", 
+                              step_increase = 0.1, tip_length = 0, textsize = 8)
+    }
     ggsave(paste0(fileLoc, Classi, ".pdf"), p, width = w_plot, height = h_plot, limitsize = FALSE)
+    # p <- ggboxplot(data_sub_classSum_stat_split[[i]], x = "group", y = "lipidsum",
+    #                color = "group", add = "jitter")+ # Add global p-value
+    #   stat_compare_means(aes(label = ..p.signif..),
+    #                      method = "t.test", ref.group = controlGrp)+
+    #   scale_color_npg() +
+    #   facet_wrap(~subclass, scales="free", ncol = 3) +
+    #   labs(title = paste0(Classi, " subclass statistics"), 
+    #        x = "group",
+    #        y = "concentration") +
+    #   theme(legend.position = "right", 
+    #         strip.background = element_blank(), 
+    #         plot.title = element_text(hjust = 0.5, size = 20), 
+    #         axis.title = element_text(size = 15), 
+    #         legend.text = element_text(size = 12),
+    #         legend.title = element_text(size = 12)
+    #         # legend.text = element_blank(), 
+    #         # legend.title = element_blank()
+    #         ) +
+    #   scale_y_continuous(expand = c(0.2,0))
+    # ggsave(paste0(fileLoc, Classi, ".pdf"), p, width = w_plot, height = h_plot, limitsize = FALSE)
   }
   # w_plot <- length(groupsLevel) * (6/3)
   # for(i in unique(lipid_subclass_integStat$Class)){
@@ -233,7 +338,7 @@ FAchainStat <- function(dataSet, mSet,
   }
   FC <- unlist(tapply(realmean, lipid_subclass_stat2$subclass, getFC))
   lipid_subclass_stat_tile <- lipid_subclass_stat2 %>%
-    left_join(lipid_subclass_stat3) %>%
+    left_join(lipid_subclass_stat3, copy = T) %>%
     ungroup() %>%
     add_column(FC = round(FC, 2)) %>%
     #!!!!!WARNING: drop subclass that have other info(i.e. d/t symbol)

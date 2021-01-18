@@ -1,6 +1,7 @@
 source("./utilityFunc/headgroupStat.R")
 source("./utilityFunc/plottingPalettes.R")
 
+library(multcomp)
 library(tidyverse)
 library(MetaboAnalystR)
 library(ggrepel)
@@ -9,6 +10,7 @@ options(stringsAsFactors = F)
 library(RColorBrewer)
 library(ggsci)
 library(optparse)
+
 
 option_list <- list( 
   make_option(c("-r", "--rdata_file"), action="store"),

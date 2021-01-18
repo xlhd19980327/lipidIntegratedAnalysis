@@ -80,6 +80,7 @@ lipVolcanoPlot <- function(dataSet, mSet, showLipClass = F,
                aes(x = fc.log, y = p.log, color = factor(regState)))+ 
     geom_point(data = subset(volcano.data, subset = regState == 0), 
                aes(x = fc.log, y = p.log), color = "gray") +
+    #size=8 for paper 
     geom_text_repel(data = volcano.data_top, mapping = aes(x = fc.log, y = p.log, label = lipid), 
                     hjust = 0, nudge_x = 0.05) +
     theme_bw() +
@@ -87,10 +88,12 @@ lipVolcanoPlot <- function(dataSet, mSet, showLipClass = F,
     geom_hline(yintercept = -log10(pthresh), linetype = "dashed", size = 0.5) + 
     labs(x = "log2(Fold change)", y = "-log10(p.value)", color = "regulation", 
          title = paste0(exper, " vs ", controlGrp)) +
-    theme(plot.title = element_text(hjust = 0.5, size = 20), 
-          axis.title = element_text(size = 15), 
-          legend.text = element_text(size = 12), 
-          legend.title = element_text(size = 12))+ 
+    theme(legend.position = "right", 
+          plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
+          axis.title = element_text(size = 25), 
+          axis.text = element_text(size = 25),
+          legend.text = element_text(size = 25), 
+          legend.title = element_text(size = 25)) +
     scale_color_aaas()
   ggsave(paste0(fileLoc, "volcano_reg_", exper, ".pdf"), plot = volcano.plot, 
          device = "pdf", width = 9, height = 9)
@@ -113,10 +116,12 @@ lipVolcanoPlot <- function(dataSet, mSet, showLipClass = F,
       geom_hline(yintercept = -log10(pthresh), linetype = "dashed", size = 0.5) + 
       labs(x = "log2(Fold change)", y = "-log10(p.value)", color = "Class", 
            title = paste0(exper, " vs ", controlGrp)) + 
-      theme(plot.title = element_text(hjust = 0.5, size = 20), 
-            axis.title = element_text(size = 15), 
-            legend.text = element_text(size = 12), 
-            legend.title = element_text(size = 12)) +
+      theme(legend.position = "right", 
+            plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
+            axis.title = element_text(size = 25), 
+            axis.text = element_text(size = 25),
+            legend.text = element_text(size = 25), 
+            legend.title = element_text(size = 25)) +
       scale_color_manual(values = plottingPalettes(nClass, type = "discrete"))
     ggsave(paste0(fileLoc, "volcano_regClass_", exper, ".pdf"), plot = volcano.plot_class, 
            device = "pdf", width = 9, height = 9)

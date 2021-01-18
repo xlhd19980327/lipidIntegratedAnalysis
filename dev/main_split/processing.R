@@ -29,8 +29,10 @@ dataSet <- readingLipidData(datafile = opt$input_file, sampleList = opt$descript
                             na.char = opt$NA_string)
 if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
+  write.csv(FALSE, paste0(opt$output_temp, "show_enrich.csv"), row.names = F)
   mSet <- MARpreproc(dataSet = dataSet, fileLoc = opt$tidy_output)
 }else{
+  write.csv(TRUE, paste0(opt$output_temp, "show_enrich.csv"), row.names = F)
   prepDataSet <- function(x, dataset = dataSet){
     ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
     ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -44,4 +46,5 @@ if(analOpt == "all_together"){
   dataSet <- prepDataSet(analOpt)
   mSet <- MARpreproc(dataSet = dataSet, fileLoc = opt$tidy_output)
 }
-save(mSet, dataSet, file = paste0(opt$output_temp, "data.RData"))
+data_type <- opt$data_type
+save(mSet, dataSet, data_type, file = paste0(opt$output_temp, "data.RData"))

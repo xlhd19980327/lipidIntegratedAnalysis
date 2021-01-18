@@ -1,5 +1,15 @@
 library(MetaboAnalystR)
+library(tidyverse)
 ##After MARpreproc, get dataSet, mSet
+
+option_list <- list( 
+  make_option(c("-r", "--rdata_file"), action="store"),
+  make_option(c("-p", "--metreg_output"), action="store")
+)
+opt_parser = OptionParser(option_list=option_list)
+opt = parse_args(opt_parser)
+
+load(paste0(opt$rdata_file, "data.RData"))
 
 controlGrp <- dataSet$controlGrp
 groupsLevel <- dataSet$groupsLevel
@@ -52,5 +62,7 @@ target.data.down <- result %>%
 #background.data <- t(data_norm)
 
 #Get met names
-cmpd.vec<-rownames(target.data.up)
-
+cmpd.vec_up<-rownames(target.data.up)
+write.csv(cmpd.vec_up, paste0(opt$metreg_output, "up.csv"), row.names = F)
+cmpd.vec_down<-rownames(target.data.down)
+write.csv(cmpd.vec_down, paste0(opt$metreg_output, "down.csv"), row.names = F)

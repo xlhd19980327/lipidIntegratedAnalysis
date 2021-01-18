@@ -28,5 +28,8 @@ getClassInfo <- function(i, datatype, ignore = T){
       }
     }
   }
+  if(nchar(Class) > 10){
+    Class <- substr(Class, 1, 10)
+  }
   return(Class)
 }

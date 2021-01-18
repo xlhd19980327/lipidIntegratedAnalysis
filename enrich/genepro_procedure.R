@@ -11,18 +11,18 @@ gene_type <- "ENSEMBL"
 #!!!Client options: show ontology item number
 shownum <- 50
 #!!!Client options: select go term catalog("BP"/"CC"/"MF"/"ALL")
-gocat <- "BP"
+gocat <- "Biological_Process"
 orgdb <- switch (spe,
                  hsa = org.Hs.eg.db, 
                  mmu = org.Mm.eg.db
 )
 goopt <- switch (gocat,
-                 BP = "BP", 
-                 CC = "CC",
-                 MF = "MF", 
+                 Biological_Process = "BP", 
+                 Cellular_Component = "CC",
+                 Molecular_Function = "MF", 
                  ALL = "ALL"
 )
-if(gocat == "BP"){
+if(goopt == "BP"){
   go_BP <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
                     qvalueCutoff = 0.2,keyType = gene_type)
   p <- barplot(go_BP,showCategory=shownum,drop=T) +
@@ -31,7 +31,7 @@ if(gocat == "BP"){
   ggsave("~/temp/GOenrich_Biological_Process.pdf", plot = p, 
          device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
 }
-if(gocat == "CC"){
+if(goopt == "CC"){
   go_CC <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='CC',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
                     qvalueCutoff = 0.2,keyType = gene_type)
   p <- barplot(go_CC,showCategory=shownum,drop=T) +
@@ -40,7 +40,7 @@ if(gocat == "CC"){
   ggsave("~/temp/GOenrich_Cellular_Component.pdf", plot = p, 
          device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
 }
-if(gocat == "MF"){
+if(goopt == "MF"){
   go_MF <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='MF',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
                     qvalueCutoff = 0.2,keyType = gene_type)
   p <- barplot(go_MF,showCategory=shownum,drop=T) +
@@ -49,7 +49,7 @@ if(gocat == "MF"){
   ggsave("~/temp/GOenrich_Molecular_Function.pdf", plot = p, 
          device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
 }
-if(gocat == "ALL"){
+if(goopt == "ALL"){
   go_BP <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05,
                     qvalueCutoff = 0.2,keyType = gene_type)
   go_CC <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='CC',pAdjustMethod = 'BH',pvalueCutoff = 0.05,

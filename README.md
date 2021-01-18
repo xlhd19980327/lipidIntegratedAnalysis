@@ -100,3 +100,4 @@ mSet<-Normalization(mSet,    ## necessary arguments
 ## Changing log(From 2020.12.06)
 - **2020.12.06** Changing some code adapted for the changeful code in MetaboAnalystR
 - **2020.12.06** Changing some presentation of visualization plot
+- **2021.1.10** main_*.R not update for public use, use main_spilt function instead

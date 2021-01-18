@@ -15,7 +15,7 @@ readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType,
     }
   }
   #!!!!!WARNING: The NA string may be others, may add the char clients customized 
-  data <- read.csv(datafile, na.strings = c("N/A", "NA", na.char))
+  data <- read.csv(datafile, na.strings = c("N/A", "NA", "", na.char))
   firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
                     na.strings = c("N/A", "NA"))
   colnames(data) <- firstline

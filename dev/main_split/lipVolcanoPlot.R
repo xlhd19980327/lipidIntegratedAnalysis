@@ -16,7 +16,7 @@ option_list <- list(
   make_option(c("-p", "--volcano_output"), action="store"), 
   make_option(c("-b", "--paired"), action="store", default = F),
   make_option(c("-x", "--p_type"), action="store", default = "raw"), 
-  make_option(c("-j", "--fc_thresh"), action="store", default = 2), 
+  make_option(c("-j", "--fc_thresh"), action="store", default = 2.0), 
   make_option(c("-k", "--p_thresh"), action="store", default = 0.1), 
   make_option(c("-m", "--show_volcano_top"), action="store", default = 10),
   make_option(c("-w", "--ignore_subclass"), action="store", default = T)

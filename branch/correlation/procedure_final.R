@@ -12,7 +12,7 @@ kl <- 6
 
 ## Data input
 lipid_data <- readingLipidData(datafile = "./branch/benchmark/input/HANLipidMediator_imm_forcor.CSV", 
-                               controlGrp = "", dataType = "Metabolites", delOddChainOpt = F,
+                               controlGrp = "", dataType = "Metabolites", delOddChainOpt = F, na.char = "",
                                lipField = "LipidMediator", sampleList = "./branch/benchmark/input/HANsampleList_lipmid.csv")
 gene_data <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy.CSV", 
                               sampleList = "./branch/benchmark/input/HANsampleList.CSV",
@@ -22,7 +22,7 @@ gene_data <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy.CS
 ##!!!!!WARNING: May handle this here later
 
 ### Waiting time(~2+ min, larger data may require more)
-correlation <- cor(lipid_data, t(gene_data), use='pairwise.complete.obs', method ="spearman")
+correlation <- cor(lipid_data, t(gene_data), method ="spearman")
 correlation[is.na(correlation)] <- 0
 correlation <- correlation[,which(apply(correlation, 2, FUN = sd) != 0)]
 correlation <- correlation[which(apply(correlation, 1, FUN = sd) != 0),]

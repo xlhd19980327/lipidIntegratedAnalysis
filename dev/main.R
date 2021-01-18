@@ -9,6 +9,9 @@ source("./utilityFunc/FAchainStat.R")
 source("./utilityFunc/plottingPalettes.R")
 source("./utilityFunc/statFAChains.R")
 source("./utilityFunc/statFAChains_pathAna.R")
+source("./utilityFunc/lipOPLSDAPlot.R")
+source("./utilityFunc/lipSumClassHeatmapPlot.R")
+source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
 outputLoc <- "./branch/benchmark/output/"
 prepDataSet <- function(x, dataset = dataSet){
@@ -20,10 +23,10 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "Day8"
+analOpt <- "all_together"
 dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv",
                             sampleList = "./branch/benchmark/input/HANsampleList_lipid.CSV", 
-                            controlGrp = "", dataType = "LipidSearch", delOddChainOpt = F,
+                            controlGrp = "Day1", dataType = "LipidSearch", delOddChainOpt = T,
                             lipField = "LipidIon", #fileLoc = outputLoc, 
                             na.char = "")
 if(analOpt == "group_by_group"){
@@ -51,22 +54,29 @@ if(analOpt == "group_by_group"){
   mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
              fileLoc = paste0(outputLoc, "MARresults/"))
+  lipOPLSDAPlot(dataSet = dataSet, mSet = mSet, 
+                fileLoc = paste0(outputLoc, "MARresults/"))
   lipHeatmapPlot(dataSet = dataSet, mSet = mSet, 
                  fileLoc = paste0(outputLoc, "MARresults/"), 
                  topnum = 75)
   
   headgroupStat(dataSet = dataSet, mSet = mSet, 
                 fileLoc = paste0(outputLoc, "headgroup/"))
+  lipSumClassHeatmapPlot(dataSet = dataSet, mSet = mSet, show_detail = F,  
+                         fileLoc = paste0(outputLoc, "headgroup/"))
   FAchainStat(dataSet = dataSet, mSet = mSet, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
-              plotInfo = "FA_info")
+              plotInfo = "FA_info", topnum = 25)
+  lipSumChainHeatmapPlot(dataSet = dataSet, mSet = mSet, 
+                         fileLoc = paste0(outputLoc, "FAchainVisual/"), 
+                         plotInfo = "FA_info", show_detail = F)
 }else{
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
   dataset <- prepDataSet(analOpt)
   
   mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc)
   lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
-                 fileLoc = paste0(outputLoc, "MARresults/"), ignore = F)
+                 fileLoc = paste0(outputLoc, "MARresults/"), ignore = F, showtop = 5)
   lipPCAPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = paste0(outputLoc, "MARresults/"))
   lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
