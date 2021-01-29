@@ -1,14 +1,16 @@
 ##After MARpreproc, get dataSet, mSet
-##!!!Client options: 
-dataType <- "LipidSearch"
 
+library(dplyr)
+library(tibble)
 source("./utilityFunc/tidyLip_forLION.R")
+dataType <- dataSet[["dataType"]]
 
-#'Target-list mode' (Not used later)
+#'Target-list mode'
 controlGrp <- dataSet$controlGrp
 groupsLevel <- dataSet$groupsLevel
 data_norm <- mSet$dataSet$norm
-data_norm2 <- mSet$dataSet$row.norm
+#data_norm2 <- mSet$dataSet$row.norm
+data_norm2 <- qs::qread("row_norm.qs")
 ## Volcano analysis & plot
 paired <- FALSE
 equal.var <- TRUE
@@ -62,10 +64,20 @@ background.data <- t(data_norm)
 # write.csv(target.data.up, "~/temp/tar_data_up.csv")
 # write.csv(target.data.down, "~/temp/tar_data_down.csv")
 # write.csv(background.data, "~/temp/bg_data.csv")
-lipid_target_list <- tidy_lipid(rownames(target.data.up), dataType = dataType)
+lipid_target_list_up <- tidy_lipid(rownames(target.data.up), dataType = dataType)
+lipid_target_list_down <- tidy_lipid(rownames(target.data.down), dataType = dataType)
 lipid_background_list <- tidy_lipid(rownames(background.data), dataType = dataType)
+write.csv(lipid_target_list_up, paste0(opt$lipreg_output, "up.csv"), row.names = F)
+write.csv(lipid_target_list_down, paste0(opt$lipreg_output, "down.csv"), row.names = F)
+write.csv(lipid_background_list, paste0(opt$lipreg_output, "background.csv"), row.names = F)
 
 #'Ranking mode'
-data_input <- lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
-                             fileLoc = paste0(outputLoc, "MARresults/"), stat = T)
+#"p_value"/"log2FC"
+rankingVar <- "log2FC"
+source("./utilityFunc/lipVolcanoPlot.R")
+data_input <- lipVolcanoPlot(dataSet = dataSet, mSet = mSet, stat = T)
 data_input$lipid <- tidy_lipid(lipids = data_input$lipid, dataType = dataType)
+rankarg <- switch (rankingVar,
+  log2FC = "fc.log", 
+  p_value = "p.value"
+)

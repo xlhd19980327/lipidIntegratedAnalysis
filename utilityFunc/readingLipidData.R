@@ -1,28 +1,27 @@
 readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType, 
-                             lipField = NA, delOddChainOpt = F, #fileLoc, 
-                             na.char = NULL){
-  if(dataType == "LipidSearch"){
-    if(is.na(lipField)){
-      lipField <- "LipidIon"
-    }
-  }else if(dataType == "MS_DIAL"){
-    if(is.na(lipField)){
-      lipField <- "Metabolite name"
-    }
-  }else{
-    if(is.na(lipField)){
-      stop("You should indicate the feature colum instead of NA, PROGRAM EXIT!")
-    }
-  }
-  #!!!!!WARNING: The NA string may be others, may add the char clients customized 
-  data <- read.csv(datafile, na.strings = c("N/A", "NA", "", na.char))
+                             delOddChainOpt = F){
   firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
-                    na.strings = c("N/A", "NA"))
-  colnames(data) <- firstline
-  if(!lipField %in% colnames(data)){
-    stop("You should indicate the right feature colum, PROGRAM EXIT!")
+                    na.strings = "")
+  lipField <- firstline[1]
+  if(dataType == "Lipids"){
+    if(lipField == "LipidIon"){
+      dataType <- "LipidSearch"
+    }else if(lipField == "Metabolite name"){
+      dataType <- "MS_DIAL"
+    }else{
+      stop("You should indicate the right feature colum, PROGRAM EXIT!")
+    }
   }
-  sampleInfo <- read.csv(sampleList)
+
+  #!!!!!WARNING: The NA string may be others, may add the char clients customized 
+  data <- read.csv(datafile, na.strings = "", comment.char = "")
+  naind <- which(sapply(data, class) == "character")[-1]
+  for(i in naind){
+    data[, i] <- as.numeric(data[, i])
+  }
+  colnames(data) <- firstline
+  
+  sampleInfo <- read.csv(sampleList, colClasses = "character")
   allgroups <- sampleInfo$conditions
   sampleInd <- colnames(data) %in% sampleInfo$samples 
   groupsLevel <- unique(allgroups)

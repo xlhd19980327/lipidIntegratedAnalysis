@@ -11,7 +11,7 @@ lipHeatmapPlot <- function(dataSet, mSet,
   
   ## Heatmap
   plotHeatmap <- function(#mSetObj = mSet, 
-                          norm = T, topind = NA){
+                          norm = T, topind = NA, stat = F){
     if(norm == T){
       heatmapdata <- data_norm
     }else{
@@ -55,6 +55,9 @@ lipHeatmapPlot <- function(dataSet, mSet,
     grid::grid.newpage()
     grid::grid.draw(x$gtable)
     dev.off()
+    if(stat){
+      write.csv(data, paste0(fileLoc, "heatmap_data_top", length(topind), "_", pname, ".csv"))
+    }
   }
   plotSubHeatmap <- function(mSetObj = mSet, 
                              norm = T, topnum_in = topnum){
@@ -71,7 +74,7 @@ lipHeatmapPlot <- function(dataSet, mSet,
       toplip <- names(sort(mSetObj$analSet$aov$p.value))[1:topnum_in]
       toplip_ind <- match(toplip, colnames(data_norm))
     }
-    plotHeatmap(norm = norm, topind = toplip_ind)
+    plotHeatmap(norm = norm, topind = toplip_ind, stat = T)
   }
   if(is.na(topnum)){
     #!!!Client options

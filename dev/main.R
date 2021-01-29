@@ -13,7 +13,7 @@ source("./utilityFunc/lipOPLSDAPlot.R")
 source("./utilityFunc/lipSumClassHeatmapPlot.R")
 source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
-outputLoc <- "./branch/benchmark/output/"
+outputLoc <- "./testData/SVFmultiomics_210118/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -24,17 +24,21 @@ prepDataSet <- function(x, dataset = dataSet){
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
 analOpt <- "all_together"
-dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv",
-                            sampleList = "./branch/benchmark/input/HANsampleList_lipid.CSV", 
-                            controlGrp = "Day1", dataType = "LipidSearch", delOddChainOpt = T,
-                            lipField = "LipidIon", #fileLoc = outputLoc, 
-                            na.char = "")
+dataSet <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv",
+                            sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv", 
+                            controlGrp = "Day0", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
     dataset <- prepDataSet(i)
     
     mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc)
+    data_type <- dataset$dataType
+    data_proc <- t(mSet[["dataSet"]][["proc"]])
+    dataset$lipidName <- rownames(data_proc)
+    rownames(data_proc) <- NULL
+    data_proc <- as.data.frame(data_proc)
+    dataset$data <- data_proc
     lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
                    fileLoc = paste0(outputLoc, "MARresults/"))
     lipPCAPlot(dataSet = dataset, mSet = mSet, 
@@ -51,7 +55,13 @@ if(analOpt == "group_by_group"){
   }
 }else if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
-  mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc)
+  data_type <- dataSet$dataType
+  data_proc <- t(mSet[["dataSet"]][["proc"]])
+  dataSet$lipidName <- rownames(data_proc)
+  rownames(data_proc) <- NULL
+  data_proc <- as.data.frame(data_proc)
+  dataSet$data <- data_proc
+  mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc, perc = 2/3*100)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
              fileLoc = paste0(outputLoc, "MARresults/"))
   lipOPLSDAPlot(dataSet = dataSet, mSet = mSet, 
@@ -75,6 +85,12 @@ if(analOpt == "group_by_group"){
   dataset <- prepDataSet(analOpt)
   
   mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc)
+  data_type <- dataset$dataType
+  data_proc <- t(mSet[["dataSet"]][["proc"]])
+  dataset$lipidName <- rownames(data_proc)
+  rownames(data_proc) <- NULL
+  data_proc <- as.data.frame(data_proc)
+  dataset$data <- data_proc
   lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
                  fileLoc = paste0(outputLoc, "MARresults/"), ignore = F, showtop = 5)
   lipPCAPlot(dataSet = dataset, mSet = mSet, 

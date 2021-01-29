@@ -1,4 +1,4 @@
-MARpreproc <- function(dataSet, fileLoc){
+MARpreproc <- function(dataSet, perc, fileLoc){
   data <- dataSet$data
   lipidName <- dataSet$lipidName
   allgroups <- dataSet$allgroups
@@ -45,7 +45,8 @@ MARpreproc <- function(dataSet, fileLoc){
   # MetaboAnalystR offer many methods to do imputation
   # Default will use a small value(min(data)/2) to replace NA
   nmin <- min(nsamples)
-  percent <- 1-1/nmin
+  #percent <- 1-1/nmin
+  percent <- perc/100
   handleMissingData <- function(data, remove = T, imput = "min"){
     if(remove == T){
       data<-RemoveMissingPercent(data, percent=percent)

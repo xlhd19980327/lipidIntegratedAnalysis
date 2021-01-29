@@ -19,13 +19,13 @@ require(RSQLite)
 require(topOnto)
 require('topOnto.LION.db')
 topOnto::initONT('LION')
-source("~/myWork/github/LION-web-master/OntologyApp/data/20191008 LIONweb functions.R")
-associationFile  <-  "~/myWork/github/LION-web-master/OntologyApp/data/20190704 LION_association.txt"
+source("./../LION-web-master/OntologyApp/data/20191008 LIONweb functions.R")
+associationFile  <-  "./../LION-web-master/OntologyApp/data/20190704 LION_association.txt"
 ## read associations
 lipidID2TERM <- readMappings(file = associationFile)   ## topOnto function, but removes spaces
-LIONterms_rules <- read.csv(file = '~/myWork/github/LION-web-master/OntologyApp/data/20191008 LIONterms_rules.csv', header = T)
+LIONterms_rules <- read.csv(file = './../LION-web-master/OntologyApp/data/20191008 LIONterms_rules.csv', header = T)
 LIONterms_rules$RULE1[LIONterms_rules$RULE1 == ""] <- "-"
-LIONterms_FAs <- read.csv(file = '~/myWork/github/LION-web-master/OntologyApp/data/20191008 LIONterms_FAs.csv', header = T)
+LIONterms_FAs <- read.csv(file = './../LION-web-master/OntologyApp/data/20191008 LIONterms_FAs.csv', header = T)
 
 
 input <- list()

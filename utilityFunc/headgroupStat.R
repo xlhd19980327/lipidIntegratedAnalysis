@@ -53,19 +53,27 @@ headgroupStat <- function(dataSet, mSet,
   # data_sub_classSum_integStat <- left_join(data_sub_classSum_stat2, data_sub_classSum_stat3)
   
   nclass <- length(unique(data_sub_classSum_stat2$Class))
-  h_plot <- 65/15.3*(15.1/8*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+0.2)
-  h2_plot <- ifelse(nclass > 3, nclass, 3) / 3 * (16/7)
-  w_plot <- 21/17.2*(1.8+((15.4/3-0.9)/3*length(groupsLevel)+0.9)*ifelse(nclass >= 3, 3, nclass))
+  ##used for color plot
+  #h_plot <- 65/15.3*(15.1/8*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+0.2)
+  h_plot <- 33/1264*(1224/4*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+40)
+  ##used for black plot
+  #h2_plot <- ifelse(nclass > 3, nclass, 3) / 3 * (16/7)
+  ##used for color plot
+  #w_plot <- 21/17.2*(1.8+((15.4/3-0.9)/3*length(groupsLevel)+0.9)*ifelse(nclass >= 3, 3, nclass))
+  w_plot <- 25/956*(82+(259/5*length(groupsLevel)+(288-259))*ifelse(nclass >= 3, 3, nclass))
+  ##used for one class plot
+  #w2_plot <- 8/15.9*(9.7/3*length(groupsLevel)+6.2)
   w2_plot <- 8/15.9*(9.7/3*length(groupsLevel)+6.2)
-  w3_plot <- length(groupsLevel) * (ifelse(nclass >= 3, 6, nclass*(6/3)+1)/3)
+  ##used for black plot
+  #w3_plot <- length(groupsLevel) * (ifelse(nclass >= 3, 6, nclass*(6/3)+1)/3)
   
   ## Visualization 
   data_sub_classSum_stat2$group <- 
-    factor(data_sub_classSum_stat2$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+    factor(data_sub_classSum_stat2$group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
   # data_sub_classSum_integStat$group <- 
   #   factor(data_sub_classSum_integStat$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
   data_sub_classSum_stat$group <- 
-    factor(data_sub_classSum_stat$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+    factor(data_sub_classSum_stat$group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
   # plot_color <- ggplot() +
   #   geom_bar(data = data_sub_classSum_integStat, aes(x = group, y = realmean, fill = group), stat = "identity") +
   #   geom_errorbar(data = data_sub_classSum_integStat, aes(x = group, ymin = realmean, ymax = realmean + sd, color = group), width = 0.2) +
@@ -96,19 +104,21 @@ headgroupStat <- function(dataSet, mSet,
       factor(data_sub_classSum_stat_split[[i]]$group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
     Classi <- data_sub_classSum_stat_split[[i]]$Class[1]
     p <- ggplot(data = data_sub_classSum_stat_split[[i]], aes(x = group, y = lipidsum, color = group)) + 
-      geom_boxplot(width = 0.5, size = 1.2)+ 
+      #use width = 0.5 before
+      geom_boxplot(width = 0.8, size = 1.2)+ 
       #geom_jitter(color = "black", position=position_jitter(0.2)) +
       scale_color_npg() +
       labs(title = Classi, 
            x = "group",
            y = "total concentration") +
       theme_classic() +
+      #use size = 25 before
       theme(legend.position = "right", 
-            plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
-            axis.title = element_text(size = 25), 
-            axis.text = element_text(size = 25),
-            legend.text = element_text(size = 25), 
-            legend.title = element_text(size = 25)) 
+            plot.title = element_text(hjust = 0.5, size = 30, face = "bold"), 
+            axis.title = element_text(size = 30), 
+            axis.text = element_text(size = 30),
+            legend.text = element_text(size = 30), 
+            legend.title = element_text(size = 30)) 
     if(length(groupsLevel) == 2){
       # p <- ggboxplot(data_sub_classSum_stat_split[[i]], x = "group", y = "lipidsum",
       #                color = "group", add = "jitter")+ # Add global p-value
@@ -128,16 +138,28 @@ headgroupStat <- function(dataSet, mSet,
       p <- p + ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, 
                             step_increase = 0.05, tip_length = 0, textsize = 8, test = "t.test")
     }else if(length(groupsLevel) > 2){
-      if(length(unique(data_sub_classSum_stat_split[[i]]$group)) == 1){
-        return(rep(NA, length(groupsLevel)-1))
+      if(!controlGrp %in% unique(data_sub_classSum_stat_split[[i]]$group)){
+        myp <- NULL
+      }else if(length(unique(data_sub_classSum_stat_split[[i]]$group)) == 1){
+        myp <- rep(NA, length(groupsLevel)-1)
+      }else{
+        ## Dunnett’s multiple comparison test in one-way ANOVA
+        data_ano <- aov(lipidsum ~ group, data = data_sub_classSum_stat_split[[i]])
+        #summary(data_ano)
+        multcp <- glht(data_ano, linfct=mcp(group="Dunnett"),alternative="two.side") 
+        multcp_sum <- summary(multcp)
+        #gps <- levels(multcp_sum$model$model$group)
+        myp <- multcp_sum$test$pvalues
+        if(length(myp) != length(groupsLevel)-1){
+          notins <- which(is.na(match(groupsLevel, unique(data_sub_classSum_stat_split[[i]]$group))))-1
+          ins <- which(groupsLevel %in% unique(data_sub_classSum_stat_split[[i]]$group))[-1]-1
+          myp2 <- numeric(length = length(groupsLevel)-1)
+          myp2[ins] <- myp
+          myp2[notins] <- NA
+          myp <- myp2
+        }
       }
-      ## Dunnett’s multiple comparison test in one-way ANOVA
-      data_ano <- aov(lipidsum ~ group, data = data_sub_classSum_stat_split[[i]])
-      #summary(data_ano)
-      multcp <- glht(data_ano, linfct=mcp(group="Dunnett"),alternative="two.side") 
-      multcp_sum <- summary(multcp)
-      #gps <- levels(multcp_sum$model$model$group)
-      all_pvalues <- c(all_pvalues, multcp_sum$test$pvalues)
+      all_pvalues <- c(all_pvalues, myp)
       # stat.test <- tibble(
       #   group1 = controlGrp, 
       #   group2 = gps[gps != controlGrp], 
@@ -155,7 +177,7 @@ headgroupStat <- function(dataSet, mSet,
         ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, test = "seq_gen", 
                               step_increase = 0.05, tip_length = 0, textsize = 8)
     }
-    ggsave(paste0(fileLoc, Classi, ".pdf"), p, width = w2_plot, height = 12)
+    ggsave(paste0(fileLoc, "others_", Classi, ".pdf"), p, width = w2_plot, height = 12)
 
   }
   
@@ -201,7 +223,7 @@ headgroupStat <- function(dataSet, mSet,
   data_sub_classSum_stat$Class <- factor(data_sub_classSum_stat$Class, 
                                          levels = names(data_sub_classSum_stat_split)) 
   plot_color <- ggplot(data = data_sub_classSum_stat, aes(x = group, y = lipidsum, color = group)) + 
-    geom_boxplot(width = 0.5, size = 1.2)+ 
+    geom_boxplot(width = 0.8, size = 1.2)+ 
     facet_wrap(~Class, scales="free", ncol = 3) +
     scale_color_npg()+
     labs(x = "group",
@@ -212,12 +234,12 @@ headgroupStat <- function(dataSet, mSet,
     theme(
       strip.background = element_blank(),
       legend.position = "right",
-      plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
-      axis.title = element_text(size = 25), 
-      axis.text = element_text(size = 25),
-      legend.text = element_text(size = 25), 
-      legend.title = element_text(size = 25), 
-      strip.text = element_text(hjust = 0.5, size = 25, face = "bold")
+      plot.title = element_text(hjust = 0.5, size = 30, face = "bold"), 
+      axis.title = element_text(size = 30), 
+      axis.text = element_text(size = 30),
+      legend.text = element_text(size = 30), 
+      legend.title = element_text(size = 30), 
+      strip.text = element_text(hjust = 0.5, size = 30, face = "bold")
     ) 
   if(length(groupsLevel) == 2){
     plot_color <- plot_color + 

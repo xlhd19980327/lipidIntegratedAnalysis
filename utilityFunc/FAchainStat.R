@@ -156,7 +156,7 @@ FAchainStat <- function(dataSet, mSet,
   colorpars2 <- plottingPalettes(n = length(unique(ClassInfo))+length(groupsLevel), type = "discrete")[-1:-length(groupsLevel)]
   names(colorpars2) <- unique(ClassInfo)
   lipid_subclass_heatmap <- select(lipid_subclass_heatmap, -Class) 
-  lipid_subclass_heatmap <- lipid_subclass_heatmap[, match(colnames(lipid_subclass_heatmap), names(allgroups))]
+  lipid_subclass_heatmap <- lipid_subclass_heatmap[, match(names(allgroups), colnames(lipid_subclass_heatmap))]
   x <- pheatmap::pheatmap(mat = lipid_subclass_heatmap,
                           annotation_col = data.frame(group = datagroup, row.names = colnames(lipid_subclass_heatmap)), 
                           annotation_row = data.frame(lipidClass = ClassInfo, row.names = rownames(lipid_subclass_heatmap)),
@@ -217,28 +217,45 @@ FAchainStat <- function(dataSet, mSet,
   }
   get_multi_pvalue <- function(x){
     ## Dunnett’s multiple comparison test in one-way ANOVA
+    if(!controlGrp %in% unique(x$group)){
+      return(NULL)
+    }
     if(length(unique(x$group)) == 1){
       return(rep(NA, length(groupsLevel)-1))
     }
+    
     data_ano <- aov(lipidsum ~ group, data = x)
     multcp <- glht(data_ano, linfct=mcp(group="Dunnett"),alternative="two.side") 
     multcp_sum <- summary(multcp)
-    return(multcp_sum$test$pvalues)
+    p <- multcp_sum$test$pvalues
+    if(length(p) != length(groupsLevel)-1){
+      notins <- which(is.na(match(groupsLevel, unique(x$group))))-1
+      ins <- which(groupsLevel %in% unique(x$group))[-1]-1
+      myp <- numeric(length = length(groupsLevel)-1)
+      myp[ins] <- p
+      myp[notins] <- NA
+      p <- myp
+    }
+    return(p)
   }
   for(i in 1:length(data_sub_classSum_stat_split)){
     all_pvalues <- c()
     cplist <- mapply(c, controlGrp, groupsLevel[groupsLevel != controlGrp], 
                      SIMPLIFY = F, USE.NAMES = F)
     data_sub_classSum_stat_split[[i]]$group <- 
-      factor(data_sub_classSum_stat_split[[i]]$group, levels = c(controlGrp, unique(allgroups[allgroups != controlGrp])))
+      factor(data_sub_classSum_stat_split[[i]]$group, levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
     Classi <- data_sub_classSum_stat_split[[i]]$Class[1]
     nclass <- length(unique(data_sub_classSum_stat_split[[i]]$subclass))
     
-    w_plot <- 22/14.0*(1.5+((12.5/3-0.8)/3*length(groupsLevel)+0.8)*ifelse(nclass >= 3, 3, nclass))
-    h_plot <- 100/29.4*(29.15/13*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+0.25)
+    #w_plot <- 22/14.0*(1.5+((12.5/3-0.8)/3*length(groupsLevel)+0.8)*ifelse(nclass >= 3, 3, nclass))
+    w_plot <- 25/573*(46+((527/3-14)/5*length(groupsLevel)+14)*ifelse(nclass >= 3, 3, nclass))
+    #h_plot <- 100/29.4*(29.15/13*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+0.25)
+    h_plot <- 55/1264*(1241/7*ifelse(nclass%%3, nclass%/%3+1, nclass%/%3)+23)
+    
     
     p <- ggplot(data = data_sub_classSum_stat_split[[i]], aes(x = group, y = lipidsum, color = group)) + 
-      geom_boxplot(width = 0.5, size = 1.2)+ 
+      #use width = 0.5 before
+      geom_boxplot(width = 0.8, size = 1.2)+ 
       #geom_jitter(color = "black", position=position_jitter(0.2)) +
       scale_color_npg() +
       facet_wrap(~subclass, scales="free", ncol = 3)+
@@ -246,15 +263,16 @@ FAchainStat <- function(dataSet, mSet,
            x = "group",
            y = "total concentration") +
       theme_classic() +
+      #use size = 25 before
       theme(
         strip.background = element_blank(),
         legend.position = "right",
-        plot.title = element_text(hjust = 0.5, size = 25, face = "bold"), 
-        axis.title = element_text(size = 25), 
-        axis.text = element_text(size = 25),
-        legend.text = element_text(size = 25), 
-        legend.title = element_text(size = 25), 
-        strip.text = element_text(hjust = 0.5, size = 25, face = "bold")
+        plot.title = element_text(hjust = 0.5, size = 30, face = "bold"), 
+        axis.title = element_text(size = 30), 
+        axis.text = element_text(size = 30),
+        legend.text = element_text(size = 30), 
+        legend.title = element_text(size = 30), 
+        strip.text = element_text(hjust = 0.5, size = 30, face = "bold")
       ) 
     if(length(groupsLevel) == 2){
       p <- p + ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, 
@@ -268,7 +286,7 @@ FAchainStat <- function(dataSet, mSet,
         ggsignif::geom_signif(comparisons = cplist, color = "black", map_signif_level = T, test = "seq_gen", 
                               step_increase = 0.1, tip_length = 0, textsize = 8)
     }
-    ggsave(paste0(fileLoc, Classi, ".pdf"), p, width = w_plot, height = h_plot, limitsize = FALSE)
+    ggsave(paste0(fileLoc, "others_", Classi, ".pdf"), p, width = w_plot, height = h_plot, limitsize = FALSE)
     # p <- ggboxplot(data_sub_classSum_stat_split[[i]], x = "group", y = "lipidsum",
     #                color = "group", add = "jitter")+ # Add global p-value
     #   stat_compare_means(aes(label = ..p.signif..),

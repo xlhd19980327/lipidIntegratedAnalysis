@@ -1,9 +1,6 @@
 library(tidyverse)
-library(clusterProfiler)
-library(cowplot)
-library(org.Hs.eg.db)
-library(org.Mm.eg.db)
 library(optparse)
+source("./utilityFunc/geneEnrichFunc.R")
 
 option_list <- list( 
   make_option(c("-r", "--rdata_file"), action="store"),
@@ -11,8 +8,8 @@ option_list <- list(
   make_option(c("-p", "--p_thresh"), action="store", default = 0.05), 
   
   make_option(c("-t", "--species"), action="store", default = "mmu"), 
-  make_option(c("-g", "--gene_type"), action="store", default = "ENSEMBL"), 
-  make_option(c("-s", "--show_num"), action="store", default = 50), 
+  make_option(c("-g", "--gene_type"), action="store", default = "SYMBOL"), 
+  make_option(c("-s", "--show_num"), action="store", default = 20), 
   make_option(c("-c", "--go_term"), action="store", default = "Biological_Process"), 
   
   make_option(c("-o", "--output_loc"), action="store")
@@ -48,72 +45,21 @@ target.data.down <- resLFC %>%
   )
 gene_up <- target.data.up$gene
 gene_down <- target.data.down$gene
+write.csv(gene_up, paste0(opt$output_loc, "up.csv"))
+write.csv(gene_down, paste0(opt$output_loc, "down.csv"))
 
-#!!!Client options: species("hsa"/"mmu")
-spe <- opt$species
-#!!!Client options: gene type(sugg: "ENSEMBL"/"SYMBOL")(ref: keytypes([spe db]))
-gene_type <- opt$gene_type
-#!!!Client options: show ontology item number
-shownum <- opt$show_num
-#!!!Client options: select go term catalog("BP"/"CC"/"MF"/"ALL")
-gocat <- opt$go_term
-orgdb <- switch (spe,
-                 hsa = org.Hs.eg.db, 
-                 mmu = org.Mm.eg.db
-)
-goopt <- switch (gocat,
-                 Biological_Process = "BP", 
-                 Cellular_Component = "CC",
-                 Molecular_Function = "MF", 
-                 ALL = "ALL"
-)
-if(goopt == "BP"){
-  go_BP_up <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                    qvalueCutoff = 0.2,keyType = gene_type)
-  go_BP_down <- enrichGO(gene = gene_down, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                         qvalueCutoff = 0.2,keyType = gene_type)
-  p1 <- barplot(go_BP_up,showCategory=shownum,drop=T) +
-    ggtitle("Up reg genes - Biological Process") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  p2 <- barplot(go_BP_down,showCategory=shownum,drop=T) +
-    ggtitle("Down reg genes - Biological Process") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  ggsave(paste0(opt$output_loc, "upreggenes_GOenrich_Biological_Process.pdf"), plot = p1, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
-  ggsave(paste0(opt$output_loc, "downreggenes_GOenrich_Biological_Process.pdf"), plot = p2, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
+if(length(gene_up) == 0){
+  cat("No UP regulation genes found! Try reduce the threshold of Fold change/p.value!\n")
+}else{
+  geneEnrichFunc(genes = gene_up, spe = opt$species, gene_type = opt$gene_type, 
+               shownum = opt$show_num, gocat = opt$go_term, reg = "up", loc = opt$output_loc)
 }
-if(goopt == "CC"){
-  go_CC_up <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='CC',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                    qvalueCutoff = 0.2,keyType = gene_type)
-  go_CC_down <- enrichGO(gene = gene_down, OrgDb = orgdb, ont='CC',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                       qvalueCutoff = 0.2,keyType = gene_type)
-  p1 <- barplot(go_CC_up,showCategory=shownum,drop=T) +
-    ggtitle("Up reg genes - Cellular Component") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  p2 <- barplot(go_CC_down,showCategory=shownum,drop=T) +
-    ggtitle("Down reg genes - Cellular Component") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  ggsave(paste0(opt$output_loc, "upreggenes_GOenrich_Cellular_Component.pdf"), plot = p1, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
-  ggsave(paste0(opt$output_loc, "downreggenes_GOenrich_Cellular_Component.pdf"), plot = p2, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
-}
-if(goopt == "MF"){
-  go_MF_up <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='MF',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                    qvalueCutoff = 0.2,keyType = gene_type)
-  go_MF_down <- enrichGO(gene = gene_down, OrgDb = orgdb, ont='MF',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
-                       qvalueCutoff = 0.2,keyType = gene_type)
-  p1 <- barplot(go_MF_up,showCategory=shownum,drop=T) +
-    ggtitle("Molecular Function") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  p2 <- barplot(go_MF_down,showCategory=shownum,drop=T) +
-    ggtitle("Molecular Function") +
-    theme(plot.title = element_text(hjust = 0.5, size = 20))
-  ggsave(paste0(opt$output_loc, "upreggenes_GOenrich_Molecular_Function.pdf"), plot = p1, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
-  ggsave(paste0(opt$output_loc, "downreggenes_GOenrich_Molecular_Function.pdf"), plot = p2, 
-         device = "pdf", width = 20, height = 15/50*shownum, limitsize = FALSE)
+if(length(gene_down) == 0){
+  cat("No DOWN regulation genes found! Try reduce the threshold of Fold change/p.value!\n")
+}else{
+  geneEnrichFunc(genes = gene_down, spe = opt$species, gene_type = opt$gene_type, 
+                 shownum = opt$show_num, gocat = opt$go_term, reg = "down", loc = opt$output_loc)
+  
 }
 # if(goopt == "ALL"){
 #   go_BP <- enrichGO(gene = gene_up, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05,

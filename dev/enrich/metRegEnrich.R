@@ -12,7 +12,16 @@ opt = parse_args(opt_parser)
 
 up <- read.csv(paste0(opt$input_file, "up.csv"))$x
 down <- read.csv(paste0(opt$input_file, "down.csv"))$x
-metEnrichFunc(csvfile = paste0(opt$input_file, "up.csv"), filename = "up", 
+if(length(up) == 0){
+  cat("No UP regulation metabolites found! Try reduce the threshold of Fold change/p.value!\n")
+}else{
+  metEnrichFunc(csvfile = paste0(opt$input_file, "up.csv"), filename = "up", 
                            fileLoc = opt$metenrich_output)
-metEnrichFunc(csvfile = paste0(opt$input_file, "down.csv"), filename = "down", 
-                           fileLoc = opt$metenrich_output)
+}
+if(length(down) == 0){
+  cat("No DOWN regulation metabolites found! Try reduce the threshold of Fold change/p.value!\n")
+}else{
+  metEnrichFunc(csvfile = paste0(opt$input_file, "down.csv"), filename = "down", 
+                fileLoc = opt$metenrich_output)
+}
+

@@ -38,7 +38,7 @@ lipSumClassHeatmapPlot <- function(dataSet, mSet,
       spread(key = "case", value = "lipidsum") %>%
       ungroup(Class) %>%
       column_to_rownames(var = "Class")
-    data_Class <- data_Class[, match(colnames(data_Class), names(allgroups))]
+    data_Class <- data_Class[, match(names(allgroups), colnames(data_Class))]
     data_Class <- data_Class[apply(data_Class, 1, function(x) sd(x)!=0), ]
     # if(nrow(data_Class) < nrow(data_Class)){
     #   cat("Some lipids in low variation will not show in the plot.\n")

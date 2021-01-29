@@ -7,15 +7,15 @@ source("./utilityFunc/rnaVolcanoPlot.R")
 source("./utilityFunc/rnaHeatmapPlot.R")
 source("./utilityFunc/plottingPalettes.R")
 
-outputLoc <- "./branch/benchmark/output/"
-dataSet_RNA <- readingRNAData(datafile = "./branch/benchmark/input/HANgene_tidy_geneid_allgroups.CSV", 
-                              sampleList = "./branch/benchmark/input/HANsampleList_allgroups.CSV", 
-                              controlGrp = "")
+outputLoc <- "./testData/SVFmultiomics_210118/output/"
+dataSet_RNA <- readingRNAData(datafile = "./testData/SVFmultiomics_210118/input/RNAseq_genesymbol.csv", 
+                              sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv", 
+                              controlGrp = "Day0")
 dataProc_RNA <- DESeq2preproc(dataSet = dataSet_RNA, 
                               fileLoc = outputLoc)
 
 ##!!!Client options: can be "group_by_group"/"only_show_variability"/[expr group]
-analOpt <- "Ly6ChighD4"
+analOpt <- "Day10"
 if(analOpt == "group_by_group"){
   for(i in dataSet_RNA$groupsLevel[dataSet_RNA$groupsLevel != dataSet_RNA$controlGrp]){
     DEAresult <- DEAnalysis(dataProc = dataProc_RNA, experGrp = i, 
