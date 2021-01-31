@@ -5,15 +5,18 @@ library(MetaboAnalystR)
 library(DESeq2)
 library(limma)
 options(stringsAsFactors = F)
-source("./branch/correlation/readingLipidData_cor.R")
+source("./branch/correlation/readingLipidData_cor2.R")
 source("./branch/correlation/readingRNAData_cor.R")
-kg <- 4
-kl <- 12
+kg <- 6
+kl <- 7
 
 ## Data input
+#lipid_data <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
+#                               controlGrp = "", dataType = "LipidSearch", delOddChainOpt = T, na.char = "",
+#                               lipField = "LipidIon", sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
 lipid_data <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
-                               controlGrp = "", dataType = "LipidSearch", delOddChainOpt = T, na.char = "",
-                               lipField = "LipidIon", sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
+                               dataType = "Lipids", delOddChainOpt = T, perc = 2/3*100, 
+                               sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
 gene_data <- readingRNAData(datafile = "./testData/SVFmultiomics_210118/input/RNAseq_genesymbol.csv", 
                               sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv",
                               type = "RNAseq")
@@ -30,7 +33,14 @@ cutoff <- function(x){
   x<-abs(x)
   x<-max(x)
 }
-correlation <- correlation[,which(apply(correlation, 2, cutoff)>0.8)]## set a parameter for cutoff, default =0.6
+
+#70% quantile
+max_list <- apply(correlation,2,max)
+value <- quantile(max_list,0.7)
+#cor thresh
+value <- 0.8
+
+correlation <- correlation[,which(apply(correlation, 2, cutoff)>value)]## set a parameter for cutoff, default =0.8
 #correlation <- correlation[which(apply(correlation, 1, cutoff)>0.8),]## set a parameter for cutoff
 
 ##Figure out the size of submatrix

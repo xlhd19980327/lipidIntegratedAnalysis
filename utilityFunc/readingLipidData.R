@@ -1,5 +1,5 @@
 readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType, 
-                             delOddChainOpt = F){
+                             delOddChainOpt = F, cor = F){
   firstline <- scan(datafile, what = "character", nlines = 1, sep = ",", quote = "\"", 
                     na.strings = "")
   lipField <- firstline[1]
@@ -33,8 +33,10 @@ readingLipidData <- function(datafile, sampleList, controlGrp = "", dataType,
   }
   
   ### Check Data Integrity ###
-  if(min(nsamples) < 3){
-    stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
+  if(!cor){
+    if(min(nsamples) < 3){
+      stop("At least one group have no more than 2 replicates, PROGRAM EXIT!")
+    }
   }
   if(any(!(apply(data[, sampleInd], 2, is.numeric)))){
     stop("Data contain non-numeric variable. You may check the NA string and offer na.char parameter. PROGRAM EXIT!")

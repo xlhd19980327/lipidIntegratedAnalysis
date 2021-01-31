@@ -168,8 +168,9 @@ correlation <- cor(lipid_data, t(b), method ="spearman")
 correlation[is.na(correlation)] <- 0
 list <- pheatmap::pheatmap(correlation, 
                  cutree_col = 4, cutree_rows = 12)
-pdf("~/temp/cor/correlationPlot.pdf")
-list
+pdf("~/temp/cor/correlationPlot.pdf", 
+    width = 5)
+list <- pheatmap::pheatmap(correlation)
 dev.off()
 
 ### See the lipid Class
