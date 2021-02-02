@@ -55,13 +55,13 @@ if(analOpt == "group_by_group"){
   }
 }else if(analOpt == "all_together"){
   cat("All groups will be analyzed together\n")
+  mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc, perc = 2/3*100)
   data_type <- dataSet$dataType
   data_proc <- t(mSet[["dataSet"]][["proc"]])
   dataSet$lipidName <- rownames(data_proc)
   rownames(data_proc) <- NULL
   data_proc <- as.data.frame(data_proc)
   dataSet$data <- data_proc
-  mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc, perc = 2/3*100)
   lipPCAPlot(dataSet = dataSet, mSet = mSet, 
              fileLoc = paste0(outputLoc, "MARresults/"))
   lipOPLSDAPlot(dataSet = dataSet, mSet = mSet, 

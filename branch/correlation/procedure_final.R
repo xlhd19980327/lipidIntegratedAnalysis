@@ -14,7 +14,7 @@ kl <- 7
 #lipid_data <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
 #                               controlGrp = "", dataType = "LipidSearch", delOddChainOpt = T, na.char = "",
 #                               lipField = "LipidIon", sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
-lipid_data <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
+lipid_data <- readingLipidData_cor(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
                                dataType = "Lipids", delOddChainOpt = T, perc = 2/3*100, 
                                sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
 gene_data <- readingRNAData(datafile = "./testData/SVFmultiomics_210118/input/RNAseq_genesymbol.csv", 
@@ -41,7 +41,7 @@ value <- quantile(max_list,0.7)
 value <- 0.8
 
 correlation <- correlation[,which(apply(correlation, 2, cutoff)>value)]## set a parameter for cutoff, default =0.8
-#correlation <- correlation[which(apply(correlation, 1, cutoff)>0.8),]## set a parameter for cutoff
+correlation <- correlation[which(apply(correlation, 1, cutoff)>value),]## set a parameter for cutoff
 
 ##Figure out the size of submatrix
 result_lipid <- dist(correlation, method = "euclidean")
@@ -76,6 +76,8 @@ lipid_cluster_num <- cutree(list_lipid, k=kl)
 #png("~/temp/cor/correlationPlot.png", 
 #    width = 720, height = 720)
 pdf("~/temp/cor/correlationPlot.pdf")
+list <- pheatmap(correlation, clustering_distance_rows = result_lipid, clustering_distance_cols = result_gene,
+                 cutree_col = kg, cutree_rows = kl)
 list <- pheatmap(correlation,
                  cutree_col = kg, cutree_rows = kl)
 dev.off()

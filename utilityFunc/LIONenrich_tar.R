@@ -1,4 +1,5 @@
 LIONenrich_tar <- function(lipid_target_list, lipid_background_list, fileLoc, reg = ""){
+  regname <- ifelse(reg == "none", "", paste0(reg, "_"))
   ### Preparation
   #### libraries
   require(shiny)
@@ -936,9 +937,9 @@ LIONenrich_tar <- function(lipid_target_list, lipid_background_list, fileLoc, re
   
   ### Output
   ### LION enrichment table(enrichment summary)
-  write.csv(myoutput$ontology.table, paste0(fileLoc, reg, "_", "LION_enrichment.csv"), row.names = F)
+  write.csv(myoutput$ontology.table, paste0(fileLoc, regname, "LION_enrichment.csv"), row.names = F)
   ### LION enrichment graph
-  ggsave(paste0(fileLoc, reg, "_", "LION-enrichment-plot.png"),
+  ggsave(paste0(fileLoc, regname, "LION-enrichment-plot.png"),
          width = 2.5*5.52, height = 2.5*3.66,
          myoutput$ontology.graph+
            theme(plot.subtitle = element_text(hjust = 0.5),

@@ -1,4 +1,5 @@
 metEnrichFunc <- function(csvfile, filename, fileLoc){
+  filename <- ifelse(filename == "none", "", paste0(filename, "_"))
   SetCandidate_cus <- function (mSetObj = NA, query_nm, can_nm) 
   {
     query_inx <- which(mSetObj$name.map$query.vec == query_nm)
@@ -39,6 +40,7 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     return(mSetObj)
   }
   
+  #From enrich_stats.R function CalculateHyperScore
   CalculateHyperScore_cus <- function (mSetObj = NA) 
   {
     mSetObj <- MetaboAnalystR:::.get.mSet(mSetObj)
@@ -62,6 +64,7 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
       toSend <- list(libNm = mSetObj$api$libname, filter = mSetObj$api$filter, 
                      oraVec = mSetObj$api$oraVec, excludeNum = mSetObj$api$excludeNum)
     }
+    #browser()
     MetaboAnalystR:::load_httr()
     base <- api.base
     endpoint <- "/enrichmentora"
@@ -78,7 +81,7 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     colnames(oraDataRes) <- query_results_json$enrichResColNms
     rownames(oraDataRes) <- query_results_json$enrichResRowNms
     MetaboAnalystR:::fast.write.csv(oraDataRes, 
-                                    file = paste0(fileLoc, filename, "_msea_ora_result.csv"))
+                                    file = paste0(fileLoc, filename, "msea_ora_result.csv"))
     mSetObj$analSet$ora.mat <- oraDataRes
     mSetObj$api$guestName <- query_results_json$guestName
     return(MetaboAnalystR:::.set.mSet(mSetObj))
@@ -160,10 +163,15 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     mSet2<-SetCurrentMsetLib(mSet2, "kegg_pathway", 2);
     #output a chart
     mSet2<-CalculateHyperScore_cus(mSet2)
-    #bar plot
-    mSet2<-PlotORA(mSet2, paste0(fileLoc, filename, "_ora_"), "net", "png", 72, width=NA)
-    #dot plot
-    mSet2<-PlotEnrichDotPlot(mSet2, "ora", paste0(fileLoc, filename, "_ora_dot_"), "png", 72, width=NA)
+    if("Error! Enrichment ORA via api.metaboanalyst.ca unsuccessful!" %in% err.vec){
+      cat("Can not do metabolite set enrichment! Try use MetaboAnalyst website.\n")
+      return(0)
+    }else{
+      #bar plot
+      mSet2<-PlotORA(mSet2, paste0(fileLoc, filename, "ora_"), "net", "png", 72, width=NA)
+      #dot plot
+      mSet2<-PlotEnrichDotPlot(mSet2, "ora", paste0(fileLoc, filename, "ora_dot_"), "png", 72, width=NA)
+    }
     return(0)
   }
     

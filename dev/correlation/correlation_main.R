@@ -1,5 +1,5 @@
 ## Do correlation
-source("./branch/correlation/readingLipidData_cor.R")
+source("./branch/correlation/readingLipidData_cor2.R")
 source("./branch/correlation/readingRNAData_cor.R")
 
 library(pheatmap)
@@ -17,36 +17,67 @@ option_list <- list(
   make_option(c("-i", "--input_file"), action="store"),
   make_option(c("-d", "--description_file"), action="store"), 
   make_option(c("-t", "--data_type"), action="store"), 
-  make_option(c("-f", "--feature_field"), action="store", default = NA, type = "character"), 
-  make_option(c("-n", "--NA_string"), action="store", default = NULL, type = "character"), 
+  #make_option(c("-f", "--feature_field"), action="store", default = NA, type = "character"), 
+  #make_option(c("-n", "--NA_string"), action="store", default = NULL, type = "character"), 
+  make_option(c("-l", "--lipid_odd_chain_deletion"), action="store", default = F),
+  make_option(c("-m", "--na_percent"), action="store", default = 67),
+  
   make_option(c("-j", "--input_file_rna"), action="store"),
   make_option(c("-e", "--description_file_rna"), action="store"), 
   make_option(c("-u", "--data_type_rna"), action="store"), 
+  
   make_option(c("-g", "--gene_split"), action="store", default = 4), 
-  make_option(c("-l", "--lipid_split"), action="store", default = 4),
+  make_option(c("-k", "--lipid_split"), action="store", default = 4),
+  make_option(c("-n", "--use_quantile"), action="store", default = T), 
+  make_option(c("-s", "--max_thresh"), action="store", default = 0.8), 
   make_option(c("-o", "--output"), action="store")
 )
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
 
 ## Data input
-lipid_data <- readingLipidData(datafile = opt$input_file, sampleList = opt$description_file,
-                               controlGrp = "", dataType = opt$data_type, delOddChainOpt = F,
-                               lipField = opt$feature_field, na.char = opt$NA_string)
-gene_data <- readingRNAData(datafile = opt$input_file_rna, 
+lipid_data <- readingLipidData_cor(datafile = opt$input_file, sampleList = opt$description_file,
+                               dataType = opt$data_type, delOddChainOpt = opt$lipid_odd_chain_deletion, 
+                               perc = opt$na_percent)
+if(opt$data_type_rna == "Proteins"){
+  gene_data <- readingLipidData_cor(datafile = opt$input_file_rna, sampleList = opt$description_file_rna,
+                                dataType = "Proteins", delOddChainOpt = F, 
+                                perc = 100)
+  gene_data <- t(gene_data)
+}else{
+  gene_data <- readingRNAData(datafile = opt$input_file_rna, 
                             sampleList = opt$description_file_rna,
                             type = opt$data_type_rna)
+}
+
 
 ##!!!!!WARNING: This code requires same amount of samples between lipid data and gene data
 ##!!!!!WARNING: May handle this here later
 
 ### Waiting time(~2+ min, larger data may require more)
-correlation <- cor(lipid_data, t(gene_data), use='pairwise.complete.obs', method ="spearman")
+correlation <- cor(lipid_data, t(gene_data), method ="spearman")
 correlation[is.na(correlation)] <- 0
-correlation <- correlation[,which(apply(correlation, 2, FUN = sd) != 0)]
-correlation <- correlation[which(apply(correlation, 1, FUN = sd) != 0),]
-png(paste0(opt$output, "correlationPlot.png"), 
-    width = 720, height = 720)
+#correlation <- correlation[,which(apply(correlation, 2, FUN = sd) != 0)]
+#correlation <- correlation[which(apply(correlation, 1, FUN = sd) != 0),]
+
+cutoff <- function(x){
+  x<-abs(x)
+  x<-max(x)
+}
+if(opt$use_quantile){
+  #70% quantile
+  max_list <- apply(correlation,2,max)
+  value <- quantile(max_list,0.7)
+}else{
+  #cor thresh
+  value <- opt$max_thresh
+}
+
+correlation <- correlation[,which(apply(correlation, 2, cutoff)>value)]## set a parameter for cutoff, default =0.8
+correlation <- correlation[which(apply(correlation, 1, cutoff)>value),]
+write.csv(correlation, paste0(opt$output, "correlation.csv"))
+
+pdf(paste0(opt$output, "correlationPlot.pdf"))
 ### Waiting time(~2+ min, larger data may require more)
 list <- pheatmap(correlation, 
                  cutree_col = opt$gene_split, cutree_rows = opt$lipid_split)

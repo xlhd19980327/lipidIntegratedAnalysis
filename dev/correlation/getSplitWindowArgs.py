@@ -4,13 +4,14 @@ import numpy as np
 ## may use this code to install module 'skbuild': pip install scikit-build
 import cv2
 import pandas as pd
+import csv
 
 if __name__ == "__main__":
     # Argument Parser
     parser = ap.ArgumentParser()
     parser.add_argument('-p', "--path", help="Path to image",
             required=True)
-    parser.add_argument('-l', "--row", type = int, help="Rows of splited regions",
+    parser.add_argument('-k', "--row", type = int, help="Rows of splited regions",
             required=True)
     parser.add_argument('-g', "--columns", type = int, help="Columns of splited regions",
             required=True)
@@ -48,15 +49,24 @@ if __name__ == "__main__":
     inf.sort(key=lambda x:x[1])
     inf.sort(key=lambda y:y[0])
     inf.pop(0)
-    r = [i for i in range(1,row+1)]*columns
-    c = [[j]*row for j in range(1,columns+1)]
-    c = [j for m in c for j in m]
-    info = np.array(inf)
+    list3 = [inf[0][0], inf[0][1]]
+    list1 = [inf[i][2] for i in range(0, columns*row, row)]
+    list2 = [inf[i][3] for i in range(row)]
+    # Only turn list(inf) to a data frame(info)
+    #r = [i for i in range(1,row+1)]*columns
+    #c = [[j]*row for j in range(1,columns+1)]
+    #c = [j for m in c for j in m]
+    #info = np.array(inf)
     
     #保存数据
-    df = pd.DataFrame(info,columns=['x','y','w','h'])
-    df['row'] = r
-    df['columns'] = c
-    df.to_csv(output+'splitWinArgs.csv')
+    #df = pd.DataFrame(info,columns=['x','y','w','h'])
+    #df['row'] = r
+    #df['columns'] = c
+    #df.to_csv(output+'splitWinArgs.csv')
+    with open(output+'splitWinArgs.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(list3)
+        writer.writerow(list1)
+        writer.writerow(list2)
 
     

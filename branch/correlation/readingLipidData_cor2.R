@@ -1,4 +1,4 @@
-readingLipidData <- function(datafile, sampleList, dataType, delOddChainOpt, 
+readingLipidData_cor <- function(datafile, sampleList, dataType, delOddChainOpt, 
                              perc){
   source("./utilityFunc/readingLipidData.R")
   source("./utilityFunc/MARpreproc.R")

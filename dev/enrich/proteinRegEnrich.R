@@ -1,5 +1,5 @@
 library(optparse)
-source("./utilityFunc/proteinPREEnrichFunc.R")
+#source("./utilityFunc/proteinPREEnrichFunc.R")
 source("./utilityFunc/geneEnrichFunc.R")
 
 option_list <- list( 
