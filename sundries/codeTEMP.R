@@ -69,19 +69,19 @@ list <- pheatmap(correlation,
                  cutree_col = kg, cutree_rows = kl)
 dev.off()
 
-a <- read.csv("/home/lifs/temp/cor3/genes_3.csv")
+a <- read.csv("/home/lifs/temp/cor_sub2/genes_1.csv")
 library(clusterProfiler)
 library(cowplot)
 library(org.Hs.eg.db)
 library(org.Mm.eg.db)
 library(ggplot2)
-go_BP <- enrichGO(gene = a$x, OrgDb = 'org.Mm.eg.db', ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
+go_BP <- enrichGO(gene = a$x, OrgDb = 'org.Mm.eg.db', ont='ALL',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
                   qvalueCutoff = 0.2,keyType = "SYMBOL")
-p <- barplot(go_BP,showCategory=10,drop=T, font.size = 15) +
-  ggtitle("Biological Process") +
+p <- barplot(go_BP,showCategory=50,drop=T, font.size = 15) +
+  #ggtitle("Biological Process") +
   theme(plot.title = element_text(hjust = 0.5, size = 20))
-ggsave("~/temp/GOenrich_Biological_Process.pdf", plot = p, 
-       device = "pdf", width = 8, height = 15/50*10, limitsize = FALSE)
+ggsave("~/temp/GOenrich.pdf", plot = p, 
+       device = "pdf", width = 12, height = 15/50*50, limitsize = FALSE)
 
 ### SVF multi-omics cumulative percent contain
 a <- data_sub_classSum_stat2 %>%

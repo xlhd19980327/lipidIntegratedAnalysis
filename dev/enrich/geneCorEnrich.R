@@ -13,7 +13,8 @@ option_list <- list(
   make_option(c("-s", "--show_num"), action="store", default = 20), 
   make_option(c("-c", "--go_term"), action="store", default = "Biological_Process"), 
   
-  make_option(c("-o", "--output_loc"), action="store")
+  make_option(c("-o", "--output_loc"), action="store"),
+  make_option(c("-p", "--output_temp"), action="store")
 )
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
@@ -25,3 +26,4 @@ dataloc <- paste0(opt$data_file,
 genes <- read.csv(dataloc)$x
 geneEnrichFunc(genes = genes, spe = opt$species, gene_type = opt$gene_type, 
                shownum = opt$show_num, gocat = opt$go_term, reg = "none", loc = opt$output_loc)
+save(go, file = paste0(opt$output_temp, "data_circos.RData"))

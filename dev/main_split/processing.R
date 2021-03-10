@@ -9,7 +9,7 @@ library(MetaboAnalystR)
 option_list <- list( 
   #make_option(c("-a", "--analysis_option"), action="store"),
   make_option(c("-i", "--input_file"), action="store"),
-  make_option(c("-d", "--description_file"), action="store"), 
+  #make_option(c("-d", "--description_file"), action="store"), 
   make_option(c("-c", "--control_group"), action="store", default = ""), 
   make_option(c("-t", "--data_type"), action="store"), 
   #make_option(c("-f", "--feature_field"), action="store", default = NA, type = "character"), 
@@ -24,7 +24,9 @@ opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
 
 analOpt <- opt$analysis_option
-dataSet <- readingLipidData(datafile = opt$input_file, sampleList = opt$description_file, 
+filename_data <- paste0(opt$input_file, "input.csv")
+filename_des <- paste0(opt$input_file, "description.csv")
+dataSet <- readingLipidData(datafile = filename_data, sampleList = filename_des, 
                             controlGrp = opt$control_group, dataType = opt$data_type,
                             delOddChainOpt = opt$lipid_odd_chain_deletion)
 #if(analOpt == "all_together"){

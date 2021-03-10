@@ -13,7 +13,7 @@ source("./utilityFunc/lipOPLSDAPlot.R")
 source("./utilityFunc/lipSumClassHeatmapPlot.R")
 source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
-outputLoc <- "./testData/SVFmultiomics_210118/output/"
+outputLoc <- "./branch/benchmark/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -23,9 +23,9 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "all_together"
-dataSet <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv",
-                            sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv", 
+analOpt <- "Day2"
+dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv",
+                            sampleList = "./branch/benchmark/input/HANsampleList_lipid.CSV", 
                             controlGrp = "Day0", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
@@ -84,7 +84,7 @@ if(analOpt == "group_by_group"){
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
   dataset <- prepDataSet(analOpt)
   
-  mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc)
+  mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc, perc = 2/3*100)
   data_type <- dataset$dataType
   data_proc <- t(mSet[["dataSet"]][["proc"]])
   dataset$lipidName <- rownames(data_proc)
@@ -101,7 +101,7 @@ if(analOpt == "group_by_group"){
   
   headgroupStat(dataSet = dataset, mSet = mSet, ignore = F, 
                 fileLoc = paste0(outputLoc, "headgroup/"))
-  FAchainStat(dataSet = dataset, mSet = mSet, ignore = F, 
+  FAchainStat(dataSet = dataset, mSet = mSet, ignore = T, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
               plotInfo = "FA_info")
 }
