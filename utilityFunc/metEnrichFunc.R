@@ -7,34 +7,41 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     if (!is.null(can_mat)) {
       cmpd.db <- qs::qread("compound_db.qs")
       can_inx <- which(can_mat[, 2] == can_nm)
-      if (can_inx <= nrow(can_mat)) {
-        can_inx <- which(cmpd.db$name == can_nm)[1]
-        hit <- cmpd.db[can_inx, , drop = F]
-        mSetObj$name.map$hit.inx[query_inx] <- can_inx
-        mSetObj$name.map$hit.values[query_inx] <- hit[, 
-                                                      2]
-        mSetObj$name.map$match.state[query_inx] <- 1
-        csv.res <- mSetObj$dataSet$map.table
-        if (ncol(csv.res) > 7) {
-          csv.res[query_inx, ] <- c(csv.res[query_inx, 
-                                            1], mSetObj$name.map$hit.values[query_inx], 
-                                    hit$hmdb_id, hit$pubchem_id, hit$chebi_id, 
-                                    hit$kegg_id, hit$metlin_id, hit$smiles, 1)
-        }
-        else {
-          csv.res[query_inx, ] <- c(csv.res[query_inx, 
-                                            1], mSetObj$name.map$hit.values[query_inx], 
-                                    hit$hmdb_id, hit$pubchem_id, hit$kegg_id, 
-                                    hit$smiles, 1)
-        }
-        write.csv(csv.res, file = "name_map.csv", row.names = F)
-        mSetObj$dataSet$map.table <- csv.res
-      }
-      else {
+      if(length(can_inx) == 0){
         mSetObj$name.map$hit.inx[query_inx] <- 0
         mSetObj$name.map$hit.values[query_inx] <- ""
         mSetObj$name.map$match.state[query_inx] <- 0
         print("No name matches found.")
+      }else{
+        if (can_inx <= nrow(can_mat)) {
+          can_inx <- which(cmpd.db$name == can_nm)[1]
+          hit <- cmpd.db[can_inx, , drop = F]
+          mSetObj$name.map$hit.inx[query_inx] <- can_inx
+          mSetObj$name.map$hit.values[query_inx] <- hit[, 
+                                                        2]
+          mSetObj$name.map$match.state[query_inx] <- 1
+          csv.res <- mSetObj$dataSet$map.table
+          if (ncol(csv.res) > 7) {
+            csv.res[query_inx, ] <- c(csv.res[query_inx, 
+                                              1], mSetObj$name.map$hit.values[query_inx], 
+                                      hit$hmdb_id, hit$pubchem_id, hit$chebi_id, 
+                                      hit$kegg_id, hit$metlin_id, hit$smiles, 1)
+          }
+          else {
+            csv.res[query_inx, ] <- c(csv.res[query_inx, 
+                                              1], mSetObj$name.map$hit.values[query_inx], 
+                                      hit$hmdb_id, hit$pubchem_id, hit$kegg_id, 
+                                      hit$smiles, 1)
+          }
+          write.csv(csv.res, file = "name_map.csv", row.names = F)
+          mSetObj$dataSet$map.table <- csv.res
+        }
+        else {
+          mSetObj$name.map$hit.inx[query_inx] <- 0
+          mSetObj$name.map$hit.values[query_inx] <- ""
+          mSetObj$name.map$match.state[query_inx] <- 0
+          print("No name matches found.")
+        }
       }
     }
     return(mSetObj)

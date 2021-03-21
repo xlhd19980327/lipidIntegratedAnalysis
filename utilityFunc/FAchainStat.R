@@ -56,7 +56,7 @@ FAchainStat <- function(dataSet, mSet,
       }else{
         chains <- sum(as.numeric(gsub(".*?([0-9]+):.*", "\\1", fa)))
         unsaturate <- sum(as.numeric(gsub(".*?:([0-9]+).*", "\\1", fa)))
-        subclass <- paste0(Class, "(", chains, ":", unsaturate, ")")
+        subclass <- paste0(Class, "(", fa, ")")
       }
       
       lipid_subclass_handle <- rbind(lipid_subclass_handle, 

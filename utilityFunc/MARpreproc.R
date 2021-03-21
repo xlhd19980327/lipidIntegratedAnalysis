@@ -77,5 +77,8 @@ MARpreproc <- function(dataSet, perc, fileLoc){
   mSet<-Normalization(mSet, 
                       rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, 
                       ratio=FALSE, ratioNum=20)
+  #mSet<-Normalization(mSet, 
+  #                    rowNorm = "MedianNorm", transNorm = "LogNorm", scaleNorm = "AutoNorm", ref = NULL, 
+  #                    ratio=FALSE, ratioNum=20)
   return(mSet)
 }

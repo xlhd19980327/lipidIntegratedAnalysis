@@ -7,6 +7,11 @@ library(tidyverse)
 library(MetaboAnalystR)
 library(DESeq2)
 library(limma)
+
+library(dbscan)
+library(MCL)
+library(scales)
+library(reshape)
 options(stringsAsFactors = F)
 
 #Shell interaction
@@ -35,8 +40,7 @@ option_list <- list(
   make_option(c("-b", "--clustering_type"), action="store", default = "hierarchical"), 
   make_option(c("-c", "--dbscan_l_pts"), action="store", default = 4), 
   make_option(c("-f", "--dbscan_g_pts"), action="store", default = 3), 
-  make_option(c("-p", "--markov_quantile"), action="store", default = 0.55), 
-  
+  make_option(c("-p", "--markov_quantile"), action="store", default = 0.55)
 )
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
@@ -200,7 +204,8 @@ if(opt$clustering_type != "hierarchical"){
     theme(text=element_text(size=4),
           axis.text.x=element_text(angle=90,vjust=0), 
           strip.background = element_blank(), 
-          strip.text = element_blank()) +
+          strip.text = element_blank(), 
+          axis.title = element_blank()) +
     facet_grid(cluster.l~cluster.g, scales='free', space='free')
   ggsave(paste0(opt$output, "correlationPlot.pdf"), p)
   

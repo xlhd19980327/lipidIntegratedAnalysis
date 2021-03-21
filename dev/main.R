@@ -13,7 +13,7 @@ source("./utilityFunc/lipOPLSDAPlot.R")
 source("./utilityFunc/lipSumClassHeatmapPlot.R")
 source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
-outputLoc <- "./branch/benchmark/output/"
+outputLoc <- "./testData/otherlipidData/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -23,10 +23,10 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "Day2"
-dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv",
-                            sampleList = "./branch/benchmark/input/HANsampleList_lipid.CSV", 
-                            controlGrp = "Day0", dataType = "Lipids", delOddChainOpt = T)
+analOpt <- "ast"
+dataSet <- readingLipidData(datafile = "./testData/otherlipidData/lipid_yts_asthma.csv",
+                            sampleList = "./testData/otherlipidData/sampleList_yts_asthma.csv", 
+                            controlGrp = "ctrl", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
@@ -47,9 +47,9 @@ if(analOpt == "group_by_group"){
                    fileLoc = paste0(outputLoc, "MARresults/"), 
                    topnum = 75)
     
-    headgroupStat(dataSet = dataset, mSet = mSet, ignore = F, 
+    headgroupStat(dataSet = dataset, mSet = mSet, ignore = T, 
                   fileLoc = paste0(outputLoc, "headgroup/"))
-    FAchainStat(dataSet = dataset, mSet = mSet, ignore = F, 
+    FAchainStat(dataSet = dataset, mSet = mSet, ignore = T, 
                 fileLoc = paste0(outputLoc, "FAchainVisual/"), 
                 plotInfo = "FA_info")
   }
@@ -92,18 +92,20 @@ if(analOpt == "group_by_group"){
   data_proc <- as.data.frame(data_proc)
   dataset$data <- data_proc
   lipVolcanoPlot(dataSet = dataset, mSet = mSet, showLipClass = T,
-                 fileLoc = paste0(outputLoc, "MARresults/"), ignore = F, showtop = 5)
+                 fileLoc = paste0(outputLoc, "MARresults/"), ignore = T, showtop = 5)
   lipPCAPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = paste0(outputLoc, "MARresults/"))
+  lipOPLSDAPlot(dataSet = dataset, mSet = mSet, 
+                fileLoc = paste0(outputLoc, "MARresults/"))
   lipHeatmapPlot(dataSet = dataset, mSet = mSet, 
                  fileLoc = paste0(outputLoc, "MARresults/"), 
                  topnum = 75)
   
-  headgroupStat(dataSet = dataset, mSet = mSet, ignore = F, 
+  headgroupStat(dataSet = dataset, mSet = mSet, ignore = T, 
                 fileLoc = paste0(outputLoc, "headgroup/"))
   FAchainStat(dataSet = dataset, mSet = mSet, ignore = T, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
-              plotInfo = "FA_info")
+              plotInfo = "all_info")
 }
 
 ##FAchainStat output: lipid_subclass_integStat, use it to do our stat

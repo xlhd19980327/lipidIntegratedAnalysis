@@ -101,3 +101,8 @@ mSet<-Normalization(mSet,    ## necessary arguments
 - **2020.12.06** Changing some code adapted for the changeful code in MetaboAnalystR
 - **2020.12.06** Changing some presentation of visualization plot
 - **2021.1.10** main_*.R not update for public use, use main_spilt function instead
+- **2021.3.11** Fix some small bug but not update in github. Bug is that script containing options selection will cause a bug.
+- **2021.3.21** Fix the met enrich bug in metEnrichFunc.R. But not confirm in the local server(because the error in function in CalculateHyperScore_cus in metEnrichFunc.R: Timeout was reached: [api.xialab.ca] Connection timed out after 10001 milliseconds).
+Change notes.xslx file in examples mistakes.
+Change the normalization method to ""rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL""(Although rowNorm = "ProbNormT" may not suitable, may check this later).
+Fix a small issue about FAchainStat.
