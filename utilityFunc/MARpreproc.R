@@ -1,4 +1,5 @@
-MARpreproc <- function(dataSet, perc, fileLoc){
+MARpreproc <- function(dataSet, perc, fileLoc, 
+                       normOpt = "A"){
   data <- dataSet$data
   lipidName <- dataSet$lipidName
   allgroups <- dataSet$allgroups
@@ -74,9 +75,14 @@ MARpreproc <- function(dataSet, perc, fileLoc){
   # 3. Scaling method: Auto scaling(mean-centered and divided by the standard deviation of each variable)
   mSet<-PreparePrenormData(mSet)
   #!!!Client options
-  mSet<-Normalization(mSet, 
-                      rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, 
-                      ratio=FALSE, ratioNum=20)
+  mSet <- switch(normOpt, 
+                 A = Normalization(mSet, rowNorm = "MedianNorm", transNorm = "LogNorm", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20), 
+                 B = Normalization(mSet, rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20), 
+                 C = Normalization(mSet, rowNorm = "NULL", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20)
+                 )
+  #mSet<-Normalization(mSet, 
+  #                    rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, 
+  #                    ratio=FALSE, ratioNum=20)
   #mSet<-Normalization(mSet, 
   #                    rowNorm = "MedianNorm", transNorm = "LogNorm", scaleNorm = "AutoNorm", ref = NULL, 
   #                    ratio=FALSE, ratioNum=20)

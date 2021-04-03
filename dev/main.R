@@ -13,7 +13,7 @@ source("./utilityFunc/lipOPLSDAPlot.R")
 source("./utilityFunc/lipSumClassHeatmapPlot.R")
 source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
-outputLoc <- "./testData/otherlipidData/output/"
+outputLoc <- "./branch/benchmark/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -24,9 +24,9 @@ prepDataSet <- function(x, dataset = dataSet){
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
 analOpt <- "ast"
-dataSet <- readingLipidData(datafile = "./testData/otherlipidData/lipid_yts_asthma.csv",
-                            sampleList = "./testData/otherlipidData/sampleList_yts_asthma.csv", 
-                            controlGrp = "ctrl", dataType = "Lipids", delOddChainOpt = T)
+dataSet <- readingLipidData(datafile = "./branch/benchmark/input/HANlipid_tidy.csv",
+                            sampleList = "./branch/benchmark/input/HANsampleList_lipid.CSV", 
+                            controlGrp = "Day0", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){

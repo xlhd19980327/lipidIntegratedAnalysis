@@ -40,7 +40,9 @@ option_list <- list(
   make_option(c("-b", "--clustering_type"), action="store", default = "hierarchical"), 
   make_option(c("-c", "--dbscan_l_pts"), action="store", default = 4), 
   make_option(c("-f", "--dbscan_g_pts"), action="store", default = 3), 
-  make_option(c("-p", "--markov_quantile"), action="store", default = 0.55)
+  make_option(c("-p", "--markov_quantile"), action="store", default = 0.55), 
+  
+  make_option(c("-a", "--norm_option"), action="store", default = "A", type = "character")
 )
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
@@ -48,11 +50,11 @@ opt = parse_args(opt_parser)
 ## Data input
 lipid_data <- readingLipidData_cor(datafile = opt$input_file, sampleList = opt$description_file,
                                dataType = opt$data_type, delOddChainOpt = opt$lipid_odd_chain_deletion, 
-                               perc = opt$na_percent)
+                               perc = opt$na_percent, normOpt = opt$norm_option)
 if(opt$data_type_rna == "Proteins"){
   gene_data <- readingLipidData_cor(datafile = opt$input_file_rna, sampleList = opt$description_file_rna,
                                 dataType = "Proteins", delOddChainOpt = F, 
-                                perc = 100)
+                                perc = 100, normOpt = opt$norm_option)
   gene_data <- t(gene_data)
 }else{
   gene_data <- readingRNAData(datafile = opt$input_file_rna, 

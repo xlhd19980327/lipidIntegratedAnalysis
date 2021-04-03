@@ -12,26 +12,46 @@ getPValue <- function(x, calcType, controlGrpin = controlGrp){
     name <- "subclass"
   }
   #Totally equal to t.test() one by one
-  p <- pairwise.t.test(x$lipidsum, x$group, p.adjust.method = "none", pool.sd = F)$p.value
-  p1 <- p[rownames(p) == controlGrpin, ]
-  if(length(p1) != 0){
-    names(p1) <- colnames(p)
-  }
-  p2 <- p[, colnames(p) == controlGrpin]
-  if(length(p2) != 0){
-    names(p2) <- rownames(p)
-  }
-  p_tidy <- c(p1, p2)
-  p_tidy <- p_tidy[!is.na(p_tidy)]
-  if(length(p_tidy) == 0){
-    result <- NULL
-  }else {
-    result <- data.frame(
-      group = c(names(p_tidy), controlGrpin),
-      p = c(p_tidy, NA), 
-      alls
-    )
+  p <- tryCatch(pairwise.t.test(x$lipidsum, x$group, p.adjust.method = "none", pool.sd = F)$p.value, 
+                error = function(e){
+                  return(NULL)
+                })
+  if(is.null(p)){
+    allgroups <- unique(x$group)
+    sing_t <- c()
+    for(i in allgroups[allgroups != controlGrp]){
+      tempt <- tryCatch(t.test(x$lipidsum[allgroups == controlGrp], 
+                               x$lipidsum[allgroups == i])$p.value, 
+                        error = function(e){
+                          return(NA)
+                        })
+      sing_t <- c(sing_t, tempt)
+    }
+    result <- data.frame(group = c(allgroups[allgroups != controlGrp], controlGrp), 
+                         p = c(sing_t, NA), 
+                         V3 = alls)
     colnames(result)[3] <- name
+  }else{
+    p1 <- p[rownames(p) == controlGrpin, ]
+    if(length(p1) != 0){
+      names(p1) <- colnames(p)
+    }
+    p2 <- p[, colnames(p) == controlGrpin]
+    if(length(p2) != 0){
+      names(p2) <- rownames(p)
+    }
+    p_tidy <- c(p1, p2)
+    p_tidy <- p_tidy[!is.na(p_tidy)]
+    if(length(p_tidy) == 0){
+      result <- NULL
+    }else {
+      result <- data.frame(
+        group = c(names(p_tidy), controlGrpin),
+        p = c(p_tidy, NA), 
+        alls
+      )
+      colnames(result)[3] <- name
+    }
   }
   return(result)
 }

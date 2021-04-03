@@ -103,6 +103,8 @@ mSet<-Normalization(mSet,    ## necessary arguments
 - **2021.1.10** main_*.R not update for public use, use main_spilt function instead
 - **2021.3.11** Fix some small bug but not update in github. Bug is that script containing options selection will cause a bug.
 - **2021.3.21** Fix the met enrich bug in metEnrichFunc.R. But not confirm in the local server(because the error in function in CalculateHyperScore_cus in metEnrichFunc.R: Timeout was reached: [api.xialab.ca] Connection timed out after 10001 milliseconds).
-Change notes.xslx file in examples mistakes.
-Change the normalization method to ""rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL""(Although rowNorm = "ProbNormT" may not suitable, may check this later).
+Change notes.xslx file in examples mistakes.  
+Change the normalization method to ""rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL""(i.e. PQN and auto normalization as before and descriptions in our paper. Although rowNorm = "ProbNormT" may not suitable in some case, may check this later).  
 Fix a small issue about FAchainStat.
+- **2021.3.21** Fix some bug in tileplot statistics in FAchainStat  
+Add normalization option in the code(linking location: ./dev/main_split/processing.R ./branch/correlation/readingLipidData_cor2.R   ->   ./dev/correlation/correlation_main.R)

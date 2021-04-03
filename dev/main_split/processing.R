@@ -17,6 +17,7 @@ option_list <- list(
   make_option(c("-o", "--tidy_output"), action="store"), 
   #make_option(c("-n", "--NA_string"), action="store", default = NULL, type = "character"), 
   make_option(c("-e", "--na_percent"), action="store", default = 67.0, type = "double"), 
+  make_option(c("-n", "--norm_option"), action="store", default = "A", type = "character"),
   
   make_option(c("-p", "--output_temp"), action="store")
 )
@@ -51,7 +52,8 @@ dataSet <- readingLipidData(datafile = filename_data, sampleList = filename_des,
 #  cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
 #  dataSet <- prepDataSet(analOpt)
   mSet <- MARpreproc(dataSet = dataSet, fileLoc = opt$tidy_output, 
-                     perc = opt$na_percent)
+                     perc = opt$na_percent, 
+                     normOpt = opt$norm_option)
 #}
 data_type <- dataSet$dataType
 data_proc <- t(mSet[["dataSet"]][["proc"]])

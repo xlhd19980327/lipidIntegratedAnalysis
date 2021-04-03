@@ -125,6 +125,7 @@ FAchainStat <- function(dataSet, mSet,
                                 all_info = sum(lipidsum)))  %>%
     spread(key = case, value = lipidsum)
   
+  
   ## Visualize with the heatmap plot
   datagroup <- factor(allgroups, 
                       levels = c(controlGrp, groupsLevel[groupsLevel != controlGrp]))
@@ -208,6 +209,7 @@ FAchainStat <- function(dataSet, mSet,
   write.csv(lipid_subclass_stat_output, 
             paste0(fileLoc, "lipid_subclass_stat_", plotInfo, "_", pname, ".csv"), 
             row.names = F)
+  
   
   ## Visualize with the subclass plot
   data_sub_classSum_stat_split <- split(lipid_subclass_stat, f = lipid_subclass_stat$Class)
