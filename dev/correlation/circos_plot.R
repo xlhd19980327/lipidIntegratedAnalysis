@@ -15,7 +15,7 @@ option_list <- list(
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser)
 
-plotCircos(gofileLoc = opt$godata_file, corfileLoc = opt$data_file, 
-           k = opt$colum, j = opt$colum, thresh1 = opt$thresh_cor, 
-           topnum = opt$go_topnum, outfileLoc = opt$outfileLoc)
+invisible(plotCircos(gofileLoc = opt$godata_file, corfileLoc = opt$data_file, 
+           k = opt$colum, j = opt$row, thresh1 = opt$thresh_cor, 
+           topnum = opt$go_topnum, outfileLoc = opt$outfileLoc))
 

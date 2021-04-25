@@ -1,7 +1,7 @@
 ##!!!!!WARNING:: this p_value calculation may be not appropriate?
 #Totally equal to t.test() one by one
 
-getPValue <- function(x, calcType, controlGrpin = controlGrp){
+getPValue <- function(x, calcType, controlGrpin){
   #Statistics in different situations
   if(calcType == "headgroup"){
     alls <- unique(x$Class)
@@ -19,15 +19,15 @@ getPValue <- function(x, calcType, controlGrpin = controlGrp){
   if(is.null(p)){
     allgroups <- unique(x$group)
     sing_t <- c()
-    for(i in allgroups[allgroups != controlGrp]){
-      tempt <- tryCatch(t.test(x$lipidsum[allgroups == controlGrp], 
+    for(i in allgroups[allgroups != controlGrpin]){
+      tempt <- tryCatch(t.test(x$lipidsum[allgroups == controlGrpin], 
                                x$lipidsum[allgroups == i])$p.value, 
                         error = function(e){
                           return(NA)
                         })
       sing_t <- c(sing_t, tempt)
     }
-    result <- data.frame(group = c(allgroups[allgroups != controlGrp], controlGrp), 
+    result <- data.frame(group = c(allgroups[allgroups != controlGrpin], controlGrpin), 
                          p = c(sing_t, NA), 
                          V3 = alls)
     colnames(result)[3] <- name

@@ -1,72 +1,101 @@
+# --scripts for get the ROI coordinate of heatmap --
 import argparse as ap
-import numpy as np
-## using command: pip install opencv-python
-## may use this code to install module 'skbuild': pip install scikit-build
 import cv2
-import pandas as pd
+import numpy as np
+import os
 import csv
 
-if __name__ == "__main__":
-    # Argument Parser
+
+def findroi(img, ret=False):
+    """[summary]
+
+    Args:
+        img ([numpy.ndarray]): Heatmap image for operation
+        ret (bool, optional): Define whether to return the image drawn contours. Defaults to False.
+
+    Returns:
+        [coordinate_list]: [the contours value of ROI]
+    """
+    # RGB image convert to HSV image
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # set thresholds to filter the heatmap region
+    minval = np.array([1, 0, 46])
+    maxval = np.array([254, 255, 255])
+    mask = cv2.inRange(hsv, minval, maxval)
+    # get the color region
+    color = cv2.bitwise_and(img, img, mask=mask)
+    # image gray and binary
+    gray = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
+    gray[:, int(gray.shape[1] * 0.9):] = 0
+    ret, binary = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT,
+                                       (3, 3))  # kernel for image open computation
+    # close computation for fill holes
+    image_close = cv2.morphologyEx(
+        binary, cv2.MORPH_CLOSE,
+        kernel)
+    cnts, _ = cv2.findContours(image_close, cv2.RETR_EXTERNAL,
+                               cv2.CHAIN_APPROX_SIMPLE)
+    img_show = img.copy()
+    coordinate_list = []
+    for c in cnts:
+        (x, y, w, h) = cv2.boundingRect(c)
+        img = cv2.rectangle(img_show,  (x, y), (x + w, y + h),
+                            (0, 255, 0), 2) if ret else None
+        coordinate_list.append([x, y, w, h])
+    print('find roi completed...')
+    return coordinate_list, img_show
+
+
+def getcoordinate(coordinate):
+    """[summary]
+
+    Args:
+        coordinate ([list]): list with raw coordinate of the ROI
+
+    Returns:
+        coor_info : contains the init coordinate and widths and heights of every gap
+    """
+    coor_arr = np.array(coordinate)
+    #print(f'{len(coor_arr)} ROI')
+    #print(coor_arr)
+    coor_arr= np.flip(coor_arr,axis=0)
+    _, idx = np.unique(coor_arr[:, 0], return_index=True)
+    x_coor = coor_arr[:, 0][np.sort(idx)].tolist()
+    _, idx = np.unique(coor_arr[:, 1], return_index=True)
+    y_coor = coor_arr[:, 1][np.sort(idx)].tolist()
+    columns = len(x_coor)
+    rows = len(y_coor)
+    #print(f'{rows}rows,{columns}columns')
+    #print(coor_arr)
+    w_coor  = [coor_arr[i][2] for i in range(columns)]
+    h_coor = [coor_arr[i][3] for i in range(0, columns*rows, columns)]
+    init = np.array(coor_arr[0][:2]).tolist()
+    #coor_info = np.array([init, w_coor, h_coor], dtype=object)
+    print(f'get the coordinate...\nthere are {len(w_coor)} colums, {len(h_coor)} rows')
+    return init, w_coor, h_coor
+
+
+def get_args():
     parser = ap.ArgumentParser()
-    parser.add_argument('-p', "--path", help="Path to image",
-            required=True)
-    parser.add_argument('-k', "--row", type = int, help="Rows of splited regions",
-            required=True)
-    parser.add_argument('-g', "--columns", type = int, help="Columns of splited regions",
-            required=True)
-    parser.add_argument('-o', "--outpath", help="Output path",
-            required=True)
-    args = vars(parser.parse_args())
-    
-    
-    #把热图抠出来
-    path = args["path"]
-    row = args['row']
-    columns = args['columns']
-    output = args['outpath']
+    parser.add_argument('-i', "--input", help="Input image path",
+                        required=True)
+    parser.add_argument('-o', "--output", help="Output path to save the info_file, csv",
+                        required=True)
 
-    hotmap = cv2.imread(path + "correlationPlot.png")
-    hsv = cv2.cvtColor(hotmap,cv2.COLOR_BGR2HSV)
-    minval = np.array([1,0,46])
-    maxval = np.array([124,255,255])
-    mask = cv2.inRange(hsv,minval,maxval)
-    color = cv2.bitwise_and(hotmap,hotmap,mask=mask)
+    return parser.parse_args()
 
-    #扣出区块
-    color[color==0]=255
-    gray = cv2.cvtColor(color,cv2.COLOR_BGR2GRAY)
-    gray[:,int(gray.shape[1]*0.9):]=255
-    ret,binary = cv2.threshold(gray,254,255,cv2.THRESH_BINARY)
-    contours, hierarchy = cv2.findContours(binary,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    img = cv2.drawContours(hotmap.copy(), contours, -1, (0,255,0), 1)
 
-    #按序号取出不同方块
-    inf = []
-    for i in range(len(contours)):
-        x,y,w,h = cv2.boundingRect(contours[i])
-        inf.append([x,y,w,h])
-    inf.sort(key=lambda x:x[1])
-    inf.sort(key=lambda y:y[0])
-    inf.pop(0)
-    list3 = [inf[0][0], inf[0][1]]
-    list1 = [inf[i][2] for i in range(0, columns*row, row)]
-    list2 = [inf[i][3] for i in range(row)]
-    # Only turn list(inf) to a data frame(info)
-    #r = [i for i in range(1,row+1)]*columns
-    #c = [[j]*row for j in range(1,columns+1)]
-    #c = [j for m in c for j in m]
-    #info = np.array(inf)
-    
-    #保存数据
-    #df = pd.DataFrame(info,columns=['x','y','w','h'])
-    #df['row'] = r
-    #df['columns'] = c
-    #df.to_csv(output+'splitWinArgs.csv')
-    with open(output+'splitWinArgs.csv', 'w') as csvfile:
+if __name__ == "__main__":
+    args = get_args()
+    img = cv2.imread(os.path.join(args.input,'correlationPlot.png'))
+    coor_list, img_cnts = findroi(img)
+    init, w_coor, h_coor = getcoordinate(coor_list)
+    with open(os.path.join(args.output,'splitWinArgs.csv'), 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(list3)
-        writer.writerow(list1)
-        writer.writerow(list2)
-
-    
+        writer.writerow(init)
+        writer.writerow(w_coor)
+        writer.writerow(h_coor)
+        csvfile.close()
+    print(
+        f'''mission completed, file save in {os.path.join(args.output,'splitWinArgs.csv')}''')

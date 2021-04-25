@@ -13,6 +13,10 @@ plotCircos <- function(gofileLoc, corfileLoc, k, j,
   thresh2 <- 0.05
   #topnum <- 20
   subgodata <- subset(godata, p.adjust < thresh2)
+  if(nrow(subgodata) < topnum){
+    topnum <- nrow(subgodata)
+    cat("Enrichment item number may not fit your demand. Show all the enrichment items in the plot.")
+  }
   subgodata <- subgodata[order(subgodata$p.adjust), ][1:topnum, ]
   subgogenes <- strsplit(subgodata$geneID, "/")
   
@@ -20,6 +24,11 @@ plotCircos <- function(gofileLoc, corfileLoc, k, j,
   library(circlize)
   gene_corfilt <- unlist(mapply(rep, names(subcors), ifelse(sapply(subcors, length) == 0, 0, 1)))
   gene_gofilt <- unlist(subgogenes)
+  ind1 <- gene_corfilt %in% gene_gofilt
+  if(all(!ind1)){
+    cat("Please check your correlation threshold. It may be too strict to filter.\n")
+    return(1)
+  }
   gene_filt <- gene_corfilt[gene_corfilt %in% gene_gofilt]
   lipid_filt <- subdatas[gene_filt]
   gl_link <- mapply(cbind, names(lipid_filt), lipid_filt)

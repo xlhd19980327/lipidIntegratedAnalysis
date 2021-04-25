@@ -74,69 +74,89 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     #browser()
     MetaboAnalystR:::load_httr()
     base <- api.base
-    endpoint <- "/enrichmentora"
+    endpoint <- "/msetora"
     call <- paste(base, endpoint, sep = "")
-    query_results <- httr::POST(call, body = toSend, encode = "json")
-    query_results_text <- content(query_results, "text")
-    query_results_json <- RJSONIO::fromJSON(query_results_text, 
-                                            flatten = TRUE)
-    if (is.null(query_results_json$enrichRes)) {
-      MetaboAnalystR:::AddErrMsg("Error! Enrichment ORA via api.metaboanalyst.ca unsuccessful!")
+    #query_results <- httr::POST(call, body = toSend, encode = "json")
+    #query_results_text <- content(query_results, "text")
+    #query_results_json <- RJSONIO::fromJSON(query_results_text, 
+    #                                        flatten = TRUE)
+    #if (is.null(query_results_json$enrichRes)) {
+    #  MetaboAnalystR:::AddErrMsg("Error! Enrichment ORA via api.metaboanalyst.ca unsuccessful!")
+    #  return(0)
+    #}
+    saveRDS(toSend, "tosend.rds")
+    request <- httr::POST(url = call, 
+                          body = list(rds = upload_file("tosend.rds", "application/octet-stream")))
+    
+    # check if successful
+    if(request$status_code != 200){
+      AddErrMsg("Failed to connect to Xia Lab API Server!")
       return(0)
     }
-    oraDataRes <- do.call(rbind.data.frame, query_results_json$enrichRes)
-    colnames(oraDataRes) <- query_results_json$enrichResColNms
-    rownames(oraDataRes) <- query_results_json$enrichResRowNms
-    MetaboAnalystR:::fast.write.csv(oraDataRes, 
-                                    file = paste0(fileLoc, filename, "msea_ora_result.csv"))
-    mSetObj$analSet$ora.mat <- oraDataRes
-    mSetObj$api$guestName <- query_results_json$guestName
+    #oraDataRes <- do.call(rbind.data.frame, query_results_json$enrichRes)
+    #colnames(oraDataRes) <- query_results_json$enrichResColNms
+    #rownames(oraDataRes) <- query_results_json$enrichResRowNms
+    mSetObj <- httr::content(request, "raw")
+    mSetObj <- unserialize(mSetObj)
+    if(is.null(mSetObj$analSet$ora.mat)){
+      AddErrMsg("Error! Mset ORA via api.metaboanalyst.ca unsuccessful!")
+      return(0)
+    }
+    print("Mset ORA via api.metaboanalyst.ca successful!")
+    #MetaboAnalystR:::fast.write.csv(oraDataRes, 
+    #                                file = paste0(fileLoc, filename, "msea_ora_result.csv"))
+    MetaboAnalystR:::fast.write.csv(mSetObj$analSet$ora.mat, 
+                                    file=paste0(fileLoc, filename, "msea_ora_result.csv"))
+    #mSetObj$analSet$ora.mat <- oraDataRes
+    #mSetObj$api$guestName <- query_results_json$guestName
     return(MetaboAnalystR:::.set.mSet(mSetObj))
     #}
-    current.mset <- current.msetlib$member
-    if (mSetObj$dataSet$use.metabo.filter && !is.null(mSetObj$dataSet$metabo.filter.hmdb)) {
-      current.mset <- lapply(current.mset, function(x) {
-        x[x %in% mSetObj$dataSet$metabo.filter.hmdb]
-      })
-      mSetObj$dataSet$filtered.mset <- current.mset
-      ora.vec <- ora.vec[ora.vec %in% unique(unlist(current.mset, 
-                                                    use.names = FALSE))]
-      q.size <- length(ora.vec)
-    }
-    uniq.count <- length(unique(unlist(current.mset, use.names = FALSE)))
-    set.size <- length(current.mset)
-    if (set.size == 1) {
-      AddErrMsg("Cannot perform enrichment analysis on a single metabolite set!")
-      return(0)
-    }
-    hits <- lapply(current.mset, function(x) {
-      x[x %in% ora.vec]
-    })
-    hit.num <- unlist(lapply(hits, function(x) length(x)), use.names = FALSE)
-    if (sum(hit.num > 0) == 0) {
-      AddErrMsg("No match was found to the selected metabolite set library!")
-      return(0)
-    }
-    set.num <- unlist(lapply(current.mset, length), use.names = FALSE)
-    res.mat <- matrix(NA, nrow = set.size, ncol = 6)
-    rownames(res.mat) <- names(current.mset)
-    colnames(res.mat) <- c("total", "expected", "hits", "Raw p", 
-                           "Holm p", "FDR")
-    for (i in 1:set.size) {
-      res.mat[i, 1] <- set.num[i]
-      res.mat[i, 2] <- q.size * (set.num[i]/uniq.count)
-      res.mat[i, 3] <- hit.num[i]
-      res.mat[i, 4] <- phyper(hit.num[i] - 1, set.num[i], 
-                              uniq.count - set.num[i], q.size, lower.tail = F)
-    }
-    res.mat[, 5] <- p.adjust(res.mat[, 4], "holm")
-    res.mat[, 6] <- p.adjust(res.mat[, 4], "fdr")
-    res.mat <- res.mat[hit.num > 0, ]
-    ord.inx <- order(res.mat[, 4])
-    mSetObj$analSet$ora.mat <- signif(res.mat[ord.inx, ], 3)
-    mSetObj$analSet$ora.hits <- hits
-    fast.write.csv(mSetObj$analSet$ora.mat, file = "msea_ora_result.csv")
-    return(.set.mSet(mSetObj))
+    
+    #???? Unrecognized code
+    #current.mset <- current.msetlib$member
+    #if (mSetObj$dataSet$use.metabo.filter && !is.null(mSetObj$dataSet$metabo.filter.hmdb)) {
+    #  current.mset <- lapply(current.mset, function(x) {
+    #    x[x %in% mSetObj$dataSet$metabo.filter.hmdb]
+    #  })
+    #  mSetObj$dataSet$filtered.mset <- current.mset
+    #  ora.vec <- ora.vec[ora.vec %in% unique(unlist(current.mset, 
+    #                                                use.names = FALSE))]
+    #  q.size <- length(ora.vec)
+    #}
+    #uniq.count <- length(unique(unlist(current.mset, use.names = FALSE)))
+    #set.size <- length(current.mset)
+    #if (set.size == 1) {
+    #  AddErrMsg("Cannot perform enrichment analysis on a single metabolite set!")
+    #  return(0)
+    #}
+    #hits <- lapply(current.mset, function(x) {
+    #  x[x %in% ora.vec]
+    #})
+    #hit.num <- unlist(lapply(hits, function(x) length(x)), use.names = FALSE)
+    #if (sum(hit.num > 0) == 0) {
+    #  AddErrMsg("No match was found to the selected metabolite set library!")
+    #  return(0)
+    #}
+    #set.num <- unlist(lapply(current.mset, length), use.names = FALSE)
+    #res.mat <- matrix(NA, nrow = set.size, ncol = 6)
+    #rownames(res.mat) <- names(current.mset)
+    #colnames(res.mat) <- c("total", "expected", "hits", "Raw p", 
+    #                       "Holm p", "FDR")
+    #for (i in 1:set.size) {
+    #  res.mat[i, 1] <- set.num[i]
+    #  res.mat[i, 2] <- q.size * (set.num[i]/uniq.count)
+    #  res.mat[i, 3] <- hit.num[i]
+    #  res.mat[i, 4] <- phyper(hit.num[i] - 1, set.num[i], 
+    #                          uniq.count - set.num[i], q.size, lower.tail = F)
+    #}
+    #res.mat[, 5] <- p.adjust(res.mat[, 4], "holm")
+    #res.mat[, 6] <- p.adjust(res.mat[, 4], "fdr")
+    #res.mat <- res.mat[hit.num > 0, ]
+    #ord.inx <- order(res.mat[, 4])
+    #mSetObj$analSet$ora.mat <- signif(res.mat[ord.inx, ], 3)
+    #mSetObj$analSet$ora.hits <- hits
+    #fast.write.csv(mSetObj$analSet$ora.mat, file = "msea_ora_result.csv")
+    #return(.set.mSet(mSetObj))
   }
   
   cmpd.vec <- read.csv(csvfile)$x

@@ -106,5 +106,8 @@ mSet<-Normalization(mSet,    ## necessary arguments
 Change notes.xslx file in examples mistakes.  
 Change the normalization method to ""rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL""(i.e. PQN and auto normalization as before and descriptions in our paper. Although rowNorm = "ProbNormT" may not suitable in some case, may check this later).  
 Fix a small issue about FAchainStat.
-- **2021.3.21** Fix some bug in tileplot statistics in FAchainStat  
-Add normalization option in the code(linking location: ./dev/main_split/processing.R ./branch/correlation/readingLipidData_cor2.R   ->   ./dev/correlation/correlation_main.R)
+- **2021.4.3** Fix some bug in tileplot statistics in FAchainStat  
+Add normalization option in the code(linking location: ./dev/main_split/processing.R ./branch/correlation/readingLipidData_cor2.R   ->   ./dev/correlation/correlation_main.R)  
+- **2021.4.10** Fix the enrich bug in metEnrichFunc.R. The reason is that MetaboAnalystR met enrichment api changed. WARNING: It will create a file called "tosend.rds" in the main folder!  
+Fix some small bug.  
+- **2021.4.19** Update getSplitWindowArgs.py and mv old code to getSplitWindowArgs_old.py  

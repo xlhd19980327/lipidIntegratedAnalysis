@@ -13,7 +13,7 @@ options(stringsAsFactors = F)
 source("./branch/correlation/readingLipidData_cor2.R")
 source("./branch/correlation/readingRNAData_cor.R")
 kg <- 6
-kl <- 7
+kl <- 4
 
 ## Data input
 #lipid_data <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
@@ -21,7 +21,7 @@ kl <- 7
 #                               lipField = "LipidIon", sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
 lipid_data <- readingLipidData_cor(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv", 
                                dataType = "Lipids", delOddChainOpt = T, perc = 2/3*100, 
-                               sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv")
+                               sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv", normOpt = "C")
 gene_data <- readingRNAData(datafile = "./testData/SVFmultiomics_210118/input/RNAseq_id.csv", 
                               sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv",
                               type = "RNAseq")
