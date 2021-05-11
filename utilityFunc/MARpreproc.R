@@ -1,5 +1,5 @@
 MARpreproc <- function(dataSet, perc, fileLoc, 
-                       normOpt = "A"){
+                       normOpt = "A", tmpfiles="./"){
   data <- dataSet$data
   lipidName <- dataSet$lipidName
   allgroups <- dataSet$allgroups
@@ -25,12 +25,12 @@ MARpreproc <- function(dataSet, perc, fileLoc,
   mSet$dataSet$mumType <- "table"
   mSet$dataSet$orig.var.nms <- orig.var.nms
   mSet$dataSet$orig <- conc
-  qs::qsave(conc, file = "data_orig.qs")
+  qs::qsave(conc, file = paste0(tmpfiles, "data_orig.qs"))
   mSet$msgSet$read.msg <- c(paste("The uploaded data file contains ", 
                                   nrow(conc), " (samples) by ", ncol(conc), " (", tolower(GetVariableLabel(mSet$dataSet$type)), 
                                   ") data matrix.", sep = ""))
   ## End of rewriting from MetaboAnalystR::Read.TextData()
-  mSet<-SanityCheckData(mSet)
+  mSet<-SanityCheckData(mSet, tmpfiles = tmpfiles)
   #Retain the ':' or '_' character(i.e. the original characters)
   mynames <- mSet[["dataSet"]][["orig.var.nms"]]
   mSet[["dataSet"]][["cmpd"]] <- mynames
@@ -48,11 +48,11 @@ MARpreproc <- function(dataSet, perc, fileLoc,
   nmin <- min(nsamples)
   #percent <- 1-1/nmin
   percent <- perc/100
-  handleMissingData <- function(data, remove = T, imput = "min"){
+  handleMissingData <- function(data, remove = T, imput = "min", tmpfilesin=tmpfiles){
     if(remove == T){
-      data<-RemoveMissingPercent(data, percent=percent)
+      data<-RemoveMissingPercent(data, percent=percent, tmpfiles=tmpfilesin)
     }
-    data<-ImputeMissingVar(data, method=imput)
+    data<-ImputeMissingVar(data, method=imput, tmpfiles=tmpfilesin)
     return(data)
   }
   #!!!Client options
@@ -62,6 +62,8 @@ MARpreproc <- function(dataSet, perc, fileLoc,
   # The purpose of the data filtering is to identify and remove variables that are unlikely to be of use when modeling the data. 
   # Default methods:
   # None for targeted lipidomics and most other lipidomics data
+  # Because FilterVariable option choose "none", mSet[["dataSet"]][["proc"]] == mSetObj$dataSet$filt
+  # Otherwise the tidy data should be mSetObj$dataSet$filt
   #!!!Client options
   mSet<-FilterVariable(mSet, 
                        filter = "none", qcFilter = "F", rsd = 25)
@@ -73,12 +75,12 @@ MARpreproc <- function(dataSet, perc, fileLoc,
   # 1. Normalization method: Probabilistic Quotient Normalization(PQN) without using a reference sample
   # 2. Transformation method: None
   # 3. Scaling method: Auto scaling(mean-centered and divided by the standard deviation of each variable)
-  mSet<-PreparePrenormData(mSet)
+  mSet<-PreparePrenormData(mSet, tmpfiles=tmpfiles)
   #!!!Client options
   mSet <- switch(normOpt, 
-                 A = Normalization(mSet, rowNorm = "MedianNorm", transNorm = "LogNorm", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20), 
-                 B = Normalization(mSet, rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20), 
-                 C = Normalization(mSet, rowNorm = "NULL", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20)
+                 A = Normalization(mSet, rowNorm = "MedianNorm", transNorm = "LogNorm", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20, tmpfiles=tmpfiles), 
+                 B = Normalization(mSet, rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20, tmpfiles=tmpfiles), 
+                 C = Normalization(mSet, rowNorm = "NULL", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, ratio=FALSE, ratioNum=20, tmpfiles=tmpfiles)
                  )
   #mSet<-Normalization(mSet, 
   #                    rowNorm = "ProbNormT", transNorm = "NULL", scaleNorm = "AutoNorm", ref = NULL, 
