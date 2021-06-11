@@ -198,7 +198,9 @@ headgroupStat <- function(dataSet, mSet,
     scale_fill_manual(values = plottingPalettes(nClass, type = "discrete"))
   ggsave(paste0(fileLoc, "headgroup_cum_", pname, ".pdf"), 
          plot = plot_cum, device = "pdf", 
-         width = 6/7.7*(3.3/3*length(groupsLevel)+4.4), height = 10)
+         #width = 6/7.7*(3.3/3*length(groupsLevel)+4.4), 
+         width = 6/7.7*(3.3/3*length(groupsLevel)+8.8), 
+         height = 10)
   
   # plot_color <- ggboxplot(data_sub_classSum_stat, x = "group", y = "lipidsum",
   #           color = "group", add = "jitter")+ # Add global p-value

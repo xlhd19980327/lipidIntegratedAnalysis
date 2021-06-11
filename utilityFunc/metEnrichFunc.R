@@ -6,6 +6,7 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     can_mat <- mSetObj$dataSet$candidates
     if (!is.null(can_mat)) {
       cmpd.db <- qs::qread("compound_db.qs")
+      cmpd.db$name <- iconv(cmpd.db$name, from = 'utf8', to = 'utf8')
       can_inx <- which(can_mat[, 2] == can_nm)
       if(length(can_inx) == 0){
         mSetObj$name.map$hit.inx[query_inx] <- 0
@@ -159,7 +160,9 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     #return(.set.mSet(mSetObj))
   }
   
-  cmpd.vec <- read.csv(csvfile)$x
+  #cmpd.vec <- read.csv(csvfile)$x
+  cmpd.vec <- read.csv(csvfile, encoding = "UTF-8")$x
+  cmpd.vec <- iconv(cmpd.vec, from = 'utf8', to = 'utf8')
   ## cmpd.vec will be the input
   
   if(length(cmpd.vec) == 0){
@@ -169,6 +172,8 @@ metEnrichFunc <- function(csvfile, filename, fileLoc){
     library(MetaboAnalystR)
     mSet2<-InitDataObjects("conc", "mSet2ora", FALSE)
     mSet2<-Setup.MapData(mSet2, cmpd.vec);
+    mSet2$name <- iconv(mSet2$name, from = 'utf8', to = 'utf8')
+    Sys.setlocale(category="LC_ALL", locale = "en_US.utf-8")
     mSet2<-CrossReferencing(mSet2, "name");
     mSet2<-CreateMappingResultTable(mSet2)
     queryn <- nrow(mSet2[["dataSet"]][["map.table"]])

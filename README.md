@@ -111,3 +111,8 @@ Add normalization option in the code(linking location: ./dev/main_split/processi
 - **2021.4.10** Fix the enrich bug in metEnrichFunc.R. The reason is that MetaboAnalystR met enrichment api changed. WARNING: It will create a file called "tosend.rds" in the main folder!  
 Fix some small bug.  
 - **2021.4.19** Update getSplitWindowArgs.py and mv old code to getSplitWindowArgs_old.py  
+- **2021.5.11** Fix a bug in lint server about char encoding.(metEnrichFunc)  
+- **2021.5.24** Modify some plotting pars in headgroupStat, lipSumClassHeatmapPlot.
+- **2021.6.8** Fix some issue about calculating lipid subclass conc in "all_info" in FAchainStat.  
+- **2021.6.10** Add new subclass "Hex1Cer", "Hex2Cer", "AcCa", "MLCL".  
+- **2021.6.11** Add simple BioPAN procedure to test.  

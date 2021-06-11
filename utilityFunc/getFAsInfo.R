@@ -1,6 +1,7 @@
 ##!!!!!WARNING: Class statistics will only contain the following lipid class:
 ## Cer, SM, SPH, FA, MG, DG, TG, PA, PC, PE, PG, PI, PS, LPA, LPC, LPE, LPG, LPI, LPS, ChE, CL
 ## & its O/P Class
+## New: "Hex1Cer", "Hex2Cer", "AcCa", "MLCL" 
 
 getFAsInfo <- function(i, ignorei){
   ## Source will offer the following contents:
@@ -10,11 +11,11 @@ getFAsInfo <- function(i, ignorei){
   Class <- getClassInfo(i, "LipidSearch", ignore = ignorei)
   spclasses <- c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
                  "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
-                 "LPS", "ChE", "CL")
+                 "LPS", "ChE", "CL", "AcCa", "MLCL")
   epclasses <- c(paste0(spclasses, "(O)"), paste0(spclasses, "(P)"))
-  spclasses2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS", "TG", "CL")
+  spclasses2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS", "TG", "CL", "MLCL")
   epclasses2 <- c(paste0(spclasses2, "(O)"), paste0(spclasses2, "(P)"))
-  if(Class %in% c("Cer", "SM", "SPH")){ 
+  if(Class %in% c("Cer", "SM", "SPH", "Hex1Cer", "Hex2Cer")){ 
     # Ignore "+O" info
     if(grepl("_", i)){
       spbase <- gsub(".*\\(([mdt][0-9]+:[0-9]+)_.*", "\\1", i, perl = T)

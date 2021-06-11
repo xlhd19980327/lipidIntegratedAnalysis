@@ -56,7 +56,7 @@ FAchainStat <- function(dataSet, mSet,
       }else{
         chains <- sum(as.numeric(gsub(".*?([0-9]+):.*", "\\1", fa)))
         unsaturate <- sum(as.numeric(gsub(".*?:([0-9]+).*", "\\1", fa)))
-        subclass <- paste0(Class, "(", fa, ")")
+        subclass <- paste0(Class, "(", chains, ":", unsaturate, ")")
       }
       
       lipid_subclass_handle <- rbind(lipid_subclass_handle, 
@@ -86,11 +86,11 @@ FAchainStat <- function(dataSet, mSet,
     class2 <- c("DG", "PA", "PC", "PE", "PG", "PI", "PS")
     epclass2 <- c(paste0(class2, "(O)"), paste0(class2, "(P)"))
     Class <- unique(x)
-    if(Class %in% c("Cer", "SM", "SPH", class1, epclass1)){
+    if(Class %in% c("Cer", "SM", "SPH", "Hex1Cer", "Hex2Cer", "AcCa", class1, epclass1)){
       div <- 1
     }else if(Class %in% c(class2, epclass2)){
       div <- 2
-    }else if(Class %in% c("TG", "TG(O)", "TG(P)")){
+    }else if(Class %in% c("TG", "TG(O)", "TG(P)", "MLCL")){
       div <- 3
     }else if(Class %in% c("CL", "CL(O)", "CL(P)")){
       div <- 4
@@ -105,6 +105,7 @@ FAchainStat <- function(dataSet, mSet,
     group_by(subclass, case, Class) %>% 
     filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
     #!!!!!WARNING: this algorithm may not appropriate
+    #This algorithm will make the sum of all subclass equal to the sum of conc of the lipid class
     summarise(lipidsum = switch(plotInfo, 
                                 FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum))) %>% #calc abundance of the lipid in a sample
@@ -120,6 +121,7 @@ FAchainStat <- function(dataSet, mSet,
     group_by(subclass, case) %>% 
     filter(!is.na(lipidsum)) %>%    #delete low abundance of the lipid signal
     #!!!!!WARNING: this algorithm may not appropriate
+    #This algorithm will make the sum of all subclass equal to the sum of conc of the lipid class
     summarise(lipidsum = switch(plotInfo, 
                                 FA_info = sum(lipidsum) / divnum(Class), 
                                 all_info = sum(lipidsum)))  %>%

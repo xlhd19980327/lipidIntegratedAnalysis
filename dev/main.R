@@ -76,7 +76,7 @@ if(analOpt == "group_by_group"){
                          fileLoc = paste0(outputLoc, "headgroup/"))
   FAchainStat(dataSet = dataSet, mSet = mSet, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
-              plotInfo = "FA_info", topnum = 25)
+              plotInfo = "all_info", topnum = 25)
   lipSumChainHeatmapPlot(dataSet = dataSet, mSet = mSet, 
                          fileLoc = paste0(outputLoc, "FAchainVisual/"), 
                          plotInfo = "FA_info", show_detail = F)

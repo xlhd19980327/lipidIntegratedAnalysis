@@ -60,7 +60,11 @@ lipSumClassHeatmapPlot <- function(dataSet, mSet,
                                                            "_vs_", controlGrp))
     lipnames <- rownames(data_Class)
     maxlen <- max(nchar(lipnames))
-    pdf(paste0(fileLoc, "heatmap_lipClassSummary_", pname, ".pdf"), width=8/15.3*(10.5/length(allgroups)*15+4.8), height=8/15.3*(12.6/nclass*10+2.7))
+    pdf(paste0(fileLoc, "heatmap_lipClassSummary_", pname, ".pdf"), 
+        width=8/15.3*(10.5/length(allgroups)*15+4.8), 
+        #height=8/15.3*(12.6/nclass*10+2.7)
+        height=20/15.3*(12.6/nclass*10+2.7)
+        )
     grid::grid.newpage()
     grid::grid.draw(x$gtable)
     dev.off()

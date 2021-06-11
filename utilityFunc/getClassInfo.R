@@ -3,6 +3,7 @@ getClassInfo <- function(i, datatype, ignore = T){
                  LipidSearch = gsub("(.*?)\\(.*", "\\1", i), 
                  MS_DIAL = gsub("(.*?) .*", "\\1", i))
   if(!ignore){
+    # Only support these class which can be detected about e/p bond
     if(Class %in% c("FA", "MG", "DG", "TG", "PA", "PC", "PE", "PG", 
                     "PI", "PS", "LPA", "LPC", "LPE", "LPG", "LPI", 
                     "LPS", "ChE", "CL")){
