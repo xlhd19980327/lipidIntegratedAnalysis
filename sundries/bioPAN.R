@@ -1,3 +1,7 @@
+library(MetaboAnalystR)
+library(tidyverse)
+options(stringsAsFactors = F)
+
 source("./utilityFunc/readingLipidData.R")
 source("./utilityFunc/MARpreproc.R")
 
@@ -11,21 +15,23 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 
-analOpt <- "48hrs"
+analOpt <- "all_together"
 dataSet <- readingLipidData(datafile = "./testData/052921sffData_CCl4liver/input/data.csv",
                             sampleList = "./testData/052921sffData_CCl4liver/input/des.csv", 
-                            controlGrp = "24hrs", dataType = "Lipids", delOddChainOpt = T)
-cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
-dataset <- prepDataSet(analOpt)
-mSet <- MARpreproc(dataSet = dataset, fileLoc = outputLoc, perc = 2/3*100)
-data_type <- dataset$dataType
+                            controlGrp = "Veh", dataType = "Lipids", delOddChainOpt = T)
+if(analOpt != "all_together"){
+  cat("All groups will be analyzed together\n")
+  cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))
+  dataSet <- prepDataSet(analOpt)
+}
+mSet <- MARpreproc(dataSet = dataSet, fileLoc = outputLoc, perc = 2/3*100)
+data_type <- dataSet$dataType
 data_proc <- t(mSet[["dataSet"]][["proc"]])
-dataset$lipidName <- rownames(data_proc)
+dataSet$lipidName <- rownames(data_proc)
 rownames(data_proc) <- NULL
 data_proc <- as.data.frame(data_proc)
-dataset$data <- data_proc
+dataSet$data <- data_proc
 
-dataSet <- dataset
 #Always consider e/p bond in BioPAN will make results more precise
 ignore <- F
 allgroups <- dataSet$allgroups

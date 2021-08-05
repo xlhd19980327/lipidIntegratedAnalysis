@@ -116,3 +116,5 @@ Fix some small bug.
 - **2021.6.8** Fix some issue about calculating lipid subclass conc in "all_info" in FAchainStat.  
 - **2021.6.10** Add new subclass "Hex1Cer", "Hex2Cer", "AcCa", "MLCL".  
 - **2021.6.11** Add simple BioPAN procedure to test.  
+- **2021.6.22** Fix a small issue in lipVolcanoPlot.  
+- **2021.7.13** Fix a small issue in geneEnrichFunc.  

@@ -27,4 +27,5 @@ opt = parse_args(opt_parser)
 load(paste0(opt$rdata_file, "data.RData"))
 lipVolcanoPlot(dataSet = dataSet, mSet = mSet, showLipClass = opt$show_lipid_class,
                fileLoc = paste0(opt$volcano_output, "MARresults/"), paired = opt$paired, pval.type = opt$p_type, 
-               fcthresh = opt$fc_thresh, pthresh = opt$p_thresh, showtop = opt$show_volcano_top)
+               fcthresh = opt$fc_thresh, pthresh = opt$p_thresh, showtop = opt$show_volcano_top, 
+               ignore = opt$ignore_subclass)

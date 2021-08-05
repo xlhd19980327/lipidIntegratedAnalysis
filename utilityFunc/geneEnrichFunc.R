@@ -28,7 +28,7 @@ geneEnrichFunc <- function(genes, spe, gene_type, shownum, gocat,
                      Cellular_Component = "Cellular Component",
                      Molecular_Function = "Molecular Function"
   )
-  go <<- enrichGO(gene = genes, OrgDb = orgdb, ont='BP',pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
+  go <<- enrichGO(gene = genes, OrgDb = orgdb, ont=goopt,pAdjustMethod = 'BH',pvalueCutoff = 0.05, 
                          qvalueCutoff = 0.2,keyType = gene_type)
   if(is.null(go)){
     regstat <- switch (reg,
