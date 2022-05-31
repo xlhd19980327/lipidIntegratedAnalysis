@@ -118,3 +118,14 @@ Fix some small bug.
 - **2021.6.11** Add simple BioPAN procedure to test.  
 - **2021.6.22** Fix a small issue in lipVolcanoPlot.  
 - **2021.7.13** Fix a small issue in geneEnrichFunc.  
+
+## About LINT-web and the paper
+This tool is wrapped into a web-app **LINT-web**. Related study is published on **July 14th, 2021** in the paper *LINT-web: a web-based lipidomic data mining tool using intra-omic integrative correlation strategy* (doi: 10.1002/smtd.202100206).  
+LINT-web website: [www.lintwebomics.info](http://www.lintwebomics.info/)
+More detail can be found in the article.  
+### Paper related sources
+#### Figures related data files
+- **Fig. 2** ./testData/SVF191222/input/191222MultiOmicsSVF_lipid02* (Should modify 'Metabolite.name')  
+- **Fig. 3, 4** ./sundries/codeTEMP.R(Some related code)  
+- **Fig. 4** ./testData/SVFmultiomics_210118/(Data files)  
+./sundries/bigdata/Fig4_cor_data/(Related data)

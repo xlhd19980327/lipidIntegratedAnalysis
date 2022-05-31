@@ -13,7 +13,7 @@ source("./utilityFunc/lipOPLSDAPlot.R")
 source("./utilityFunc/lipSumClassHeatmapPlot.R")
 source("./utilityFunc/lipSumChainHeatmapPlot.R")
 
-outputLoc <- "./testData/SVFmultiomics_210118/output/"
+outputLoc <- "./testData/zly_20210918data/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -23,10 +23,10 @@ prepDataSet <- function(x, dataset = dataSet){
   return(dataset)
 }
 ##!!!Client options: can be "all_together"/"group_by_group"/[expr group]
-analOpt <- "Day10"
-dataSet <- readingLipidData(datafile = "./testData/SVFmultiomics_210118/input/lipids.csv",
-                            sampleList = "./testData/SVFmultiomics_210118/input/sampleList.csv", 
-                            controlGrp = "Day0", dataType = "Lipids", delOddChainOpt = T)
+analOpt <- "preSens"
+dataSet <- readingLipidData(datafile = "./testData/zly_20210918data/input/lipid.csv",
+                            sampleList = "./testData/zly_20210918data/input/sampleList.csv", 
+                            controlGrp = "preRes", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt == "group_by_group"){
   cat("Group-by-group analysis mode\n")
   for(i in dataSet$groupsLevel[dataSet$groupsLevel != dataSet$controlGrp]){
@@ -103,6 +103,8 @@ if(analOpt == "group_by_group"){
   
   headgroupStat(dataSet = dataset, mSet = mSet, ignore = T, 
                 fileLoc = paste0(outputLoc, "headgroup/"))
+  lipSumClassHeatmapPlot(dataSet = dataset, mSet = mSet, show_detail = F,  
+                         fileLoc = paste0(outputLoc, "headgroup/"))
   FAchainStat(dataSet = dataset, mSet = mSet, ignore = T, 
               fileLoc = paste0(outputLoc, "FAchainVisual/"), 
               plotInfo = "all_info")

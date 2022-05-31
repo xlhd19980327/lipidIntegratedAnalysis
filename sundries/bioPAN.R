@@ -5,7 +5,7 @@ options(stringsAsFactors = F)
 source("./utilityFunc/readingLipidData.R")
 source("./utilityFunc/MARpreproc.R")
 
-outputLoc <- "./testData/052921sffData_CCl4liver/output/"
+outputLoc <- "./testData/030422dynData/output/"
 prepDataSet <- function(x, dataset = dataSet){
   ind <- dataset$allgroups %in% c(x, dataset$controlGrp)
   ind2 <- dataset$groupsLevel %in% c(x, dataset$controlGrp)
@@ -16,9 +16,9 @@ prepDataSet <- function(x, dataset = dataSet){
 }
 
 analOpt <- "all_together"
-dataSet <- readingLipidData(datafile = "./testData/052921sffData_CCl4liver/input/data.csv",
-                            sampleList = "./testData/052921sffData_CCl4liver/input/des.csv", 
-                            controlGrp = "Veh", dataType = "Lipids", delOddChainOpt = T)
+dataSet <- readingLipidData(datafile = "./testData/030422dynData/BAL.csv",
+                            sampleList = "./testData/030422dynData/BAL group.csv", 
+                            controlGrp = "WT", dataType = "Lipids", delOddChainOpt = T)
 if(analOpt != "all_together"){
   cat("All groups will be analyzed together\n")
   cat(paste0(analOpt, " will be analyzed with ", dataSet$controlGrp, "\n"))

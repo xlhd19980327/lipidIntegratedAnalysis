@@ -7,3 +7,9 @@
 /gitHistory
 ## Ignore pdf change
 *.pdf
+## Ignore other useless change
+*.qs
+*.rds
+*.log
+*.rda
+*.png
